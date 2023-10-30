@@ -1,6 +1,7 @@
 package use_case.GenerateStaticImage;
 
 import java.util.ArrayList;
+import entity.Timetable;
 
 public interface GenerateStaticImage {
 
