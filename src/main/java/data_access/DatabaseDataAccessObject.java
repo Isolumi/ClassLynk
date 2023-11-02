@@ -8,6 +8,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import entity.Course;
 import entity.Timetable;
 import entity.User;
+import org.jetbrains.annotations.NotNull;
 import use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import use_case.save_view_time_tables.SaveViewTimetablesDataAccessInterface;
 
@@ -42,27 +43,8 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
         db = FirestoreClient.getFirestore();
     }
 
-    public void test()
-    {
-        // Create a Map to store the data we want to set
-        Map<String, Object> docData = new HashMap<>();
-        docData.put("name", "Los Angeles");
-        docData.put("state", "CA");
-        docData.put("country", "USA");
-        docData.put("regions", Arrays.asList("west_coast", "socal"));
-// Add a new document (asynchronously) in collection "cities" with id "LA"
-        ApiFuture<WriteResult> future = db.collection("cities").document("LA").set(docData);
-// ...
-// future.get() blocks on response
-        try {
-            System.out.println("Update time : " + future.get().getUpdateTime());
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-
-    //temp
+    //temp for adding courses to database
     public void saveCourse()
     {
 
@@ -82,27 +64,33 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
             DocumentSnapshot document = readRes.get();
             if(document.exists())
             {
-                //this should return a dictionary of String keys that are the day of the week, and string array containing
-                //class data
-                Map<String, Object> data = document.getData();
-                //the returned object from the data is guaranteed to be of this form (an array of maps which represent
-                //individual timetables)
-                Set<Map<String, Object>> timetables = (Set<Map<String, Object>>) data.get("Timetables");
-
-                Map<String, Object> uploadData = new HashMap<>();
-                String[] timetableData = timetable.castToStringArray();
-                uploadData.put("Monday", timetableData[0]);
-                uploadData.put("Tuesday", timetableData[1]);
-                uploadData.put("Wednesday", timetableData[2]);
-                uploadData.put("Thursday", timetableData[3]);
-                uploadData.put("Friday", timetableData[4]);
-                timetables.add(uploadData);
+                //this should return a dictionary of String keys that are the day of the week, with values being a map
+                // //of strings representing the names of the details of a class to a string representing that detail
+                ArrayList<Map<String, Map<String, String>>> timetables = getMaps(timetable, document);
 
                 ApiFuture<WriteResult> res = db.collection("Users").document(user.getId()).set(timetables);
             }
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @NotNull
+    private static ArrayList<Map<String, Map<String, String>>> getMaps(Timetable timetable, DocumentSnapshot document) {
+        Map<String, Object> data = document.getData();
+        //the returned object from the data is guaranteed to be of this form (an array of maps which represent
+        //individual timetables)
+        ArrayList<Map<String, Map<String, String>>> timetables = (ArrayList<Map<String, Map<String, String>>>) data.get("Timetables");
+
+        Map<String, Object> uploadData = new HashMap<>();
+        Map<String, Map<String, String>> timetableData = timetable.getClasses();
+        timetables.add(timetableData);
+
+        //removes duplicate timetables
+        Set<Map<String, Map<String, String>>> noDuplicatesTimetables = new LinkedHashSet<>(timetables);
+        timetables.clear();
+        timetables.addAll(noDuplicatesTimetables);
+        return timetables;
     }
 
     @Override
