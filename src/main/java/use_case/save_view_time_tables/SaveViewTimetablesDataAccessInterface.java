@@ -8,5 +8,5 @@ public interface SaveViewTimetablesDataAccessInterface {
     void save(User user, Timetable timetable);
 
     //load timetables linked to the user
-    void load(User user);
+    Timetable load(User user);
 }
