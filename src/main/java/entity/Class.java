@@ -22,6 +22,7 @@ public class Class {
         isTutorial = tutorial;
     }
 
+    //the database is only storing doy of the week and hrs:mins, so make sure you are using that
     public LocalDateTime getTime() {
         return time;
     }
