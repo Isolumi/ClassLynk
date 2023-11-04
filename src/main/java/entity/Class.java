@@ -46,15 +46,18 @@ public class Class {
         this.location = location;
     }
 
-    public Class(String id, boolean isTutorial, LocalDateTime time, String building, String location) {
+    public Class(String id, boolean isTutorial, LocalDateTime time, String building, String location, int duration) {
         this.id = id;
         this.isTutorial = isTutorial;
         this.time = time;
         this.building = building;
         this.location = location;
+        this.duration = duration;
     }
 
     private LocalDateTime time;
     private String building;
     private String location;
+
+    private int duration;
 }
