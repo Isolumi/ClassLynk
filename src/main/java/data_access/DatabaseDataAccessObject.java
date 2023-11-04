@@ -27,6 +27,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
+import static java.lang.Float.parseFloat;
 import static java.lang.String.valueOf;
 
 public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterface, SaveViewTimetablesDataAccessInterface {
@@ -60,6 +61,8 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
     public ArrayList<Course> loadCourses() {
         return null;
     }
+
+
 
     @Override
     public void save(User user, Timetable timetable) {
@@ -95,9 +98,12 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
             ArrayList<Map<String, String>> currClasses = new ArrayList<>();
             for (Class classData : timetableData.get(key)) {
                 Map<String, String> temp = new HashMap<>();
-                temp.put("id", classData.getId());
+                temp.put("courseId", classData.getCourseId());
+                temp.put("classId", classData.getClassId());
+                temp.put("duration", String.valueOf(classData.getDuration()));
                 temp.put("isTutorial", valueOf(classData.isTutorial()));
                 temp.put("time", classData.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+                temp.put("weekday", classData.getWeekday());
                 temp.put("location", classData.getLocation());
                 temp.put("building", classData.getBuilding());
                 currClasses.add(temp);
@@ -136,8 +142,8 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
                         ArrayList<Class> classes = new ArrayList<>();
                         for(Map<String, String> d : timetableData.get(key))
                         {
-                            classes.add(new Class((!Objects.equals(d.get("isTutorial"), "false")),
-                                    LocalTime.parse(d.get("time"), DateTimeFormatter.ofPattern("HH:mm")), d.get("building"), d.get("location"), d.get("id")));
+                            classes.add(new Class(d.get("courseId"), d.get("classId"), parseFloat(d.get("duration")),
+                                    LocalTime.parse(d.get("time"), DateTimeFormatter.ofPattern("HH:mm")), d.get("weekday"), d.get("building"), d.get("location"), (!Objects.equals(d.get("isTutorial"), "false"))));
                         }
                         timetable.put(key, classes);
                     }
