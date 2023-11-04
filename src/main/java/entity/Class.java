@@ -1,11 +1,38 @@
 package entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Class {
     private String courseId;
 
     private String classId;
+
+    private float duration;
+    private LocalTime time;
+
+    public String getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
+
+    private String weekday;
+
+    private String building;
+    private String location;
+
+    public Class(String courseId, String classId, float duration, LocalTime time, String weekday, String building, String location, boolean isTutorial) {
+        this.courseId = courseId;
+        this.classId = classId;
+        this.duration = duration;
+        this.time = time;
+        this.weekday = weekday;
+        this.building = building;
+        this.location = location;
+        this.isTutorial = isTutorial;
+    }
 
     public String getClassId() {
         return classId;
@@ -15,11 +42,11 @@ public class Class {
         this.classId = classId;
     }
 
-    public int getDuration() {
+    public float getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(float duration) {
         this.duration = duration;
     }
 
@@ -41,11 +68,11 @@ public class Class {
         isTutorial = tutorial;
     }
 
-    public LocalDateTime getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
@@ -74,30 +101,4 @@ public class Class {
 //        this.location = location;
 //        this.duration = duration;
 //    }
-
-    public Class(boolean isTutorial, LocalDateTime time, String building, String location, int duration, String id) {
-        this.isTutorial = isTutorial;
-        this.time = time;
-        this.building = building;
-        this.location = location;
-        this.duration = duration;
-        Id = id;
-    }
-
-    private LocalDateTime time;
-    private String building;
-    private String location;
-
-    private int duration;
-
-    //TODO: temp
-    private String Id;
-
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
-    }
 }
