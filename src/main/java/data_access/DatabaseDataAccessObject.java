@@ -9,6 +9,8 @@ import entity.Class;
 import entity.Course;
 import entity.Timetable;
 import entity.User;
+import org.checkerframework.checker.units.qual.A;
+import org.checkerframework.checker.units.qual.C;
 import use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import use_case.save_view_time_tables.SaveViewTimetablesDataAccessInterface;
 
@@ -113,7 +115,7 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
 
 
     @Override
-    public Timetable load(User user) {
+    public ArrayList<Timetable> load(User user) {
 
         DocumentReference docRef = db.collection("Users").document(user.getId());
         ApiFuture<DocumentSnapshot> res = docRef.get();
@@ -121,12 +123,26 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
             DocumentSnapshot document = res.get();
             if (document.exists()) {
                 ArrayList<Map<String, ArrayList<Map<String, String>>>> data = (ArrayList<Map<String, ArrayList<Map<String, String>>>>) document.getData();
-
+                ArrayList<Timetable> timetables = new ArrayList<>();
 
                 //TODO: Convert this data back into a timetable object
 
-                Map<String, List<Class>> timetableData = new HashMap<>();
-                data
+                for(Map<String, ArrayList<Map<String, String>>> timetableData : data)
+                {
+                    Map<String, List<Class>> timetable = new HashMap<>();
+                    for(String key : timetableData.keySet())
+                    {
+                        //convert the classes in the day into Class classes
+                        //ArrayList<Map<String, String>>
+                        ArrayList<Class> classes = new ArrayList<>();
+                        for(Map<String, String> d : timetableData.get(key))
+                        {
+                            classes.add(new Class((Objects.equals(d.get("isTutorial"), "false") ? false : true),  ))
+                        }
+
+                    }
+                }
+
 
 
                 //map<String, List<Class>>
