@@ -3,15 +3,34 @@ package entity;
 import java.time.LocalDateTime;
 
 public class Class {
-    private String id;
-    private boolean isTutorial;
+    private String courseId;
 
-    public String getId() {
-        return id;
+    private String classId;
+
+    public String getClassId() {
+        return classId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setClassId(String classId) {
+        this.classId = classId;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    private boolean isTutorial;
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public boolean isTutorial() {
@@ -46,8 +65,9 @@ public class Class {
         this.location = location;
     }
 
-    public Class(String id, boolean isTutorial, LocalDateTime time, String building, String location, int duration) {
-        this.id = id;
+    public Class(String courseId, String classId, boolean isTutorial, LocalDateTime time, String building, String location, int duration) {
+        this.courseId = courseId;
+        this.classId = classId;
         this.isTutorial = isTutorial;
         this.time = time;
         this.building = building;
