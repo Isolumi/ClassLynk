@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 public class Class {
     private String id;
     private boolean isTutorial;
-
+    private LocalDateTime time;
+    private String building;
+    private String location;
+    private int duration;
     public String getId() {
         return id;
     }
@@ -47,6 +50,14 @@ public class Class {
         this.location = location;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     public Class(String id, boolean isTutorial, LocalDateTime time, String building, String location, int duration) {
         this.id = id;
         this.isTutorial = isTutorial;
@@ -56,9 +67,13 @@ public class Class {
         this.duration = duration;
     }
 
-    private LocalDateTime time;
-    private String building;
-    private String location;
+    public Class(String id, boolean isTutorial, LocalDateTime time, String building, String location) {
+        this.id = id;
+        this.isTutorial = isTutorial;
+        this.time = time;
+        this.building = building;
+        this.location = location;
+    }
 
-    private int duration;
+
 }

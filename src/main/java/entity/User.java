@@ -7,7 +7,7 @@ public class User {
     private String id;
     private List<Timetable> timetables;
     private List<Course> courseKart;
-
+    private List<Class> classKart;
     public String getId() {
         return id;
     }
@@ -40,7 +40,7 @@ public class User {
         this.classKart = classKart;
     }
 
-    private List<Class> classKart;
+
 
     public User(String id, List<Timetable> timetables, List<Course> courseKart, List<Class> classKart) {
         this.id = id;
