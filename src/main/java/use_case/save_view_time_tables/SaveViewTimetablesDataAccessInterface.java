@@ -11,4 +11,6 @@ public interface SaveViewTimetablesDataAccessInterface {
 
     //load timetables linked to the user
     ArrayList<Timetable> load(User user);
+
+    void delete(User user, Timetable timetable);
 }

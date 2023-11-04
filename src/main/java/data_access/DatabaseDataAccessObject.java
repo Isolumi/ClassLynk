@@ -3,19 +3,15 @@ package data_access;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import entity.Class;
 import entity.Course;
 import entity.Timetable;
 import entity.User;
-import org.checkerframework.checker.units.qual.A;
-import org.checkerframework.checker.units.qual.C;
 import use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import use_case.save_view_time_tables.SaveViewTimetablesDataAccessInterface;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -75,24 +71,34 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
                 //this should return a dictionary of String keys that are the day of the week, with values being a map
                 // //of strings representing the names of the details of a class to a string representing that detail
                 Map<String, ArrayList<Map<String, ArrayList<Map<String, String>>>>> timetables = new HashMap<>();
+                Map<String, Object> data = document.getData();
+                //the returned object from the data is guaranteed to be of this form (an array of maps which represent
+                //individual timetables)
+                ArrayList<Map<String, ArrayList<Map<String, String>>>> savedTimetables = (ArrayList<Map<String, ArrayList<Map<String, String>>>>) data.get("Timetables");
+
+                Map<String, List<Class>> timetableData = timetable.getClasses();
+
+                Map<String, ArrayList<Map<String, String>>> converted = convertTimetableToData(timetableData);
+
+                savedTimetables.add(converted);
+
+                //removes duplicate timetables
+                Set<Map<String, ArrayList<Map<String, String>>>> noDuplicatesTimetables = new LinkedHashSet<>(savedTimetables);
+                savedTimetables.clear();
+                savedTimetables.addAll(noDuplicatesTimetables);
+
+
                 timetables.put("Timetables", getMaps(timetable, document));
 
-                ApiFuture<WriteResult> res = db.collection("Users").document(user.getId()).set(timetables);
+                db.collection("Users").document(user.getId()).set(savedTimetables);
             }
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static ArrayList<Map<String, ArrayList<Map<String, String>>>> getMaps(Timetable timetable, DocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        //the returned object from the data is guaranteed to be of this form (an array of maps which represent
-        //individual timetables)
-        ArrayList<Map<String, ArrayList<Map<String, String>>>> timetables = (ArrayList<Map<String, ArrayList<Map<String, String>>>>) data.get("Timetables");
 
-        Map<String, Object> uploadData = new HashMap<>();
-        Map<String, List<Class>> timetableData = timetable.getClasses();
-
+    private static Map<String, ArrayList<Map<String, String>>> convertTimetableToData(Map<String, List<Class>> timetableData) {
         Map<String, ArrayList<Map<String, String>>> converted = new HashMap<>();
         for (String key : timetableData.keySet()) {
             ArrayList<Map<String, String>> currClasses = new ArrayList<>();
@@ -110,6 +116,18 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
             }
             converted.put(key, currClasses);
         }
+        return converted;
+    }
+
+    private static ArrayList<Map<String, ArrayList<Map<String, String>>>> getMaps(Timetable timetable, DocumentSnapshot document) {
+        Map<String, Object> data = document.getData();
+        //the returned object from the data is guaranteed to be of this form (an array of maps which represent
+        //individual timetables)
+        ArrayList<Map<String, ArrayList<Map<String, String>>>> timetables = (ArrayList<Map<String, ArrayList<Map<String, String>>>>) data.get("Timetables");
+
+        Map<String, List<Class>> timetableData = timetable.getClasses();
+
+        Map<String, ArrayList<Map<String, String>>> converted = convertTimetableToData(timetableData);
 
         timetables.add(converted);
 
@@ -156,5 +174,25 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
         }
         //if there are no saved timetables for this user
         return null;
+    }
+
+    @Override
+    public void delete(User user, Timetable timetable) {
+        DocumentReference docref = db.collection("Users").document(user.getId());
+
+
+        try {
+            DocumentSnapshot data = docref.get().get();
+            if(data.exists())
+            {
+                Map<String, ArrayList<Map<String, String>>> convertedTimetable = convertTimetableToData(timetable.getClasses());
+                ArrayList<Map<String, ArrayList<Map<String, String>>>> updatedTimetableArray = (ArrayList<Map<String, ArrayList<Map<String, String>>>>) data.getData().get("Timetables");
+                updatedTimetableArray.remove(convertedTimetable);
+
+                docref.update("Timetables", updatedTimetableArray);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
