@@ -15,6 +15,8 @@ import use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import use_case.save_view_time_tables.SaveViewTimetablesDataAccessInterface;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -69,7 +71,8 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
             if (document.exists()) {
                 //this should return a dictionary of String keys that are the day of the week, with values being a map
                 // //of strings representing the names of the details of a class to a string representing that detail
-                ArrayList<Map<String, ArrayList<Map<String, String>>>> timetables = getMaps(timetable, document);
+                Map<String, ArrayList<Map<String, ArrayList<Map<String, String>>>>> timetables = new HashMap<>();
+                timetables.put("Timetables", getMaps(timetable, document));
 
                 ApiFuture<WriteResult> res = db.collection("Users").document(user.getId()).set(timetables);
             }
@@ -93,10 +96,8 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
             for (Class classData : timetableData.get(key)) {
                 Map<String, String> temp = new HashMap<>();
                 temp.put("id", classData.getId());
-                //"false if not tutorial", "true" if tutorial
                 temp.put("isTutorial", valueOf(classData.isTutorial()));
-                //EEEE represents a day of the week
-                temp.put("time", classData.getTime().format(DateTimeFormatter.ofPattern("EEEE, HH:mm")));
+                temp.put("time", classData.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
                 temp.put("location", classData.getLocation());
                 temp.put("building", classData.getBuilding());
                 currClasses.add(temp);
@@ -122,10 +123,8 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
         try {
             DocumentSnapshot document = res.get();
             if (document.exists()) {
-                ArrayList<Map<String, ArrayList<Map<String, String>>>> data = (ArrayList<Map<String, ArrayList<Map<String, String>>>>) document.getData();
+                ArrayList<Map<String, ArrayList<Map<String, String>>>> data = (ArrayList<Map<String, ArrayList<Map<String, String>>>>) document.getData().get("Timetables");
                 ArrayList<Timetable> timetables = new ArrayList<>();
-
-                //TODO: Convert this data back into a timetable object
 
                 for(Map<String, ArrayList<Map<String, String>>> timetableData : data)
                 {
@@ -137,17 +136,14 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
                         ArrayList<Class> classes = new ArrayList<>();
                         for(Map<String, String> d : timetableData.get(key))
                         {
-                            classes.add(new Class((Objects.equals(d.get("isTutorial"), "false") ? false : true),  ))
+                            classes.add(new Class((!Objects.equals(d.get("isTutorial"), "false")),
+                                    LocalTime.parse(d.get("time"), DateTimeFormatter.ofPattern("HH:mm")), d.get("building"), d.get("location"), d.get("id")));
                         }
-
+                        timetable.put(key, classes);
                     }
+                    timetables.add(new Timetable(timetable));
                 }
-
-
-
-                //map<String, List<Class>>
-
-                return null;
+                return timetables;
             }
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

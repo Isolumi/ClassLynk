@@ -1,6 +1,8 @@
 package entity;
 
+
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Class {
     private String courseId;
@@ -65,23 +67,14 @@ public class Class {
         this.location = location;
     }
 
-//    public Class(String courseId, String classId, boolean isTutorial, LocalDateTime time, String building, String location, int duration) {
-//        this.courseId = courseId;
-//        this.classId = classId;
-//        this.isTutorial = isTutorial;
-//        this.time = time;
-//        this.building = building;
-//        this.location = location;
-//        this.duration = duration;
-//    }
-
-    public Class(boolean isTutorial, LocalDateTime time, String building, String location, int duration, String id) {
+    public Class(String courseId, String classId, boolean isTutorial, LocalDateTime time, String building, String location, int duration) {
+        this.courseId = courseId;
+        this.classId = classId;
         this.isTutorial = isTutorial;
         this.time = time;
         this.building = building;
         this.location = location;
         this.duration = duration;
-        Id = id;
     }
 
     private LocalDateTime time;
@@ -89,15 +82,4 @@ public class Class {
     private String location;
 
     private int duration;
-
-    //TODO: temp
-    private String Id;
-
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
-    }
 }

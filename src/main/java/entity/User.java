@@ -1,6 +1,7 @@
 package entity;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -42,10 +43,9 @@ public class User {
 
 
 
-    public User(String id, List<Timetable> timetables, List<Course> courseKart, List<Class> classKart) {
+    public User(String id) {
         this.id = id;
-        this.timetables = timetables;
-        this.courseKart = courseKart;
-        this.classKart = classKart;
+        this.courseKart = new ArrayList<>();
+        this.classKart = new ArrayList<>();
     }
 }
