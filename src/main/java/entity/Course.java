@@ -1,19 +1,30 @@
 package entity;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Course {
-    private String courseName;
+    @Id
     private String courseId;
+    private String courseName;
     private String courseDescription;
-    private List<Class> classes;
+    @ElementCollection
+    private List<ClassBundle> classBundles;
 
     public Course(String courseName, String courseId, String courseDescription, List<Class> classes) {
         this.courseName = courseName;
         this.courseId = courseId;
         this.courseDescription = courseDescription;
         this.classes = classes;
+    }
+
+    public Course() {
+
     }
 
     public String getCourseName() {
