@@ -21,7 +21,7 @@ public class FirebaseConfig {
         String serviceAccountJsonPath = dotenv.get("SERVICE_ACCOUNT_JSON_PATH");
         assert serviceAccountJsonPath != null;
         FileInputStream serviceAccount = new FileInputStream(serviceAccountJsonPath);
-        FirebaseOptions options = new FirebaseOptions.Builder()
+        FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .build();
         return FirebaseApp.initializeApp(options);
