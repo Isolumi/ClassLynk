@@ -1,13 +1,14 @@
 package entity;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
     private String id;
     private List<Timetable> timetables;
     private List<Course> courseKart;
-
+    private List<Class> classKart;
     public String getId() {
         return id;
     }
@@ -40,12 +41,11 @@ public class User {
         this.classKart = classKart;
     }
 
-    private List<Class> classKart;
 
-    public User(String id, List<Timetable> timetables, List<Course> courseKart, List<Class> classKart) {
+
+    public User(String id) {
         this.id = id;
-        this.timetables = timetables;
-        this.courseKart = courseKart;
-        this.classKart = classKart;
+        this.courseKart = new ArrayList<>();
+        this.classKart = new ArrayList<>();
     }
 }
