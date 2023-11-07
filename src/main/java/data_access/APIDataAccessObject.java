@@ -16,4 +16,9 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
     public float getRouteLength(String origin, String destination) {
         return 0;
     }
+
+    @Override
+    public String geoCodeAddress(String address) {
+        return null;
+    }
 }
