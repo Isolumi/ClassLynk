@@ -62,7 +62,7 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
                 dataToUpload.put("courseDescription", course.getCourseDescription());
 
                 Map<String, List<Class>> sectionData = new HashMap<>();
-                sectionData.put("sections", course.getClasses());
+//                sectionData.put("sections", course.getClassBundles());
                 Map<String, ArrayList<Map<String, String>>> convertedSectionData = convertTimetableToData(sectionData);
                 dataToUpload.put("classes", convertedSectionData.get("sections"));
 
@@ -90,7 +90,7 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
                             , LocalTime.parse(oneClassMap.get("time")), oneClassMap.get("weekday"),
                             oneClassMap.get("building"), oneClassMap.get("location"), (!Objects.equals(oneClassMap.get("isTutorial"), "false"))));
                 }
-                returnData.put((String)courseData.get("courseId"), new Course((String)courseData.get("courseName"), (String)courseData.get("courseId"), (String)courseData.get("courseDescription"), classes));
+//                returnData.put((String)courseData.get("courseId"), new Course((String)courseData.get("courseName"), (String)courseData.get("courseId"), (String)courseData.get("courseDescription"), classes));
             }
             return returnData;
 

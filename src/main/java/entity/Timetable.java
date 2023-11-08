@@ -8,6 +8,10 @@ import com.google.cloud.spring.data.firestore.Document;
 
 @Document(collectionName = "timetables")
 public class Timetable {
+    public Timetable(Map<String, List<Class>> classes) {
+        this.classes = classes;
+    }
+
     @DocumentId
     private Map<String, List<Class>> classes;
 
