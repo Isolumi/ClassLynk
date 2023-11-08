@@ -1,10 +1,11 @@
 package use_case.GenerateStaticImage;
 
-import java.util.ArrayList;
 import entity.Timetable;
+
+import java.util.Map;
 
 public interface GenerateStaticImageDataAccessInterface {
 
     //read documentation for static maps image api and put method in
-    ArrayList<String> getStaticMaps(Timetable Timetable);
+    Map<String, String> getStaticMaps(Timetable Timetable);
 }
