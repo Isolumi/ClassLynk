@@ -1,19 +1,17 @@
 package entity;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.google.cloud.firestore.annotation.DocumentId;
+import com.google.cloud.spring.data.firestore.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Document(collectionName = "courses")
 public class Course {
-    @Id
+    @DocumentId
     private String courseId;
     private String courseName;
     private String courseDescription;
-    @ElementCollection
     private List<ClassBundle> classBundles;
 
     public Course(String courseName, String courseId, String courseDescription, List<Class> classes) {

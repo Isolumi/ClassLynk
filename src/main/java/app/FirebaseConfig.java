@@ -23,6 +23,7 @@ public class FirebaseConfig {
         FileInputStream serviceAccount = new FileInputStream(serviceAccountJsonPath);
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setProjectId("timetablegenerator-e55f3")
                 .build();
         return FirebaseApp.initializeApp(options);
     }
