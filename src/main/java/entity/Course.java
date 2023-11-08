@@ -14,15 +14,22 @@ public class Course {
     private String courseDescription;
     private List<ClassBundle> classBundles;
 
-    public Course(String courseName, String courseId, String courseDescription, List<Class> classes) {
+    public Course(String courseName, String courseId, String courseDescription, List<ClassBundle> classBundles) {
         this.courseName = courseName;
         this.courseId = courseId;
         this.courseDescription = courseDescription;
-        this.classes = classes;
+        this.classBundles = classBundles;
     }
-
     public Course() {
 
+    }
+
+    public List<ClassBundle> getClassBundles() {
+        return classBundles;
+    }
+
+    public void setClassBundles(List<ClassBundle> classBundles) {
+        this.classBundles = classBundles;
     }
 
     public String getCourseName() {
@@ -47,13 +54,5 @@ public class Course {
 
     public void setCourseDescription(String courseDescription) {
         this.courseDescription = courseDescription;
-    }
-
-    public List<Class> getClasses() {
-        return classes;
-    }
-
-    public void setClasses(List<Class> classes) {
-        this.classes = classes;
     }
 }
