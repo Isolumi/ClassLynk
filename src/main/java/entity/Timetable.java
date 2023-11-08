@@ -2,12 +2,13 @@ package entity;
 
 import java.util.List;
 import java.util.Map;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
-@Entity
+import com.google.cloud.firestore.annotation.DocumentId;
+import com.google.cloud.spring.data.firestore.Document;
+
+@Document(collectionName = "timetables")
 public class Timetable {
-    @Id
+    @DocumentId
     private Map<String, List<Class>> classes;
 
     public Map<String, List<Class>> getClasses() {
