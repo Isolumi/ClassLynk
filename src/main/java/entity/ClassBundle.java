@@ -3,20 +3,20 @@ package entity;
 import java.util.List;
 
 public class ClassBundle {
-    String id;
+    String courseId;
     List<SClass> classes;
 
     public ClassBundle(String id, List<SClass> classes) {
-        this.id = id;
+        this.courseId = id;
         this.classes = classes;
     }
 
-    public String getId() {
-        return id;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public List<SClass> getClasses() {

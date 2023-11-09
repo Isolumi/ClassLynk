@@ -34,7 +34,7 @@ public class ClassLynkApplication {
         WebClient.create("http://localhost:8080");
     }
     private void insertCourse() throws ExecutionException, InterruptedException {
-        SClass tempClass = new SClass("100", "hsb", 14.5F, LocalTime.of(1, 0, 0), "monday", "bahen", "somewhere there", false);
+        SClass tempClass = new SClass("hsb", "100", 14.5F, LocalTime.of(1, 0, 0), "monday", "bahen", "somewhere there", false);
         ClassBundle tempBundle = new ClassBundle();
         ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/cnc").set(new Course("cnc", "hsb", "bad", ));
     }
