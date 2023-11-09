@@ -22,11 +22,8 @@ public class FirebaseRepository {
 
     // Test code for inserting one course into firebase
     public void insertCourse() throws ExecutionException, InterruptedException {
-        SClass tempClass = new SClass("mat137", "lec101", 14.5F,
-                LocalTime.of(1, 0, 0)
-                        .format(DateTimeFormatter.ISO_LOCAL_TIME)
-
-                , "monday", "bahen", "somewhere there",
+        SClass tempClass = new SClass("mat137", "lec101", "01:00:00",
+                "02:00:00", "monday", "bahen", "somewhere there",
                 false);
         List<SClass> classList = new ArrayList<>();
         classList.add(tempClass);

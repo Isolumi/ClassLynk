@@ -9,7 +9,7 @@ public class SClass {
     private String building;
     private String location;
 
-    public SClass(String courseId, String classId, String endTime, String startTime, String weekday, String building, String location, boolean isTutorial) {
+    public SClass(String courseId, String classId, String startTime, String endTime, String weekday, String building, String location, boolean isTutorial) {
         this.courseId = courseId;
         this.classId = classId;
         this.endTime = endTime;
