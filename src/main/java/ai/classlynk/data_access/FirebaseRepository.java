@@ -7,10 +7,7 @@ import ai.classlynk.entity.ClassBundle;
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.SClass;
 import org.springframework.stereotype.Repository;
-
 import javax.annotation.Resource;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
