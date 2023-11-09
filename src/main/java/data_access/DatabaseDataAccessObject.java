@@ -3,7 +3,7 @@ package data_access;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import entity.Class;
+import entity.SClass;
 import entity.Course;
 import entity.Timetable;
 import entity.User;
@@ -61,7 +61,7 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
                 dataToUpload.put("courseId", course.getCourseId());
                 dataToUpload.put("courseDescription", course.getCourseDescription());
 
-                Map<String, List<Class>> sectionData = new HashMap<>();
+                Map<String, List<SClass>> sectionData = new HashMap<>();
 //                sectionData.put("sections", course.getClassBundles());
                 Map<String, ArrayList<Map<String, String>>> convertedSectionData = convertTimetableToData(sectionData);
                 dataToUpload.put("classes", convertedSectionData.get("sections"));
@@ -82,11 +82,11 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
             Map<String, Course> returnData = new HashMap<>();
             for (QueryDocumentSnapshot document : documents) {
                 Map<String, Object> courseData= document.getData();
-                ArrayList<Class> classes = new ArrayList<>();
+                ArrayList<SClass> classes = new ArrayList<>();
                 for(Object oneClass : (ArrayList)courseData.get("classes"))
                 {
                     Map<String, String> oneClassMap = (Map<String, String>) oneClass;
-                    classes.add(new Class(oneClassMap.get("courseId"), oneClassMap.get("classId"), parseFloat(oneClassMap.get("duration"))
+                    classes.add(new SClass(oneClassMap.get("courseId"), oneClassMap.get("classId"), parseFloat(oneClassMap.get("duration"))
                             , LocalTime.parse(oneClassMap.get("time")), oneClassMap.get("weekday"),
                             oneClassMap.get("building"), oneClassMap.get("location"), (!Objects.equals(oneClassMap.get("isTutorial"), "false"))));
                 }
@@ -126,11 +126,11 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
     }
 
 
-    private Map<String, ArrayList<Map<String, String>>> convertTimetableToData(Map<String, List<Class>> timetableData) {
+    private Map<String, ArrayList<Map<String, String>>> convertTimetableToData(Map<String, List<SClass>> timetableData) {
         Map<String, ArrayList<Map<String, String>>> converted = new HashMap<>();
         for (String key : timetableData.keySet()) {
             ArrayList<Map<String, String>> currClasses = new ArrayList<>();
-            for (Class classData : timetableData.get(key)) {
+            for (SClass classData : timetableData.get(key)) {
                 Map<String, String> temp = new HashMap<>();
                 temp.put("courseId", classData.getCourseId());
                 temp.put("classId", classData.getClassId());
@@ -176,11 +176,11 @@ public class DatabaseDataAccessObject implements ExploreCoursesDataAccessInterfa
                 ArrayList<Timetable> timetables = new ArrayList<>();
 
                 for (Map<String, ArrayList<Map<String, String>>> timetableData : data) {
-                    Map<String, List<Class>> timetable = new HashMap<>();
+                    Map<String, List<SClass>> timetable = new HashMap<>();
                     for (String key : timetableData.keySet()) {
-                        ArrayList<Class> classes = new ArrayList<>();
+                        ArrayList<SClass> classes = new ArrayList<>();
                         for (Map<String, String> d : timetableData.get(key)) {
-                            classes.add(new Class(d.get("courseId"), d.get("classId"), parseFloat(d.get("duration")),
+                            classes.add(new SClass(d.get("courseId"), d.get("classId"), parseFloat(d.get("duration")),
                                     LocalTime.parse(d.get("time")), d.get("weekday"), d.get("building"), d.get("location"), (!Objects.equals(d.get("isTutorial"), "false"))));
                         }
                         timetable.put(key, classes);

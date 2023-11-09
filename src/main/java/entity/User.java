@@ -1,6 +1,5 @@
 package entity;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ public class User {
     private String id;
     private List<Timetable> timetables;
     private List<Course> courseKart;
-    private List<Class> classKart;
+    private List<SClass> classKart;
     public String getId() {
         return id;
     }
@@ -33,11 +32,11 @@ public class User {
         this.courseKart = courseKart;
     }
 
-    public List<Class> getClassKart() {
+    public List<SClass> getClassKart() {
         return classKart;
     }
 
-    public void setClassKart(List<Class> classKart) {
+    public void setClassKart(List<SClass> classKart) {
         this.classKart = classKart;
     }
 

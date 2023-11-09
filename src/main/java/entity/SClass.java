@@ -2,7 +2,7 @@ package entity;
 
 import java.time.LocalTime;
 
-public class Class {
+public class SClass {
     private String courseId;
 
     private String classId;
@@ -23,7 +23,7 @@ public class Class {
     private String building;
     private String location;
 
-    public Class(String courseId, String classId, float duration, LocalTime time, String weekday, String building, String location, boolean isTutorial) {
+    public SClass(String courseId, String classId, float duration, LocalTime time, String weekday, String building, String location, boolean isTutorial) {
         this.courseId = courseId;
         this.classId = classId;
         this.duration = duration;
