@@ -1,4 +1,4 @@
-package entity;
+package ai.classlynk.entity;
 
 import java.util.ArrayList;
 import java.util.List;

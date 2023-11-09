@@ -1,9 +1,8 @@
-package entity;
+package ai.classlynk.entity;
 
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.spring.data.firestore.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Document(collectionName = "courses")

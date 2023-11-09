@@ -1,4 +1,4 @@
-package entity;
+package ai.classlynk.entity;
 
 import java.time.LocalTime;
 
@@ -8,7 +8,7 @@ public class SClass {
     private String classId;
 
     private float duration;
-    private LocalTime time;
+    private String time;
 
     public String getWeekday() {
         return weekday;
@@ -23,7 +23,7 @@ public class SClass {
     private String building;
     private String location;
 
-    public SClass(String courseId, String classId, float duration, LocalTime time, String weekday, String building, String location, boolean isTutorial) {
+    public SClass(String courseId, String classId, float duration, String time, String weekday, String building, String location, boolean isTutorial) {
         this.courseId = courseId;
         this.classId = classId;
         this.duration = duration;
@@ -68,11 +68,11 @@ public class SClass {
         isTutorial = tutorial;
     }
 
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

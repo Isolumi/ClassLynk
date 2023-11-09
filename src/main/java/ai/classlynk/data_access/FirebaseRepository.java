@@ -1,0 +1,38 @@
+package ai.classlynk.data_access;
+
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
+import ai.classlynk.entity.ClassBundle;
+import ai.classlynk.entity.Course;
+import ai.classlynk.entity.SClass;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+@Repository
+public class FirebaseRepository {
+    @Resource
+    private Firestore firestore;
+    public void insertCourse() throws ExecutionException, InterruptedException {
+        SClass tempClass = new SClass("hsb100", "lec101", 14.5F,
+                LocalTime.of(1, 0, 0)
+                        .format(DateTimeFormatter.ISO_LOCAL_TIME)
+
+                , "monday", "bahen", "somewhere there",
+                false);
+        List<SClass> classList = new ArrayList<>();
+        classList.add(tempClass);
+        ClassBundle tempBundle = new ClassBundle("hsb100", classList);
+        List<ClassBundle> bundleList = new ArrayList<>();
+        bundleList.add(tempBundle);
+
+        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/cnc")
+                .set(new Course("cnc", "hsb", "bad", bundleList));
+    }
+}

@@ -1,6 +1,5 @@
-package entity;
+package ai.classlynk.entity;
 
-import data_access.APIDataAccessObject;
 import java.util.List;
 
 public class OptimalTimetableCalculator {

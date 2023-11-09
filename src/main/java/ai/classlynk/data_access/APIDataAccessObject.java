@@ -1,8 +1,8 @@
-package data_access;
+package ai.classlynk.data_access;
 
-import entity.Timetable;
-import use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
-import use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
+import ai.classlynk.entity.Timetable;
+import ai.classlynk.use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
+import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
-package use_case.save_view_time_tables;
+package ai.classlynk.use_case.save_view_time_tables;
 
-import entity.Timetable;
-import entity.User;
+import ai.classlynk.entity.Timetable;
+import ai.classlynk.entity.User;
 
 import java.util.ArrayList;
 
