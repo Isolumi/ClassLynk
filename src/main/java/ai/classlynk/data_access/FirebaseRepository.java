@@ -19,8 +19,10 @@ import java.util.concurrent.ExecutionException;
 public class FirebaseRepository {
     @Resource
     private Firestore firestore;
+
+    // Test code for inserting one course into firebase
     public void insertCourse() throws ExecutionException, InterruptedException {
-        SClass tempClass = new SClass("hsb100", "lec101", 14.5F,
+        SClass tempClass = new SClass("mat137", "lec101", 14.5F,
                 LocalTime.of(1, 0, 0)
                         .format(DateTimeFormatter.ISO_LOCAL_TIME)
 
@@ -28,11 +30,11 @@ public class FirebaseRepository {
                 false);
         List<SClass> classList = new ArrayList<>();
         classList.add(tempClass);
-        ClassBundle tempBundle = new ClassBundle("hsb100", classList);
+        ClassBundle tempBundle = new ClassBundle("mat137", classList);
         List<ClassBundle> bundleList = new ArrayList<>();
         bundleList.add(tempBundle);
 
-        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/cnc")
-                .set(new Course("cnc", "hsb", "bad", bundleList));
+        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/mat137")
+                .set(new Course("meth", "mat137", "bad", bundleList));
     }
 }
