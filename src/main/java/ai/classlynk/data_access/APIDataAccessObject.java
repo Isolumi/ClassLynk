@@ -90,8 +90,8 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                 byte[] data = imgReq.await().imageData;
                 ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
                 BufferedImage output = ImageIO.read(dataStream);
-                ImageIO.write(output, "jpg", new File(day + "Route" + ".jpg"));
-                mapLinks.put(day, day + "Route" + ".jpg");
+                ImageIO.write(output, "jpg", new File("src/main/resources/images" + day + "Route" + ".jpg"));
+                mapLinks.put(day, "src/main/resources/images" + day + "Route" + ".jpg");
             } catch (ApiException | InterruptedException | IOException e) {
                 throw new RuntimeException(e);
             }
