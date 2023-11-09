@@ -6,8 +6,8 @@ public class ClassBundle {
     String courseId;
     List<SClass> classes;
 
-    public ClassBundle(String id, List<SClass> classes) {
-        this.courseId = id;
+    public ClassBundle(String courseId, List<SClass> classes) {
+        this.courseId = courseId;
         this.classes = classes;
     }
 

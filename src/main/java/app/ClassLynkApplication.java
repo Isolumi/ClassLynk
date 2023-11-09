@@ -13,7 +13,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -25,17 +24,20 @@ import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class ClassLynkApplication {
-    private final static Logger logger = LoggerFactory.getLogger(ClassLynkApplication.class);
 
     @Autowired
     private Firestore firestore;
     public static void main(String[] args) {
         SpringApplication.run(ClassLynkApplication.class, args);
-        WebClient.create("http://localhost:8080");
     }
     private void insertCourse() throws ExecutionException, InterruptedException {
-        SClass tempClass = new SClass("hsb", "100", 14.5F, LocalTime.of(1, 0, 0), "monday", "bahen", "somewhere there", false);
-        ClassBundle tempBundle = new ClassBundle();
-        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/cnc").set(new Course("cnc", "hsb", "bad", ));
+        SClass tempClass = new SClass("hsb100", "lec101", 14.5F, LocalTime.of(1, 0, 0), "monday", "bahen", "somewhere there", false);
+        List<SClass> classList = new ArrayList<>();
+        classList.add(tempClass);
+        ClassBundle tempBundle = new ClassBundle("hsb100", classList);
+        List<ClassBundle> bundleList = new ArrayList<>();
+        bundleList.add(tempBundle);
+
+        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/cnc").set(new Course("cnc", "hsb", "bad", bundleList));
     }
 }
