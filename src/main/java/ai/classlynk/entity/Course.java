@@ -19,9 +19,6 @@ public class Course {
         this.courseDescription = courseDescription;
         this.classBundles = classBundles;
     }
-    public Course() {
-
-    }
 
     public List<ClassBundle> getClassBundles() {
         return classBundles;
