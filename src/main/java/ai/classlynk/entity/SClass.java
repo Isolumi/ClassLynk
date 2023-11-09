@@ -1,33 +1,19 @@
-package entity;
+package ai.classlynk.entity;
 
-import java.time.LocalTime;
-
-public class Class {
+public class SClass {
     private String courseId;
-
     private String classId;
-
-    private float duration;
-    private LocalTime time;
-
-    public String getWeekday() {
-        return weekday;
-    }
-
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
-    }
-
+    private String startTime;
+    private String endTime;
     private String weekday;
-
     private String building;
     private String location;
 
-    public Class(String courseId, String classId, float duration, LocalTime time, String weekday, String building, String location, boolean isTutorial) {
+    public SClass(String courseId, String classId, String startTime, String endTime, String weekday, String building, String location, boolean isTutorial) {
         this.courseId = courseId;
         this.classId = classId;
-        this.duration = duration;
-        this.time = time;
+        this.endTime = endTime;
+        this.startTime = startTime;
         this.weekday = weekday;
         this.building = building;
         this.location = location;
@@ -42,12 +28,12 @@ public class Class {
         this.classId = classId;
     }
 
-    public float getDuration() {
-        return duration;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setDuration(float duration) {
-        this.duration = duration;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     private boolean isTutorial;
@@ -68,12 +54,12 @@ public class Class {
         isTutorial = tutorial;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public String getBuilding() {
@@ -90,5 +76,13 @@ public class Class {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
     }
 }

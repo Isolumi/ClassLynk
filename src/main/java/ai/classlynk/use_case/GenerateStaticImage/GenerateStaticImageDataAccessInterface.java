@@ -1,7 +1,6 @@
-package use_case.GenerateStaticImage;
+package ai.classlynk.use_case.GenerateStaticImage;
 
-import entity.Timetable;
-
+import ai.classlynk.entity.Timetable;
 import java.util.Map;
 
 public interface GenerateStaticImageDataAccessInterface {

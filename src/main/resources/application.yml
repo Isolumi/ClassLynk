@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    gcp:
+      project-id: timetablegenerator-e55f3
+      firestore:
+        credentials:
+          location: classpath:./config/serviceAccountKey.json

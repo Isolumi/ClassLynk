@@ -1,6 +1,6 @@
-package use_case.explore_courses;
+package ai.classlynk.use_case.explore_courses;
 
-import entity.Course;
+import ai.classlynk.entity.Course;
 
 import java.util.Map;
 

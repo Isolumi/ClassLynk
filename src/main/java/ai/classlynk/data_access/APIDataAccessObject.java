@@ -1,11 +1,11 @@
-package data_access;
+package ai.classlynk.data_access;
 
+import ai.classlynk.entity.SClass;
+import ai.classlynk.entity.Timetable;
+import ai.classlynk.use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
+import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
 import com.google.maps.*;
 import com.google.maps.model.*;
-import entity.Class;
-import entity.Timetable;
-import use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
-import use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
 import com.google.maps.errors.ApiException;
 
 import javax.imageio.ImageIO;
@@ -49,7 +49,7 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
         for(String day : timetable.getClasses().keySet())
         {
             ArrayList<String> classAddresses = new ArrayList<>();
-            for(Class oneClass : timetable.getClasses().get(day))
+            for(SClass oneClass : timetable.getClasses().get(day))
             {
                 classAddresses.add(oneClass.getLocation());
             }
