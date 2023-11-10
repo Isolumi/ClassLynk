@@ -10,9 +10,9 @@ public class RegisterInteractor {
     }
 
     public void execute(RegisterInputData inputData){
-     if (RegisterDAO.existedByName(inputData.name())){
+     if (RegisterDAO.existedByName(inputData.getName())){
          RegisterOutputBoundary.fail("This name has been used!");
-        } else if (inputData.getPw1.equalto(inputData.getPw2)) {
+        } else if (inputData.getPw1().equals(inputData.getPw2())) {
          RegisterOutputBoundary.fail("Two Passwords are different!");
      }else
      //user = 创建一个user
