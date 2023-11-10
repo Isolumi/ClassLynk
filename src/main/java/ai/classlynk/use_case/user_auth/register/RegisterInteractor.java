@@ -15,7 +15,7 @@ public class RegisterInteractor {
         } else if (inputData.getPw1.equalto(inputData.getPw2)) {
          RegisterOutputBoundary.fail("Two Passwords are different!");
      }else
-     //user = 创建一个user啊
+     //user = 创建一个user
      RegisterDAO.save(user);
         RegisterOutputBoundary.success();
     }
