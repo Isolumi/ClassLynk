@@ -8,13 +8,13 @@ import java.util.List;
 
 public class OptimalTimetableCalculator {
     public static Timetable generateTimetable(List<Course> courses) {
-        HashMap<String, ArrayList<Course[]> > validLectureTutorialCombos = new HashMap<>();
+        HashMap<String, ArrayList<ClassBundle[]> > validLectureTutorialCombos = new HashMap<>();
         for(Course course: courses){
             for(ClassBundle lec: course.getClassBundles()){
                 if(!lec.getClasses().get(0).isTutorial()){
                     for(ClassBundle tut: course.getClassBundles()){
                         if(tut.getClasses().get(0).isTutorial()){
-                            HashMap<String, ArrayList<SClass>> test = new HashMap<>();
+                            HashMap<String, List<SClass>> test = new HashMap<>();
                             test.put("Monday", new ArrayList<SClass>());
                             test.put("Tuesday", new ArrayList<SClass>());
                             test.put("Wednesday", new ArrayList<SClass>());
@@ -22,6 +22,22 @@ public class OptimalTimetableCalculator {
                             test.put("Friday", new ArrayList<SClass>());
                             test.put("Saturday", new ArrayList<SClass>());
                             test.put("Sunday", new ArrayList<SClass>());
+
+                            for(SClass sclass: lec.getClasses()){
+                                test.get(sclass.getWeekday()).add(sclass);
+                            }
+
+                            for(SClass sclass: tut.getClasses()){
+                                test.get(sclass.getWeekday()).add(sclass);
+                            }
+                            Timetable conflictTest = new Timetable(test);
+                            if(!hasTimeConflict(conflictTest)){
+                                if(validLectureTutorialCombos.containsKey(course.getCourseName())){
+                                    validLectureTutorialCombos.put(course.getCourseName(), new ArrayList<ClassBundle[]>());
+                                }
+                                ClassBundle[] validPair = {lec, tut};
+                                validLectureTutorialCombos.get(course.getCourseName()).add(validPair);
+                            }
                         }
                     }
                 }
