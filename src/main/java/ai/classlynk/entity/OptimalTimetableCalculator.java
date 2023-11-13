@@ -1,5 +1,7 @@
 package ai.classlynk.entity;
 
+import ai.classlynk.data_access.APIDataAccessObject;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ import java.util.List;
 
 public class OptimalTimetableCalculator {
     public static Timetable generateTimetable(List<Course> courses) {
-        HashMap<String, ArrayList<ClassBundle[]> > validLectureTutorialCombos = new HashMap<>();
+        HashMap<String, List<ClassBundle[]> > validLectureTutorialCombos = new HashMap<>(); //Maps Course Name to valid lecture tutorial pairs of that course
         for(Course course: courses){
             for(ClassBundle lec: course.getClassBundles()){
                 if(!lec.getClasses().get(0).isTutorial()){
@@ -65,5 +67,20 @@ public class OptimalTimetableCalculator {
             }
         }
         return false;
+    }
+
+    private static float averageDistance (Timetable timetable){
+        APIDataAccessObject distanceCalc = new APIDataAccessObject();
+        float totalDistance = 0;
+        int totalCourseLoad = 0;
+        for (String day: timetable.getClasses().keySet()){
+            List<SClass> classesForDay = timetable.getClasses().get(day);
+            totalCourseLoad += classesForDay.size();
+            for(int i = 0; i < timetable.getClasses().get(day).size() - 1; i++){
+                totalDistance += distanceCalc.getRouteLength(classesForDay.get(i).getLocation(), classesForDay.get(i + 1).getLocation());
+            }
+        }
+
+        return totalDistance/totalCourseLoad;
     }
 }
