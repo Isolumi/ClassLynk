@@ -2,3 +2,4 @@
 target/
 src/resources/config/serviceAccountKey.json
 src/main/resources/images
+src/main/resources/application.yml
