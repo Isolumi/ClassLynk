@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Repository
 public class FirebaseRepository {
@@ -18,7 +17,7 @@ public class FirebaseRepository {
     private Firestore firestore;
 
     // Test code for inserting one course into firebase
-    public void insertCourse() throws ExecutionException, InterruptedException {
+    public void insertCourse() {
         SClass tempClass = new SClass("mat137", "lec101", "01:00:00",
                 "02:00:00", "monday", "bahen", "somewhere there",
                 false);
@@ -30,5 +29,11 @@ public class FirebaseRepository {
 
         ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/mat137")
                 .set(new Course("meth", "mat137", "bad", bundleList));
+    }
+
+    public void insertCourse(Course course) {
+        String courseId = course.getCourseId();
+        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/" + courseId)
+                .set(course);
     }
 }
