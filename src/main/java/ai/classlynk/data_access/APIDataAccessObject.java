@@ -4,9 +4,12 @@ import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
 import ai.classlynk.use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
 import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
+
 import com.google.maps.*;
 import com.google.maps.model.*;
 import com.google.maps.errors.ApiException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,25 +18,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static java.lang.Integer.parseInt;
-
+@Component
 public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface, GenerateStaticImageDataAccessInterface {
 
     GeoApiContext context;
+
 
     //ONLY use for this is to shut down the context on close
     public GeoApiContext getContext() {
         return context;
     }
 
-    public APIDataAccessObject()
+    public APIDataAccessObject(@Value("${spring.cloud.gcp.maps-api-key}") String key)
     {
-        //TODO: set api key with variable name "MAPS_API_KEY" in intellij environment variables
         context = new GeoApiContext.Builder()
-                .apiKey(System.getenv("MAPS_API_KEY"))
+                .apiKey(key)
                 .build();
     }
     @Override
