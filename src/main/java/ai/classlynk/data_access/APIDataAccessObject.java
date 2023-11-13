@@ -59,11 +59,13 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                     .origin(classAddresses.get(0))
                     .destination(classAddresses.get(classAddresses.size() - 1))
                     .mode(TravelMode.WALKING);
-
+            String waypoints = "";
             for(String location : classAddresses.subList(1, classAddresses.size() - 1))
             {
-                request.waypoints(location);
+                waypoints += location + "|";
             }
+
+            request.waypoints(waypoints);
             try {
                 res = request.await();
                 polyline = res.routes[0].overviewPolyline;
