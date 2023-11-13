@@ -18,7 +18,7 @@ public class FirebaseRepository {
     private Firestore firestore;
 
     // Test code for inserting one course into firebase
-    public void insertCourse() throws ExecutionException, InterruptedException {
+    public void insertCourse() {
         SClass tempClass = new SClass("mat137", "lec101", "01:00:00",
                 "02:00:00", "monday", "bahen", "somewhere there",
                 false);
