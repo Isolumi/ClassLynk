@@ -12,7 +12,12 @@ public class AddToCartInputData {
         this.sClass = sClass;
     }
 
+    public AddToCartInputData(Course course) {
+        this.course = course;
+        this.sClass = null;
+    }
+
     public Course getCourse() {return course; }
-    public SClass getsClass() {return sClass; }
+    public SClass getSClass() {return sClass; }
 
 }

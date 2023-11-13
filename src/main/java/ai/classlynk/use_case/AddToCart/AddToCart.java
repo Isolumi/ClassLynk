@@ -21,11 +21,14 @@ public class AddToCart implements AddToCartInputBoundary {
             List<Course> updatedCourseKart = user.getCourseKart();
             updatedCourseKart.add(inputData.getCourse());
             user.setCourseKart(updatedCourseKart);
-            List<SClass> updatedSClassKart = user.getClassKart();
-            updatedSClassKart.add(inputData.getsClass());
-            user.setCourseKart(updatedCourseKart);
-            presenter.presentResponse(new AddToCartOutputData(true, "Course Successfully Added", user.getCourseKart()));
+            if (inputData.getSClass() == null) {
+                presenter.presentResponse(new AddToCartOutputData(true, "Course Successfully Added", user.getCourseKart()));
+            } else {
+                List<SClass> updatedSClassKart = user.getClassKart();
+                updatedSClassKart.add(inputData.getSClass());
+                user.setCourseKart(updatedCourseKart);
+                presenter.presentResponse(new AddToCartOutputData(true, "Course and SClass Successfully Added", user.getCourseKart()));
+            }
         }
-
     }
 }
