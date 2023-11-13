@@ -31,4 +31,10 @@ public class FirebaseRepository {
         ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/mat137")
                 .set(new Course("meth", "mat137", "bad", bundleList));
     }
+
+    public void insertCourse(Course course) {
+        String courseId = course.getCourseId();
+        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/" + courseId)
+                .set(course);
+    }
 }
