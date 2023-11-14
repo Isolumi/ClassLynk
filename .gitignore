@@ -1,5 +1,9 @@
 .idea/
 target/
+<<<<<<< HEAD
 src/resources/config/serviceAccountKey.json
 src/main/resources/images
 src/main/resources/application.yml
+=======
+src/resources/config
+>>>>>>> main
