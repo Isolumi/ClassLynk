@@ -38,12 +38,12 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
         Resource resource = resourceLoader.getResource(apiKeyLocation);
         String apiKey;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
-            apiKey = reader.readLine(); // Assuming the API key is on the first line of the file
+            apiKey = reader.readLine();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         context = new GeoApiContext.Builder()
-                .apiKey(System.getenv(apiKey))
+                .apiKey(apiKey)
                 .build();
     }
     @Override
