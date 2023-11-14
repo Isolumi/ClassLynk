@@ -10,12 +10,13 @@ import com.google.maps.model.*;
 import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,10 +32,18 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
         return context;
     }
 
-    public APIDataAccessObject(@Value("${spring.cloud.gcp.maps-api-key}") String key)
+
+    public APIDataAccessObject(ResourceLoader resourceLoader, @Value("${spring.cloud.gcp.maps-api-key.location}") String apiKeyLocation)
     {
+        Resource resource = resourceLoader.getResource(apiKeyLocation);
+        String apiKey;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+            apiKey = reader.readLine(); // Assuming the API key is on the first line of the file
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         context = new GeoApiContext.Builder()
-                .apiKey(key)
+                .apiKey(System.getenv(apiKey))
                 .build();
     }
     @Override
