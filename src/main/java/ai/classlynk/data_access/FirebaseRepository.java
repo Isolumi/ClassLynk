@@ -19,7 +19,7 @@ public class FirebaseRepository {
     // Test code for inserting one course into firebase
     public void insertCourse() {
         SClass tempClass = new SClass("mat137", "lec101", "01:00:00",
-                "02:00:00", "monday", "bahen", "somewhere there",
+                "02:00:00", "monday", "ba", "somewhere there",
                 false);
         List<SClass> classList = new ArrayList<>();
         classList.add(tempClass);
@@ -35,5 +35,12 @@ public class FirebaseRepository {
         String courseId = course.getCourseId();
         ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/" + courseId)
                 .set(course);
+    }
+
+    public void insertCourses() {
+        SClass lec2501 = new SClass("ant100", "lec2501", "18:00:00",
+        "20:00:00", "monday", "convocation hall",
+                "31 King's College Circle" + "Toronto, ON" +
+                "M5S 1A1", false);
     }
 }
