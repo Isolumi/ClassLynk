@@ -18,7 +18,7 @@ public class ClassLynkApplication {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            firebaseRepository.insertCourse();
+            firebaseRepository.insertCourses();
         };
     }
 

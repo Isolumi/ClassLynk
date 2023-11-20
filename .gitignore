@@ -5,3 +5,5 @@ src/main/resources/images
 src/main/resources/application.yml
 src/resources/config
 examples
+src/main/resources/config/
+feature/firebase-repo-implementation

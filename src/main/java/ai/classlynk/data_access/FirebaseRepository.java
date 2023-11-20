@@ -1,22 +1,43 @@
 package ai.classlynk.data_access;
 
+<<<<<<< HEAD
 
 import ai.classlynk.entity.ClassBundle;
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.SClass;
 import com.google.cloud.firestore.Firestore;
+=======
+import ai.classlynk.entity.*;
+import ai.classlynk.use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
+import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
+import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
+import ai.classlynk.use_case.save_view_time_tables.SaveViewTimetablesDataAccessInterface;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
+import ai.classlynk.entity.ClassBundle;
+import ai.classlynk.entity.Course;
+import ai.classlynk.entity.SClass;
+import org.checkerframework.checker.units.qual.C;
+>>>>>>> feature/firebase-repo-implementation
 import org.springframework.stereotype.Repository;
+
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.concurrent.ExecutionException;
+=======
+import java.util.Map;
+>>>>>>> feature/firebase-repo-implementation
 
 @Repository
-public class FirebaseRepository {
+public class FirebaseRepository implements ExploreCoursesDataAccessInterface, TimetableGeneratorDataAccessInterface, SaveViewTimetablesDataAccessInterface {
     @Resource
     private Firestore firestore;
 
     // Test code for inserting one course into firebase
+<<<<<<< HEAD
     public void insertCourse() throws ExecutionException, InterruptedException {
 
         //TODO: CSC111
@@ -461,5 +482,4 @@ public class FirebaseRepository {
 //        this.firestore.document("courses/ESS105")
 //                .set(new Course("Our home planet", "ESS105", "The nature and evolution of the Earth; plate tectonics; rocks and minerals; volcanism; geological time; fossils; geology of Ontario; environmental issues; and human interactions with the planet.", bundleList, tutorialList6));
     }
-
 }
