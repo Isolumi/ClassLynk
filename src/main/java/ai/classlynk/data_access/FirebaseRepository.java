@@ -134,4 +134,19 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
 
         insertCourse(course);
     }
+
+    @Override
+    public void save(Timetable timetable) {
+
+    }
+
+    @Override
+    public ArrayList<Timetable> load() {
+        return null;
+    }
+
+    @Override
+    public void delete(Timetable timetable) {
+
+    }
 }
