@@ -121,23 +121,23 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
         classesTwo.add(ba);
         classesTwo.add(bb);
 
-        ClassBundle classBundle = new ClassBundle(, classesOne);
-        ClassBundle classsBundle = new ClassBundle(id, classesTwo);
+        ClassBundle classBundleOne = new ClassBundle("lec0101", classesOne);
+        ClassBundle classBundleTwo = new ClassBundle("lec5101", classesTwo);
         List<ClassBundle> classBundles = new ArrayList<>();
-        classBundles.add(classBundle);
-        classBundles.add(classsBundle);
+        classBundles.add(classBundleOne);
+        classBundles.add(classBundleTwo);
 
-        classes.clear();
-        classes.add(tut1);
-        classes.add(tut2);
-        classes.add(tut3);
-        classes.add(tut4);
-        classes.add(tut5);
-        classes.add(tut6);
+        classesOne.clear();
+        classesOne.add(tut1);
+        classesOne.add(tut2);
+        classesOne.add(tut3);
+        classesOne.add(tut4);
+        classesOne.add(tut5);
+        classesOne.add(tut6);
 
-        Course course = new Course("introduction to anthropology", "ant100",
-                "Society and culture from various anthropological perspectives: socio-cultural, evolutionary, archaeological, and linguistic. ",
-                classBundles, classes);
+        Course course = new Course("calculus ii", "mat136",
+                "This second part of the introductory Calculus sequence focuses on integral calculus beginning with the Fundamental Theorem of Calculus, the connection between two seemingly unrelated problems: measuring changing quantities and finding areas of curved shapes. Students will develop a deep understanding of the integral, and use it to: unpack equations involving derivatives; to make sense of infinite sums; to write complicated functions as 'infinite polynomials'; and to compute areas, volumes, and totals in applied problems. This course will further develop students' abilities to translate between algebraic, graphical, numerical, and verbal descriptions of mathematics in a variety of applied contexts. This course is a continuation of MAT135H1 and will be useful for students interested in learning applied calculus in relation to future studies in economics, life science, and physical and mathematical science programs. The following concepts will be studied: Integration, basic techniques of integration (substitution and by parts), improper integrals, using computer algebra systems (CAS) for integration, Taylor polynomials and Taylor series, ratio test for power series, radius of convergence of power series, first-order differential equations and systems of differential equations: modelling, separable DEs, and using CAS to study and find solutions.",
+                classBundles, classesOne);
 
         insertCourse(course);
     }
