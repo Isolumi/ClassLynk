@@ -3,14 +3,13 @@ package ai.classlynk.data_access;
 import ai.classlynk.entity.*;
 import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
-import ai.classlynk.use_case.save_view_time_tables.SaveViewTimetablesDataAccessInterface;
+import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import ai.classlynk.entity.ClassBundle;
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.SClass;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;

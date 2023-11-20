@@ -1,4 +1,4 @@
-package ai.classlynk.use_case.save_view_time_tables;
+package ai.classlynk.use_case.save_view_timetables;
 
 import ai.classlynk.entity.Timetable;
 
