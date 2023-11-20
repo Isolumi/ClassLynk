@@ -2,7 +2,6 @@ package ai.classlynk.data_access;
 
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
-import ai.classlynk.use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
 import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
 import com.google.maps.*;
 import com.google.maps.model.*;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
-public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface, GenerateStaticImageDataAccessInterface {
+public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface {
 
     GeoApiContext context;
 
@@ -36,7 +35,6 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                 .apiKey(System.getenv("MAPS_API_KEY"))
                 .build();
     }
-    @Override
     public Map<String, String> getStaticMaps(Timetable timetable) {
         /**
          * Gets daily routes for every day in the timetable
