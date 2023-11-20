@@ -1,7 +1,6 @@
 package ai.classlynk.data_access;
 
 import ai.classlynk.entity.*;
-import ai.classlynk.use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
 import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
 import ai.classlynk.use_case.save_view_time_tables.SaveViewTimetablesDataAccessInterface;
