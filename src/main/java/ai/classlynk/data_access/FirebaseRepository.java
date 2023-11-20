@@ -6,8 +6,10 @@ import com.google.cloud.firestore.WriteResult;
 import ai.classlynk.entity.ClassBundle;
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.SClass;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +28,10 @@ public class FirebaseRepository {
         ClassBundle tempBundle = new ClassBundle("mat137", classList);
         List<ClassBundle> bundleList = new ArrayList<>();
         bundleList.add(tempBundle);
+        ClassBundle tutBundle = new ClassBundle("testing", classList);
 
         ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/mat137")
-                .set(new Course("meth", "mat137", "bad", bundleList));
+                .set(new Course("meth", "mat137", "bad", bundleList, tutBundle));
     }
 
     public void insertCourse(Course course) {
@@ -38,9 +41,53 @@ public class FirebaseRepository {
     }
 
     public void insertCourses() {
+        List<Course> courses = new ArrayList<>();
+
         SClass lec2501 = new SClass("ant100", "lec2501", "18:00:00",
-        "20:00:00", "monday", "convocation hall",
+        "20:00:00", "thursday", "convocation hall",
                 "31 King's College Circle" + "Toronto, ON" +
                 "M5S 1A1", false);
+        SClass lec5101 = new SClass("ant100", "lec5101", "18:00:00",
+                "20:00:00", "thursday", "convocation hall",
+                "31 King's College Circle, Toronto, ON M5S 1A1", false);
+
+        SClass tut0101 = new SClass("ant100", "tut0101", "10:00:00",
+                "11:00:00", "tuesday", "anthropology building",
+                "19 Russell St, Toronto, ON M5S 2S2", true);
+        SClass tut0601 = new SClass("ant100", "tut0601", "15:00:00",
+                "16:00:00", "tuesday", "anthropology building",
+                "19 Russell St, Toronto, ON M5S 2S2", true);
+        SClass tut0801 = new SClass("ant100", "tut0801", "10:00:00",
+                "11:00:00", "wednesday", "anthropology building",
+                "19 Russell St, Toronto, ON M5S 2S2", true);
+        SClass tut1301 = new SClass("ant100", "tut1301", "15:00:00",
+                "16:00:00", "wednesday", "anthropology building",
+                "19 Russell St, Toronto, ON M5S 2S2", true);
+        SClass tut2001 = new SClass("ant100", "tut2001", "15:00:00",
+                "16:00:00", "thursday", "anthropology building",
+                "19 Russell St, Toronto, ON M5S 2S2", true);
+        SClass tut2102 = new SClass("ant100", "tut2102", "16:00:00",
+                "17:00:00", "thursday", "anthropology building",
+                "19 Russell St, Toronto, ON M5S 2S2", true);
+
+        List<SClass> classes = new ArrayList<>();
+        classes.add(lec2501);
+        List<SClass> classses = new ArrayList<>();
+        classses.add(lec5101);
+        ClassBundle classBundle = new ClassBundle("ant100", classes);
+        ClassBundle classsBundle = new ClassBundle("ant100", classses);
+        List<ClassBundle> classBundles = new ArrayList<>();
+        classBundles.add(classBundle);
+        classBundles.add(classsBundle);
+
+        classes.clear();
+        classes.add(tut0101);
+        classes.add(tut0601);
+        classes.add(tut0801);
+        classes.add(tut1301);
+        classes.add(tut2001);
+        classes.add(tut2102);
+
+
     }
 }
