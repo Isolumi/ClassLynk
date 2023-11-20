@@ -44,9 +44,24 @@ public class OptimalTimetableCalculator {
                     }
                 }
             }
+            List<Timetable> validTimeTables = new ArrayList<>();
+            for(String courseName: validLectureTutorialCombos.keySet()){
+
+            }
         }
+
+
         return null;
 
+    }
+
+    private static List<Timetable> returnValidTimeTables(HashMap<String, List<ClassBundle[]> > validLectureTutorialCombos){
+        List<Timetable> validTimeTables = new ArrayList<>();
+        if(validLectureTutorialCombos.keySet().isEmpty()){
+            return validTimeTables;
+        }else{
+            List<Timetable> temp
+        }
     }
 
     private static boolean hasTimeConflict(Timetable timetable){
