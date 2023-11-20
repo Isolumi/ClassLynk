@@ -38,4 +38,5 @@ public class AddToCartOutputData {
     public void setUpdatedCart(List<Course> updatedCart) {
         this.updatedCart = updatedCart;
     }
+
 }

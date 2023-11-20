@@ -4,8 +4,8 @@ import ai.classlynk.entity.Course;
 import ai.classlynk.entity.SClass;
 
 public class AddToCartInputData {
-    private Course course;
-    private SClass sClass;
+    private final Course course;
+    private final SClass sClass;
 
     public AddToCartInputData(Course course, SClass sClass) {
         this.course = course;
