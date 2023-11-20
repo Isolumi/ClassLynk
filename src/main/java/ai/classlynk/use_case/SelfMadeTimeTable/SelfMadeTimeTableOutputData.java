@@ -1,9 +1,7 @@
 package ai.classlynk.use_case.SelfMadeTimeTable;
 
-import ai.classlynk.entity.Course;
 import ai.classlynk.entity.Timetable;
 
-import java.util.List;
 
 public class SelfMadeTimeTableOutputData {
     private boolean success;
