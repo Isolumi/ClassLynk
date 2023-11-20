@@ -128,5 +128,7 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
         Course course = new Course("introduction to anthropology", "ant100",
                 "Society and culture from various anthropological perspectives: socio-cultural, evolutionary, archaeological, and linguistic. ",
                 classBundles, classes);
+
+        insertCourse(course);
     }
 }
