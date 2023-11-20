@@ -27,8 +27,9 @@ public class FirebaseRepository {
         List<ClassBundle> bundleList = new ArrayList<>();
         bundleList.add(tempBundle);
 
+
         ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/mat137")
-                .set(new Course("meth", "mat137", "bad", bundleList));
+                .set(new Course("meth", "mat137", "bad", bundleList, classList));
     }
 
     public void insertCourse(Course course) {
