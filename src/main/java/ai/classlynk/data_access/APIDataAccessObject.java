@@ -2,7 +2,7 @@ package ai.classlynk.data_access;
 
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
-import ai.classlynk.use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
+import ai.classlynk.use_case.static_maps.MapsDataAccessInterface;
 import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
 
 import com.google.maps.*;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface, GenerateStaticImageDataAccessInterface {
+public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface, MapsDataAccessInterface {
 
     GeoApiContext context;
 
@@ -47,7 +47,7 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                 .build();
     }
     @Override
-    public Map<String, String> getStaticMaps(Timetable timetable) {
+    public Map<String, String> getStaticMaps(Timetable timetable) throws ApiException, InterruptedException, IOException {
         /**
          * Gets daily routes for every day in the timetable
          * @return a map with keys of the days of the week and values of filepaths to the images
@@ -75,12 +75,9 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
             }
 
             request.waypoints(waypoints);
-            try {
-                res = request.await();
-                polyline = res.routes[0].overviewPolyline;
-            } catch (ApiException | InterruptedException | IOException e) {
-                throw new RuntimeException(e);
-            }
+
+            res = request.await();
+            polyline = res.routes[0].overviewPolyline;
 
             for(int i = 0; i < classAddresses.size(); i++)
             {
@@ -98,15 +95,13 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                 imgReq.markers(marker);
             }
 
-            try {
-                byte[] data = imgReq.await().imageData;
-                ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-                BufferedImage output = ImageIO.read(dataStream);
-                ImageIO.write(output, "jpg", new File("src/main/resources/images/" + day + "Route" + ".jpg"));
-                mapLinks.put(day, "src/main/resources/images/" + day + "Route" + ".jpg");
-            } catch (ApiException | InterruptedException | IOException e) {
-                throw new RuntimeException(e);
-            }
+
+            byte[] data = imgReq.await().imageData;
+            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+            BufferedImage output = ImageIO.read(dataStream);
+            ImageIO.write(output, "jpg", new File("src/main/resources/images/" + day + "Route" + ".jpg"));
+            mapLinks.put(day, "src/main/resources/images/" + day + "Route" + ".jpg");
+
         }
         return mapLinks;
     }
