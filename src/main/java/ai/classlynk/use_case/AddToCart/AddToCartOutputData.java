@@ -15,7 +15,6 @@ public class AddToCartOutputData {
         this.updatedCart = updatedCart;
     }
 
-    // Getters for the properties
     public boolean isSuccess() {
         return success;
     }
