@@ -114,12 +114,15 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
                 "18:00:00", "wednesday", "anthropology building",
                 "15 King's College Circle, Toronto, On M5S 3H7", true);
 
-        List<SClass> classes = new ArrayList<>();
-        classes.add(aa);
-        List<SClass> classses = new ArrayList<>();
-        classses.add(ab);
-        ClassBundle classBundle = new ClassBundle("ant100", classes);
-        ClassBundle classsBundle = new ClassBundle("ant100", classses);
+        List<SClass> classesOne = new ArrayList<>();
+        classesOne.add(aa);
+        classesOne.add(ab);
+        List<SClass> classesTwo = new ArrayList<>();
+        classesTwo.add(ba);
+        classesTwo.add(bb);
+
+        ClassBundle classBundle = new ClassBundle(, classesOne);
+        ClassBundle classsBundle = new ClassBundle(id, classesTwo);
         List<ClassBundle> classBundles = new ArrayList<>();
         classBundles.add(classBundle);
         classBundles.add(classsBundle);
