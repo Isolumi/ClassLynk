@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class FirebaseRepository implements ExploreCoursesDataAccessInterface, TimetableGeneratorDataAccessInterface, GenerateStaticImageDataAccessInterface, SaveViewTimetablesDataAccessInterface {
+public class FirebaseRepository implements ExploreCoursesDataAccessInterface, TimetableGeneratorDataAccessInterface, SaveViewTimetablesDataAccessInterface {
     @Resource
     private Firestore firestore;
 
@@ -45,11 +45,6 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
         String courseId = course.getCourseId();
         ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/" + courseId)
                 .set(course);
-    }
-
-    @Override
-    public Map<String, String> getStaticMaps(Timetable Timetable) {
-        return null;
     }
 
     @Override
