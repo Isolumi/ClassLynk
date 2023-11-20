@@ -79,38 +79,45 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
 
     public void insertCourses() {
         List<Course> courses = new ArrayList<>();
+        String id = "mat136";
 
-        SClass lec2501 = new SClass("ant100", "lec2501", "18:00:00",
-        "20:00:00", "thursday", "convocation hall",
-                "31 King's College Circle" + "Toronto, ON" +
-                "M5S 1A1", false);
-        SClass lec5101 = new SClass("ant100", "lec5101", "18:00:00",
-                "20:00:00", "thursday", "convocation hall",
-                "31 King's College Circle, Toronto, ON M5S 1A1", false);
+        SClass aa = new SClass(id, "lec0101", "10:00:00",
+                "11:00:00", "tuesday", "mclennan physical laboratories",
+                "255 Huron Street, Toronto, ON M5S 1A7", false);
+        SClass ab = new SClass(id, "lec0101", "10:00:00",
+                "12:00:00", "thursday", "mclennan physical laboratories",
+                "255 Huron Street, Toronto, ON M5S 1A7", false);
 
-        SClass tut0101 = new SClass("ant100", "tut0101", "10:00:00",
-                "11:00:00", "tuesday", "anthropology building",
-                "19 Russell St, Toronto, ON M5S 2S2", true);
-        SClass tut0601 = new SClass("ant100", "tut0601", "15:00:00",
-                "16:00:00", "tuesday", "anthropology building",
-                "19 Russell St, Toronto, ON M5S 2S2", true);
-        SClass tut0801 = new SClass("ant100", "tut0801", "10:00:00",
-                "11:00:00", "wednesday", "anthropology building",
-                "19 Russell St, Toronto, ON M5S 2S2", true);
-        SClass tut1301 = new SClass("ant100", "tut1301", "15:00:00",
-                "16:00:00", "wednesday", "anthropology building",
-                "19 Russell St, Toronto, ON M5S 2S2", true);
-        SClass tut2001 = new SClass("ant100", "tut2001", "15:00:00",
-                "16:00:00", "thursday", "anthropology building",
-                "19 Russell St, Toronto, ON M5S 2S2", true);
-        SClass tut2102 = new SClass("ant100", "tut2102", "16:00:00",
-                "17:00:00", "thursday", "anthropology building",
-                "19 Russell St, Toronto, ON M5S 2S2", true);
+        SClass ba = new SClass(id, "lec5101", "17:00:00",
+                "16:00:00", "tuesday", "bahen center for information technology",
+                "40 St. George Street, Toronto, ON M5S2E4", false);
+        SClass bb = new SClass(id, "lec5101", "17:00:00",
+                "19:00:00", "thursday", "bahen center for information technology",
+                "40 St. George Street, Toronto, ON M5S2E4", false);
+
+        SClass tut1 = new SClass(id, "tut0101", "9:00:00",
+                "10:00:00", "wednesday", "university college",
+                "15 King's College Circle, Toronto, On M5S 3H7", true);
+        SClass tut2 = new SClass(id, "tut0201", "11:00:00",
+                "12:00:00", "wednesday", "claude t. bissell building",
+                "140 St. George Street, Toronto, ON M5S 3G6", true);
+        SClass tut3 = new SClass(id, "tut0301", "12:00:00",
+                "13:00:00", "wednesday", "earth sciences center",
+                "22 Ursula Franklin Street, Toronto, ON M5S 3G6", true);
+        SClass tut4 = new SClass(id, "tut0401", "16:00:00",
+                "17:00:00", "wednesday", "wallberg building",
+                "40 St. George Street, Toronto, ON M5S2E4", true);
+        SClass tut5 = new SClass(id, "tut0501", "13:00:00",
+                "14:00:00", "wednesday", "anthropology building",
+                "184-200 College Street, Toronto, ON M5S 2S2", true);
+        SClass tut6 = new SClass(id, "tut5101", "17:00:00",
+                "18:00:00", "wednesday", "anthropology building",
+                "15 King's College Circle, Toronto, On M5S 3H7", true);
 
         List<SClass> classes = new ArrayList<>();
-        classes.add(lec2501);
+        classes.add(aa);
         List<SClass> classses = new ArrayList<>();
-        classses.add(lec5101);
+        classses.add(ab);
         ClassBundle classBundle = new ClassBundle("ant100", classes);
         ClassBundle classsBundle = new ClassBundle("ant100", classses);
         List<ClassBundle> classBundles = new ArrayList<>();
@@ -118,12 +125,12 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
         classBundles.add(classsBundle);
 
         classes.clear();
-        classes.add(tut0101);
-        classes.add(tut0601);
-        classes.add(tut0801);
-        classes.add(tut1301);
-        classes.add(tut2001);
-        classes.add(tut2102);
+        classes.add(tut1);
+        classes.add(tut2);
+        classes.add(tut3);
+        classes.add(tut4);
+        classes.add(tut5);
+        classes.add(tut6);
 
         Course course = new Course("introduction to anthropology", "ant100",
                 "Society and culture from various anthropological perspectives: socio-cultural, evolutionary, archaeological, and linguistic. ",
