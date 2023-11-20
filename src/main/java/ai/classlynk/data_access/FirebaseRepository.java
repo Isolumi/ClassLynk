@@ -36,8 +36,9 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
         bundleList.add(tempBundle);
         ClassBundle tutBundle = new ClassBundle("testing", classList);
 
+
         ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/mat137")
-                .set(new Course("meth", "mat137", "bad", bundleList, tutBundle));
+                .set(new Course("meth", "mat137", "bad", bundleList, classList));
     }
 
     public void insertCourse(Course course) {

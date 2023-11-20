@@ -12,22 +12,22 @@ public class Course {
     private String courseName;
     private String courseDescription;
     private List<ClassBundle> classBundles;
-    private ClassBundle tutorialBundle;
+    private List<SClass> tutorials;
 
-    public Course(String courseName, String courseId, String courseDescription, List<ClassBundle> classBundles, ClassBundle tutorialBundle) {
+    public Course(String courseName, String courseId, String courseDescription, List<ClassBundle> classBundles, List<SClass> tutorialBundle) {
         this.courseName = courseName;
         this.courseId = courseId;
         this.courseDescription = courseDescription;
         this.classBundles = classBundles;
-        this.tutorialBundle = tutorialBundle;
+        this.tutorials = tutorialBundle;
     }
 
-    public ClassBundle getTutorialBundle() {
-        return tutorialBundle;
+    public List<SClass> getTutorials() {
+        return tutorials;
     }
 
-    public void setTutorialBundle(ClassBundle tutorialBundle) {
-        this.tutorialBundle = tutorialBundle;
+    public void setTutorials(List<SClass> tutorials) {
+        this.tutorials = tutorials;
     }
 
     public List<ClassBundle> getClassBundles() {
