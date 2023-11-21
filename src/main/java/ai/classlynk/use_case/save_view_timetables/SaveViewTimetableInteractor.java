@@ -11,7 +11,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
     }
 
     @Override
-    public void execute() {
-
+    public void execute(boolean logInStatus) {
+        if (logInStatus)
     }
 }
