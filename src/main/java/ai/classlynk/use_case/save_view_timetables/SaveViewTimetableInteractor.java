@@ -13,8 +13,8 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
     }
 
     @Override
-    public void execute(boolean logInStatus) {
-        if (logInStatus) {
+    public void execute(SaveViewTimetableInputData inputData) {
+        if (inputData.isLoggedIn()) {
             saveViewPresenter.prepareNotLoggedInView();
         } else {
             Timetable[] timetables = firebaseRepo.load();
