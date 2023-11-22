@@ -9,7 +9,7 @@ public interface SaveViewTimetablesDataAccessInterface {
     void save(Timetable timetable);
 
     //load timetables linked to the user
-    ArrayList<Timetable> load();
+    Timetable[] load();
 
     //delete a timetable linked to the user
     void delete(Timetable timetable);
