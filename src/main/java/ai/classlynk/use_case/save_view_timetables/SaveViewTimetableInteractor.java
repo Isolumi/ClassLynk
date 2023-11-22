@@ -17,7 +17,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
         if (inputData.isLoggedIn()) {
             saveViewPresenter.prepareNotLoggedInView();
         } else {
-            SaveViewTimetableOutputData timetables = new SaveViewTimetableOutputData(firebaseRepo.load());
+            SaveViewTimetableOutputData timetables = new SaveViewTimetableOutputData(firebaseRepo.getTimetables());
             saveViewPresenter.prepareLoggedInView(timetables);
         }
     }
