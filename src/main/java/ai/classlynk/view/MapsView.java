@@ -1,36 +1,53 @@
 package ai.classlynk.view;
 
-import ai.classlynk.interface_adapter.static_maps.MapsController;
+import ai.classlynk.interface_adapter.static_maps.MapsState;
 import ai.classlynk.interface_adapter.static_maps.MapsViewModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Map;
 
 
 public class MapsView extends JPanel implements PropertyChangeListener {
 
+    JFrame frame;
 
-    //this view is completely independent and only displays data since the api calls are done elsewhere
-    // (no controller is needed)
-    public MapsView(MapsViewModel mapsViewModel)
-    {
+    JPanel menus;
 
-        JFrame frame = new JFrame("Daily Routes");
+    public MapsView(MapsViewModel mapsViewModel) {
+        mapsViewModel.addPropertyChangeListener(this);
 
-        JPanel menus = new JPanel(new CardLayout());
+        frame = new JFrame("Daily Routes");
+
+        menus = new JPanel(new CardLayout());
 
         String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+        MapsState state = mapsViewModel.getState();
+
+        Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
+
         for (String day : days) {
             JPanel dayPanel = new JPanel();
 //            dayPanel.add(new JLabel(new ImageIcon("../../../../resources/Images/" + day + "Route.jpg")));
             //TODO: if below doesent work, use above line to manually get paths and can make generation function not return data
-            dayPanel.add(new JLabel(new ImageIcon(mapsViewModel.getState().getImageLocations().get(day))));
-            //TODO: create timetable to string so this text will contain the class data
-            dayPanel.add(new JLabel("placeholder"));
+
+            dayPanel.add(new JLabel(new ImageIcon(state.getImageLocations().get(day))));
+            JTextArea timetableText = new JTextArea(formattedTimetable.get(day));
+            timetableText.setWrapStyleWord(true);
+            timetableText.setLineWrap(true);
+            timetableText.setEditable(false);
+            timetableText.setFont(new Font("Arial", Font.PLAIN, 30));
+            timetableText.setPreferredSize(new Dimension(1000, 1000));
+            dayPanel.add(timetableText);
             menus.add(dayPanel, day);
         }
+
+        JPanel topPanel = new JPanel(new BorderLayout());
 
         JPanel daySwitcherButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
         for (String day : days) {
@@ -41,11 +58,51 @@ public class MapsView extends JPanel implements PropertyChangeListener {
             });
             daySwitcherButtons.add(button);
         }
+        JButton backButton = new JButton("Go Back");
 
+        backButton.addActionListener(
+                e -> {
+                    if(e.getSource().equals(backButton))
+                    {
+                        //TODO: CALL mapspresenter function that goes back to save/view menu
+                    }
+                }
+        );
+
+        topPanel.add(backButton, BorderLayout.WEST);
+        topPanel.add(daySwitcherButtons, BorderLayout.CENTER);
+
+        frame.add(topPanel, BorderLayout.NORTH);
+        frame.add(menus, BorderLayout.CENTER);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //update timetable images and text
+        MapsState state = (MapsState) evt.getNewValue();
+        updateFields(state);
+    }
+
+    private void updateFields(MapsState state) {
+        Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
+        Map<String, String> imageLocations = state.getImageLocations();
+        for (int i = 0; i < 5; i++) {
+            JPanel parent = (JPanel) menus.getComponent(i);
+            JLabel child = (JLabel) parent.getComponent(1);
+            switch (i) {
+                case 0 -> child.setText(formattedTimetable.get("Monday"));
+                case 1 -> child.setText(formattedTimetable.get("Tuesday"));
+                case 2 -> child.setText(formattedTimetable.get("Wednesday"));
+                case 3 -> child.setText(formattedTimetable.get("Thursday"));
+                case 4 -> child.setText(formattedTimetable.get("Friday"));
+            }
+            child = (JLabel) parent.getComponent(0);
+            switch (i) {
+                case 0 -> child.setIcon(new ImageIcon(imageLocations.get("Monday")));
+                case 1 -> child.setIcon(new ImageIcon(imageLocations.get("Tuesday")));
+                case 2 -> child.setIcon(new ImageIcon(imageLocations.get("Wednesday")));
+                case 3 -> child.setIcon(new ImageIcon(imageLocations.get("Thursday")));
+                case 4 -> child.setIcon(new ImageIcon(imageLocations.get("Friday")));
+            }
+        }
     }
 }

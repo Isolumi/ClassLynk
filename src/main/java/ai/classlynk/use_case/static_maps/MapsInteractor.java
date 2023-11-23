@@ -22,9 +22,9 @@ public class MapsInteractor implements MapsInputBoundary{
         try {
             data = mapsDataAccessObject.getStaticMaps(mapsInputData.getTimetable());
         } catch (ApiException | InterruptedException | IOException e) {
-            mapsPresenter.prepareFailView("Unable to generate timetables. Please try again.");
+            mapsPresenter.prepareFailView("Unable to generate images. Please try again.");
         }
-        MapsOutputData mapsOutputData = new MapsOutputData(data, false);
+        MapsOutputData mapsOutputData = new MapsOutputData(data, false, mapsInputData.getTimetable());
         mapsPresenter.prepareSuccessView(mapsOutputData);
     }
 }
