@@ -1,4 +1,4 @@
-package ai.classlynk.interface_adapter;
+package ai.classlynk.interface_adapter.Login;
 
 import ai.classlynk.use_case.user_auth.login.LoginInputBoundary;
 import ai.classlynk.use_case.user_auth.login.LoginInputData;
