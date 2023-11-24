@@ -1,15 +1,20 @@
 package ai.classlynk.app;
 
+import ai.classlynk.data_access.FirebaseRepository;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
 import ai.classlynk.view.SaveViewTimetableView;
 import ai.classlynk.view.ViewManager;
 
+import javax.annotation.Resource;
 import javax.swing.*;
 import java.awt.*;
 
 public class ClassLynkApplication {
+
+    @Resource
+    private FirebaseRepository firebaseRepository;
 
     public static void main(String[] args) {
         JFrame application = new JFrame("ClassLynk");

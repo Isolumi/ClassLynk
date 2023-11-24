@@ -10,8 +10,6 @@ import javax.annotation.Resource;
 
 @SpringBootApplication(scanBasePackages = "ai.classlynk")
 public class ClassLynkInitializer {
-    @Resource
-    private FirebaseRepository firebaseRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(ClassLynkInitializer.class, args);
@@ -20,7 +18,7 @@ public class ClassLynkInitializer {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            firebaseRepository.insertCourses();
+            ClassLynkApplication.main(null);
         };
     }
 
