@@ -18,7 +18,7 @@ public class SaveViewTimetableViewModel extends ViewModel {
     public SaveViewTimetableState getState() {
         return this.state;
     }
-    
+
     @Override
     public void firePropertyChanged() {
         support.firePropertyChange("state", null, this.state);
