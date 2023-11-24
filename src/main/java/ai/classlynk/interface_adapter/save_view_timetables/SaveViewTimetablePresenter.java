@@ -4,6 +4,7 @@ import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableOutputBoundar
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableOutputData;
 
 public class SaveViewTimetablePresenter implements SaveViewTimetableOutputBoundary {
+
     @Override
     public void prepareLoggedInView(SaveViewTimetableOutputData timetables) {
 
