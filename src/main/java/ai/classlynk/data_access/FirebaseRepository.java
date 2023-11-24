@@ -55,17 +55,17 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
         return 0;
     }
 
-    @Override
+
     public void save(User user, Timetable timetable) {
 
     }
 
-    @Override
+
     public ArrayList<Timetable> load(User user) {
         return null;
     }
 
-    @Override
+
     public void delete(User user, Timetable timetable) {
 
     }
@@ -141,6 +141,11 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
     }
 
     @Override
+    public Timetable[] getTimetables() {
+        return new Timetable[0];
+    }
+
+
     public ArrayList<Timetable> load() {
         return null;
     }
