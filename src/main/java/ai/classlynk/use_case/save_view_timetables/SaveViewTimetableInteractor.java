@@ -1,12 +1,15 @@
 package ai.classlynk.use_case.save_view_timetables;
 
+import ai.classlynk.data_access.FirebaseRepository;
+
+import javax.annotation.Resource;
+
 public class SaveViewTimetableInteractor implements SaveViewTimetableInputBoundary {
-    final SaveViewTimetablesDataAccessInterface firebaseRepo;
     final SaveViewTimetableOutputBoundary saveViewPresenter;
 
-    public SaveViewTimetableInteractor(SaveViewTimetablesDataAccessInterface firebaseRepo,
-                                       SaveViewTimetableOutputBoundary saveViewPresenter) {
-        this.firebaseRepo = firebaseRepo;
+    @Resource
+    FirebaseRepository firebaseRepository;
+    public SaveViewTimetableInteractor(SaveViewTimetableOutputBoundary saveViewPresenter) {
         this.saveViewPresenter = saveViewPresenter;
     }
 
@@ -15,7 +18,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
         if (inputData.loggedIn()) {
             saveViewPresenter.prepareNotLoggedInView();
         } else {
-            SaveViewTimetableOutputData timetables = new SaveViewTimetableOutputData(firebaseRepo.getTimetables());
+            SaveViewTimetableOutputData timetables = new SaveViewTimetableOutputData(firebaseRepository.getTimetables());
             saveViewPresenter.prepareLoggedInView(timetables);
         }
     }

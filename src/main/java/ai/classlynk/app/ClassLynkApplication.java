@@ -3,18 +3,17 @@ package ai.classlynk.app;
 import ai.classlynk.data_access.FirebaseRepository;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
+import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetablePresenter;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
+import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInteractor;
 import ai.classlynk.view.SaveViewTimetableView;
 import ai.classlynk.view.ViewManager;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Resource;
 import javax.swing.*;
 import java.awt.*;
 
 public class ClassLynkApplication {
-
-    @Resource
-    private FirebaseRepository firebaseRepository;
 
     public static void main(String[] args) {
         JFrame application = new JFrame("ClassLynk");
@@ -28,17 +27,8 @@ public class ClassLynkApplication {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
 
-        // define view models
-        SaveViewTimetableViewModel saveViewTimetableViewModel = new SaveViewTimetableViewModel();
+        SaveViewTimetableView saveViewTimetableView = getSaveViewTimetableView(viewManagerModel);
 
-        // define controllers
-        SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController();
-
-        // define views
-        SaveViewTimetableView saveViewTimetableView = new SaveViewTimetableView(
-                saveViewTimetableViewModel,
-                saveViewTimetableController
-        );
         views.add(saveViewTimetableView, saveViewTimetableView.viewName);
 
         viewManagerModel.setActiveView(saveViewTimetableView.viewName);
@@ -46,5 +36,31 @@ public class ClassLynkApplication {
 
         application.pack();
         application.setVisible(true);
+    }
+
+    @NotNull
+    private static SaveViewTimetableView getSaveViewTimetableView(ViewManagerModel viewManagerModel) {
+        // define view models
+        SaveViewTimetableViewModel saveViewTimetableViewModel = new SaveViewTimetableViewModel();
+
+        // define presenters
+        SaveViewTimetablePresenter saveViewTimetablePresenter = new SaveViewTimetablePresenter(
+                saveViewTimetableViewModel,
+                viewManagerModel);
+
+        // define interactors
+        SaveViewTimetableInteractor saveViewTimetableInteractor = new SaveViewTimetableInteractor(
+                saveViewTimetablePresenter
+        );
+
+        // define controllers
+        SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController(
+                saveViewTimetableInteractor);
+
+        // define views
+        return new SaveViewTimetableView(
+                saveViewTimetableViewModel,
+                saveViewTimetableController
+        );
     }
 }

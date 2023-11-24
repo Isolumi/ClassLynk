@@ -1,6 +1,5 @@
 package ai.classlynk.interface_adapter.save_view_timetables;
 
-import ai.classlynk.entity.Timetable;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInputBoundary;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInputData;
 
