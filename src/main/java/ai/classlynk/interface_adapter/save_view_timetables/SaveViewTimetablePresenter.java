@@ -15,7 +15,7 @@ public class SaveViewTimetablePresenter implements SaveViewTimetableOutputBounda
 
     @Override
     public void prepareLoggedInView(SaveViewTimetableOutputData timetables) {
-        
+        SaveViewTimetableState saveViewTimetableState = saveViewTimetableViewModel.getState();
     }
 
     @Override
