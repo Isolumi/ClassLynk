@@ -22,7 +22,13 @@ public class ClassLynkApplication {
     public static void main(String[] args) {
         SpringApplication.run(ClassLynkApplication.class, args);
     }
-    public static void run() {
+    @Bean
+    public CommandLineRunner commandLineRunner() {
+        return args -> {
+            start();
+        };
+    }
+    public static void start() {
         JFrame application = new JFrame("ClassLynk");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,13 +75,6 @@ public class ClassLynkApplication {
                 saveViewTimetableViewModel,
                 saveViewTimetableController
         );
-    }
-
-    @Bean
-    public CommandLineRunner commandLineRunner() {
-        return args -> {
-            run();
-        };
     }
 
 }
