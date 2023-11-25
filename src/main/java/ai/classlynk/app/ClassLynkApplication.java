@@ -9,7 +9,6 @@ import ai.classlynk.view.SaveViewTimetableView;
 import ai.classlynk.view.ViewManager;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -52,6 +51,7 @@ public class ClassLynkApplication {
         viewManagerModel.firePropertyChanged();
 
         application.pack();
+        application.setLocationRelativeTo(null);
         application.setVisible(true);
     }
 
@@ -73,6 +73,7 @@ public class ClassLynkApplication {
         // define controllers
         SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController(
                 saveViewTimetableInteractor);
+        saveViewTimetableController.execute(true);
 
         // define views
         return new SaveViewTimetableView(

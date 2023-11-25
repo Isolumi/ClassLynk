@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class SaveViewTimetableViewModel extends ViewModel {
-    public static final String TITLE_LABEL = "Save View Timetable";
+    public static final String TITLE_LABEL = "Your Timetables";
 
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);

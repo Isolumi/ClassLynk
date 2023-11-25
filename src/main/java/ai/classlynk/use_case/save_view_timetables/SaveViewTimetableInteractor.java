@@ -31,7 +31,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
     // TODO: test code, remove later
     @Override
     public void execute(SaveViewTimetableInputData inputData) {
-        if (inputData.loggedIn()) {
+        if (!inputData.loggedIn()) {
             saveViewPresenter.prepareNotLoggedInView();
         } else {
             Map<String, List<SClass>> tt = new HashMap<>();
@@ -54,7 +54,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
                     "c6", "lec0106", "10:00:00", "11:00:00",
                     "friday", "bahen", "theresomerwhere", false);
             SClass g = new SClass(
-                    "c7", "lec0109", "10:00:00", "11:00:00",
+                    "c7", "lec0109", "21:00:00", "22:00:00",
                     "friday", "bahen", "theresomerwhere", false);
             List<SClass> mon = new ArrayList<>();
             mon.add(a);
