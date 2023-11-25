@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import javax.swing.*;
@@ -20,7 +22,9 @@ import java.awt.*;
 public class ClassLynkApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ClassLynkApplication.class, args);
+        SpringApplicationBuilder builder = new SpringApplicationBuilder(ClassLynkApplication.class);
+        builder.headless(false);
+        ConfigurableApplicationContext context = builder.run(args);
     }
     @Bean
     public CommandLineRunner commandLineRunner() {
