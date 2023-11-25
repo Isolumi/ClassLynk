@@ -26,7 +26,6 @@ public class OptimalTimetableCalculator {
                         for (SClass sclass : lec.getClasses()) {
                             test.get(sclass.getWeekday()).add(sclass);
                         }
-
                         test.get(tut.getWeekday()).add(tut);
 
                         Timetable conflictTest = new Timetable(test);
@@ -53,14 +52,39 @@ public class OptimalTimetableCalculator {
     }
 
 
+    private static void returnValidTimeTables(List<Timetable> all, List<List<ClassBundle>> cur, HashMap<String, List<List<ClassBundle>>>  adjacencyMatrix) {
+        String id = cur.get(cur.size() - 1).get(0).lectureId + cur.get(cur.size() - 1).get(1).lectureId;
+        if(adjacencyMatrix.get(id).isEmpty()){
+            all.add(classBundlesToTimetable(cur));
+        }else{
+            List<List<ClassBundle>> children = adjacencyMatrix.get(id);
+            for (List<ClassBundle> child : children){
+                ArrayList<List<ClassBundle>> newCur = new ArrayList<>(cur);
+                newCur.add(child);
+                returnValidTimeTables(all, newCur, adjacencyMatrix);
+            }
+        }
+    }
 
+    private static Timetable classBundlesToTimetable(List<List<ClassBundle>> inputList){
+        HashMap<String, List<SClass>> timeTable = new HashMap<>();
+        timeTable.put("Monday", new ArrayList<SClass>());
+        timeTable.put("Tuesday", new ArrayList<SClass>());
+        timeTable.put("Wednesday", new ArrayList<SClass>());
+        timeTable.put("Thursday", new ArrayList<SClass>());
+        timeTable.put("Friday", new ArrayList<SClass>());
+        timeTable.put("Saturday", new ArrayList<SClass>());
+        timeTable.put("Sunday", new ArrayList<SClass>());
 
+        for(List<ClassBundle> lecTutPair : inputList){
+            for(ClassBundle classes : lecTutPair){
+                for(SClass sclass: classes.getClasses()){
+                    timeTable.get(sclass.getWeekday()).add(sclass);
+                }
+            }
+        }
 
-
-    private static List<Timetable> returnValidTimeTables(List<ClassBundle> cur, HashMap<List<ClassBundle>, HashMap<String, List<ClassBundle>>>  adjacencyMatrix, HashMap<String, List<ClassBundle[]>> validCombos, List<Timetable> acc, HashMap<String, Boolean> vis) {
-        String id = cur.get(0).getCourseId();
-        vis.get(id);
-        return null
+        return new Timetable(timeTable);
     }
 
     private static boolean hasTimeConflict(Timetable timetable) {
@@ -96,4 +120,5 @@ public class OptimalTimetableCalculator {
         }
         return totalDistance / totalCourseLoad;
     }
+
 }
