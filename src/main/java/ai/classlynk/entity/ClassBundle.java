@@ -7,16 +7,16 @@ public class ClassBundle {
     String lectureId;
     List<SClass> classes;
 
-    public ClassBundle(String courseId, List<SClass> classes) {
-        this.lectureId = courseId;
+    public ClassBundle(String lectureId, List<SClass> classes) {
+        this.lectureId = lectureId;
         this.classes = classes;
     }
 
-    public String getCourseId() {
+    public String getLectureId() {
         return lectureId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setLectureId(String courseId) {
         this.lectureId = courseId;
     }
 
