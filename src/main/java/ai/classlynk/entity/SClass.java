@@ -85,4 +85,15 @@ public class SClass {
     public void setWeekday(String weekday) {
         this.weekday = weekday;
     }
+
+    @Override
+    public String toString() {
+        return "Course Code: " + courseId +
+                ", Section Code: " + classId +
+                ", " + weekday +
+                ", " + startTime +
+                "-" + endTime +
+                ", Building:" + building +
+                ", Address:" + location;
+    }
 }
