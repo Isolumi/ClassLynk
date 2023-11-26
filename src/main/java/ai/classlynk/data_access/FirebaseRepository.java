@@ -4,15 +4,10 @@ import ai.classlynk.entity.*;
 import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
-import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
-import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
-import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
-import ai.classlynk.use_case.save_view_time_tables.SaveViewTimetablesDataAccessInterface;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.util.concurrent.ExecutionException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,18 +16,6 @@ import java.util.Map;
 public class FirebaseRepository implements ExploreCoursesDataAccessInterface, TimetableGeneratorDataAccessInterface, SaveViewTimetablesDataAccessInterface {
     @Resource
     private Firestore firestore;
-
-    // Test code for inserting one course into firebase
-
-    public void insertCourse() throws ExecutionException, InterruptedException {
-
-    public void insertCourse() {
-
-    }
-
-//        this.firestore.document("courses/ESS105")
-//                .set(new Course("Our home planet", "ESS105", "The nature and evolution of the Earth; plate tectonics; rocks and minerals; volcanism; geological time; fossils; geology of Ontario; environmental issues; and human interactions with the planet.", bundleList, tutorialList6));
-    }
 
     @Override
     public Map<String, Course> loadCourses() {
@@ -121,7 +104,6 @@ public class FirebaseRepository implements ExploreCoursesDataAccessInterface, Ti
                 "This second part of the introductory Calculus sequence focuses on integral calculus beginning with the Fundamental Theorem of Calculus, the connection between two seemingly unrelated problems: measuring changing quantities and finding areas of curved shapes. Students will develop a deep understanding of the integral, and use it to: unpack equations involving derivatives; to make sense of infinite sums; to write complicated functions as 'infinite polynomials'; and to compute areas, volumes, and totals in applied problems. This course will further develop students' abilities to translate between algebraic, graphical, numerical, and verbal descriptions of mathematics in a variety of applied contexts. This course is a continuation of MAT135H1 and will be useful for students interested in learning applied calculus in relation to future studies in economics, life science, and physical and mathematical science programs. The following concepts will be studied: Integration, basic techniques of integration (substitution and by parts), improper integrals, using computer algebra systems (CAS) for integration, Taylor polynomials and Taylor series, ratio test for power series, radius of convergence of power series, first-order differential equations and systems of differential equations: modelling, separable DEs, and using CAS to study and find solutions.",
                 classBundles, classesOne);
 
-        insertCourse(course);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package ai.classlynk.use_case.static_maps;
 
-import ai.classlynk.data_access.APIDataAccessObject;
 import com.google.maps.errors.ApiException;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Map;

@@ -4,18 +4,17 @@ import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
-import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInteractor;
 
-import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 public class SaveViewTimetableView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "save-view-timetable";
+    public final String viewName = "Your Timetables";
     private final SaveViewTimetableViewModel saveViewTimetableViewModel;
     private final SaveViewTimetableController saveViewTimetableController;
 

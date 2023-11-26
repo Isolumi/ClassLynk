@@ -3,7 +3,6 @@ package ai.classlynk.interface_adapter;
 import java.beans.PropertyChangeListener;
 
 public abstract class ViewModel {
-    private final String viewName;
 
     private String viewName;
 

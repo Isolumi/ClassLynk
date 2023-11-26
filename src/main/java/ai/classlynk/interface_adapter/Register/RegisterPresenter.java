@@ -4,10 +4,6 @@ import ai.classlynk.interface_adapter.Login.LoginState;
 import ai.classlynk.interface_adapter.Login.LoginViewModel;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.use_case.user_auth.register.RegisterOutputBoundary;
-import use_case.user_auth.register.RegisterOutputData;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class RegisterPresenter implements RegisterOutputBoundary {
 
