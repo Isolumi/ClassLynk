@@ -156,7 +156,7 @@ public class OptimalTimetableCalculator {
         for (String day : timetable.getClasses().keySet()) {
             List<SClass> classesForDay = timetable.getClasses().get(day);
             totalCourseLoad += classesForDay.size();
-            for (int i = 0; i < timetable.getClasses().get(day).size() - 1; i++) {
+            for (int i = 0; i < timetable.getClasses().get(day).size() - 2; i++) {
                 totalDistance += distanceCalc.getRouteLength(classesForDay.get(i).getLocation(), classesForDay.get(i + 1).getLocation());
             }
         }
