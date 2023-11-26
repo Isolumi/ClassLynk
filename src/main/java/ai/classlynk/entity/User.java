@@ -1,9 +1,12 @@
 package ai.classlynk.entity;
 
+import org.springframework.data.annotation.Id;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    @Id
     private String id;
     private List<Timetable> timetables;
     private List<Course> courseKart;

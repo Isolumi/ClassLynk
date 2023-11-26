@@ -1,6 +1,6 @@
 package ai.classlynk.use_case.save_view_timetables;
 
-import ai.classlynk.data_access.FirebaseRepository;
+import ai.classlynk.data_access.TimetableRepository;
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
 
@@ -14,7 +14,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
     final SaveViewTimetableOutputBoundary saveViewPresenter;
 
     @Resource
-    FirebaseRepository firebaseRepository;
+    TimetableRepository firebaseRepository;
     public SaveViewTimetableInteractor(SaveViewTimetableOutputBoundary saveViewPresenter) {
         this.saveViewPresenter = saveViewPresenter;
     }
