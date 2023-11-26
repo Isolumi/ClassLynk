@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Component
 public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface, MapsDataAccessInterface {
 
@@ -46,6 +47,7 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                 .apiKey(apiKey)
                 .build();
     }
+
     @Override
     public Map<String, String> getStaticMaps(Timetable timetable) throws ApiException, InterruptedException, IOException {
         /**
