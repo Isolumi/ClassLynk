@@ -7,4 +7,10 @@ public class LoginInputData {
         Name = name;
         Password = Pass;
     }
+    public String getUsername() {
+        return Name;
+    }
+    public String getPassword() {
+        return Password;
+    }
 }
