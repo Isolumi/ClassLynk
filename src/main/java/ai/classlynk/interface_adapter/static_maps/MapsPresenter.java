@@ -36,5 +36,7 @@ public class MapsPresenter implements MapsOutputBoundary {
         MapsState mapsState = mapsViewModel.getState();
         mapsState.setApiError(error);
         mapsViewModel.firePropertyChanged();
+
+        //TODO to display error msg, may need to move user to the mapsview
     }
 }

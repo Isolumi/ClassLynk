@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.Map;
 
 public class MapsInteractor implements MapsInputBoundary{
-    final APIDataAccessObject mapsDataAccessObject;
+    final MapsDataAccessInterface mapsDataAccessObject;
 
     final MapsOutputBoundary mapsPresenter;
 
-    public MapsInteractor(APIDataAccessObject apiDataAccessObject, MapsOutputBoundary mapsOutputBoundary)
+    public MapsInteractor(MapsDataAccessInterface apiDataAccessObject, MapsOutputBoundary mapsOutputBoundary)
     {
         mapsDataAccessObject = apiDataAccessObject;
         mapsPresenter = mapsOutputBoundary;

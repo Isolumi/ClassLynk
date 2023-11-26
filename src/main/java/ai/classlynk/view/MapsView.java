@@ -5,11 +5,10 @@ import ai.classlynk.interface_adapter.static_maps.MapsViewModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class MapsView extends JPanel implements PropertyChangeListener {
@@ -18,6 +17,7 @@ public class MapsView extends JPanel implements PropertyChangeListener {
 
     JPanel menus;
 
+    JButton backButton;
     public MapsView(MapsViewModel mapsViewModel) {
         mapsViewModel.addPropertyChangeListener(this);
 
@@ -25,7 +25,7 @@ public class MapsView extends JPanel implements PropertyChangeListener {
 
         menus = new JPanel(new CardLayout());
 
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
 
         MapsState state = mapsViewModel.getState();
 
@@ -58,7 +58,7 @@ public class MapsView extends JPanel implements PropertyChangeListener {
             });
             daySwitcherButtons.add(button);
         }
-        JButton backButton = new JButton("Go Back");
+        backButton = new JButton("Go Back");
 
         backButton.addActionListener(
                 e -> {
@@ -79,7 +79,16 @@ public class MapsView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         MapsState state = (MapsState) evt.getNewValue();
-        updateFields(state);
+        if(Objects.equals(state.getApiError(), "Unable to generate images. Please try again."))
+        {
+            JOptionPane.showMessageDialog(this, state.getApiError());
+            //brings user back to previous menu
+            backButton.doClick();
+        }
+        else
+        {
+            updateFields(state);
+        }
     }
 
     private void updateFields(MapsState state) {
