@@ -2,42 +2,54 @@ package ai.classlynk.data_access;
 
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
-import ai.classlynk.use_case.GenerateStaticImage.GenerateStaticImageDataAccessInterface;
+import ai.classlynk.use_case.static_maps.MapsDataAccessInterface;
 import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
+
 import com.google.maps.*;
 import com.google.maps.model.*;
 import com.google.maps.errors.ApiException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static java.lang.Integer.parseInt;
 
-public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface, GenerateStaticImageDataAccessInterface {
+@Component
+public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface, MapsDataAccessInterface {
 
     GeoApiContext context;
+
 
     //ONLY use for this is to shut down the context on close
     public GeoApiContext getContext() {
         return context;
     }
 
-    public APIDataAccessObject()
+
+    public APIDataAccessObject(ResourceLoader resourceLoader, @Value("${spring.cloud.gcp.maps-api-key.location}") String apiKeyLocation)
     {
-        //TODO: set api key with variable name "MAPS_API_KEY" in intellij environment variables
+        Resource resource = resourceLoader.getResource(apiKeyLocation);
+        String apiKey;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+            apiKey = reader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         context = new GeoApiContext.Builder()
-                .apiKey(System.getenv("MAPS_API_KEY"))
+                .apiKey(apiKey)
                 .build();
     }
+
     @Override
-    public Map<String, String> getStaticMaps(Timetable timetable) {
+    public Map<String, String> getStaticMaps(Timetable timetable) throws ApiException, InterruptedException, IOException {
         /**
          * Gets daily routes for every day in the timetable
          * @return a map with keys of the days of the week and values of filepaths to the images
@@ -58,17 +70,16 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                     .origin(classAddresses.get(0))
                     .destination(classAddresses.get(classAddresses.size() - 1))
                     .mode(TravelMode.WALKING);
-
+            String waypoints = "";
             for(String location : classAddresses.subList(1, classAddresses.size() - 1))
             {
-                request.waypoints(location);
+                waypoints += location + "|";
             }
-            try {
-                res = request.await();
-                polyline = res.routes[0].overviewPolyline;
-            } catch (ApiException | InterruptedException | IOException e) {
-                throw new RuntimeException(e);
-            }
+
+            request.waypoints(waypoints);
+
+            res = request.await();
+            polyline = res.routes[0].overviewPolyline;
 
             for(int i = 0; i < classAddresses.size(); i++)
             {
@@ -86,15 +97,14 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                 imgReq.markers(marker);
             }
 
-            try {
-                byte[] data = imgReq.await().imageData;
-                ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-                BufferedImage output = ImageIO.read(dataStream);
-                ImageIO.write(output, "jpg", new File(day + "Route" + ".jpg"));
-                mapLinks.put(day, day + "Route" + ".jpg");
-            } catch (ApiException | InterruptedException | IOException e) {
-                throw new RuntimeException(e);
-            }
+
+            byte[] data = imgReq.await().imageData;
+            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+            BufferedImage output = ImageIO.read(dataStream);
+            String capitalizedDay = day.substring(0,1).toUpperCase() + day.substring(1);
+            ImageIO.write(output, "jpg", new File("src/main/resources/images/" + capitalizedDay + "Route" + ".jpg"));
+            mapLinks.put(capitalizedDay, "src/main/resources/images/" + capitalizedDay + "Route" + ".jpg");
+
         }
         return mapLinks;
     }

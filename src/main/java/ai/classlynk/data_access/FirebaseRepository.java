@@ -1,40 +1,59 @@
 package ai.classlynk.data_access;
 
-import com.google.api.core.ApiFuture;
+import ai.classlynk.entity.*;
+import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
+import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
+import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
+import ai.classlynk.use_case.user_auth.logout.LogoutDataAccessInterface;
+import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-import ai.classlynk.entity.ClassBundle;
-import ai.classlynk.entity.Course;
-import ai.classlynk.entity.SClass;
 import org.springframework.stereotype.Repository;
+
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 @Repository
-public class FirebaseRepository {
+public class FirebaseRepository implements
+        ExploreCoursesDataAccessInterface,
+        SaveViewTimetablesDataAccessInterface,
+        LoginDataAccessInterface,
+        LogoutDataAccessInterface,
+        RegisterDataAccessInterface {
     @Resource
     private Firestore firestore;
 
-    // Test code for inserting one course into firebase
-    public void insertCourse() {
-        SClass tempClass = new SClass("mat137", "lec101", "01:00:00",
-                "02:00:00", "monday", "bahen", "somewhere there",
-                false);
-        List<SClass> classList = new ArrayList<>();
-        classList.add(tempClass);
-        ClassBundle tempBundle = new ClassBundle("mat137", classList);
-        List<ClassBundle> bundleList = new ArrayList<>();
-        bundleList.add(tempBundle);
-
-
-        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/mat137")
-                .set(new Course("meth", "mat137", "bad", bundleList, classList));
+    @Override
+    public Map<String, Course> loadCourses() {
+        return null;
     }
 
-    public void insertCourse(Course course) {
-        String courseId = course.getCourseId();
-        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/" + courseId)
-                .set(course);
+    @Override
+    public void saveTimetable(Timetable timetable) {
+
+    }
+
+    @Override
+    public void deleteTimetable(Timetable timetable) {
+
+    }
+
+    @Override
+    public Timetable[] getTimetables() {
+        return null;
+    }
+
+    @Override
+    public boolean existedByName(String Name) {
+        return false;
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void userCreate(String Name, String password) {
+
     }
 }
