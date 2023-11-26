@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: need to make this an entity probably
 public class User {
     @Id
     private String id;
