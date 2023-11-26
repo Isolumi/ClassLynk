@@ -1,40 +1,78 @@
 package ai.classlynk.data_access;
 
+import ai.classlynk.entity.*;
+import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
+import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
+import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-import ai.classlynk.entity.ClassBundle;
-import ai.classlynk.entity.Course;
-import ai.classlynk.entity.SClass;
+import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
+import ai.classlynk.use_case.generate_timetable.TimetableGeneratorDataAccessInterface;
+import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import org.springframework.stereotype.Repository;
+
 import javax.annotation.Resource;
+import java.util.concurrent.ExecutionException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
-public class FirebaseRepository {
+public class FirebaseRepository implements ExploreCoursesDataAccessInterface, TimetableGeneratorDataAccessInterface, SaveViewTimetablesDataAccessInterface {
     @Resource
     private Firestore firestore;
 
     // Test code for inserting one course into firebase
-    public void insertCourse() {
-        SClass tempClass = new SClass("mat137", "lec101", "01:00:00",
-                "02:00:00", "monday", "bahen", "somewhere there",
-                false);
-        List<SClass> classList = new ArrayList<>();
-        classList.add(tempClass);
-        ClassBundle tempBundle = new ClassBundle("mat137", classList);
-        List<ClassBundle> bundleList = new ArrayList<>();
-        bundleList.add(tempBundle);
+
+    public void insertCourse() throws ExecutionException, InterruptedException {
 
 
-        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/mat137")
-                .set(new Course("meth", "mat137", "bad", bundleList, classList));
+//        this.firestore.document("courses/ESS105")
+//                .set(new Course("Our home planet", "ESS105", "The nature and evolution of the Earth; plate tectonics; rocks and minerals; volcanism; geological time; fossils; geology of Ontario; environmental issues; and human interactions with the planet.", bundleList, tutorialList6));
     }
 
-    public void insertCourse(Course course) {
-        String courseId = course.getCourseId();
-        ApiFuture<WriteResult> apiFuture = this.firestore.document("courses/" + courseId)
-                .set(course);
+    @Override
+    public Map<String, Course> loadCourses() {
+        return null;
+    }
+
+    @Override
+    public float getRouteLength(String origin, String destination) {
+        return 0;
+    }
+
+
+    public void save(User user, Timetable timetable) {
+
+    }
+
+
+    public ArrayList<Timetable> load(User user) {
+        return null;
+    }
+
+
+    public void delete(User user, Timetable timetable) {
+
+    }
+
+    @Override
+    public void save(Timetable timetable) {
+
+    }
+
+    @Override
+    public Timetable[] getTimetables() {
+        return new Timetable[0];
+    }
+
+
+    public ArrayList<Timetable> load() {
+        return null;
+    }
+
+    @Override
+    public void delete(Timetable timetable) {
+
     }
 }
