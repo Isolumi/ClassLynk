@@ -1,3 +1,4 @@
 .idea/
 target/
 src/resources/config/serviceAccountKey.json
+src/main/resources/config/
