@@ -1,8 +1,11 @@
 package ai.classlynk.view;
 
+import ai.classlynk.interface_adapter.Login.LoginState;
+import ai.classlynk.interface_adapter.Login.LoginViewModel;
 import ai.classlynk.interface_adapter.Register.RegisterController;
 import ai.classlynk.interface_adapter.Register.RegisterState;
 import ai.classlynk.interface_adapter.Register.RegisterViewModel;
+import ai.classlynk.interface_adapter.ViewManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,17 +21,21 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
     public final String viewName = "Register";
 
     private final RegisterViewModel registerViewModel;
+    private final LoginViewModel loginViewModel;
     private final JTextField usernameInputField = new JTextField(15);
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
     private final RegisterController registerController;
+    private final ViewManagerModel viewManagerModel;
     private final JButton Register;
     private final JButton GoLogIn;
 
-    public RegisterView(RegisterController controller, RegisterViewModel registerViewModel) {
+    public RegisterView(RegisterController controller, RegisterViewModel registerViewModel, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
 
         this.registerController = controller;
         this.registerViewModel = registerViewModel;
+        this.loginViewModel = loginViewModel;
+        this.viewManagerModel = viewManagerModel;
         registerViewModel.addPropertyChangeListener(this);
         JLabel title = new JLabel(RegisterViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -45,6 +52,18 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
         buttons.add(Register);
         GoLogIn = new JButton(RegisterViewModel.GoLogIn_BUTTON_LABEL);
         buttons.add(GoLogIn);
+        GoLogIn.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(GoLogIn)) {
+                        LoginState loginState = loginViewModel.getState();
+                        loginViewModel.setState(loginState);
+                        loginViewModel.firePropertyChanged();
+                        viewManagerModel.setActiveView(loginViewModel.getViewName());
+                        viewManagerModel.firePropertyChanged();
+                        }
+                    }}
+        );
         Register.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {

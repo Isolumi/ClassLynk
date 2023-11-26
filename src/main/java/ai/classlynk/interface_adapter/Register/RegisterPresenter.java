@@ -23,14 +23,9 @@ public class RegisterPresenter implements RegisterOutputBoundary {
         this.loginViewModel = LoginViewModel;
     }
 
-    @Override
-    public void success(RegisterOutputData response) {
+    public void success() {
         // On success, switch to the login view.
-        LocalDateTime responseTime = LocalDateTime.parse(response.getCreationTime());
-        response.setCreationTime(responseTime.format(DateTimeFormatter.ofPattern("hh:mm:ss")));
-
         LoginState loginState = loginViewModel.getState();
-        loginState.setUsername(response.getUsername());
         this.loginViewModel.setState(loginState);
         loginViewModel.firePropertyChanged();
 
