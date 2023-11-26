@@ -1,10 +1,12 @@
 package ai.classlynk.use_case.user_auth.register;
 
-public class RegisterInteractor {
+import ai.classlynk.entity.User;
+
+public class RegisterInteractor implements RegisterInputBoundary{
     final RegisterDAO RegisterDAO;
     final RegisterOutputBoundary RegisterOutputBoundary;
 
-    public RegisterInteractor(ai.classlynk.use_case.user_auth.register.RegisterDAO registerDAO, ai.classlynk.use_case.user_auth.register.RegisterOutputBoundary registerOutputBoundary) {
+    public RegisterInteractor(RegisterDAO registerDAO, RegisterOutputBoundary registerOutputBoundary) {
         RegisterDAO = registerDAO;
         RegisterOutputBoundary = registerOutputBoundary;
     }
@@ -15,8 +17,7 @@ public class RegisterInteractor {
         } else if (inputData.getPw1().equals(inputData.getPw2())) {
          RegisterOutputBoundary.fail("Two Passwords are different!");
      }else
-     //user = 创建一个user
-     RegisterDAO.save(user);
-        RegisterOutputBoundary.success();
+     RegisterDAO.userCreate(inputData.getName(), inputData.getPw2());
+     RegisterOutputBoundary.success();
     }
 }
