@@ -50,7 +50,7 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
             timetablePanel.add(weekday, gbc);
         }
 
-        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables()[0];  // TODO: this only returns first timetable right now
+        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables().get(0);  // TODO: this only returns first timetable right now
         for (int i = 0; i < 5; i ++) {
             List<SClass> classes = timetable.getClasses().get(daysOfWeek[i].toLowerCase());
             for (SClass aClass : classes) {
