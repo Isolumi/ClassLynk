@@ -40,10 +40,10 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         JLabel title = new JLabel(loginViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        Label usernameInfo = new Label(
-                new JLabel(loginViewModel.USERNAME_LABEL), usernameInputField);
-        Label passwordInfo = new Label(
-                new JLabel(loginViewModel.PASSWORD_LABEL), passwordInputField);
+//        Label usernameInfo = new Label(
+//                new JLabel(loginViewModel.USERNAME_LABEL), usernameInputField);
+//        Label passwordInfo = new Label(
+//                new JLabel(loginViewModel.PASSWORD_LABEL), passwordInputField);
 
         JPanel buttons = new JPanel();
         Login = new JButton(LoginViewModel.Login_BUTTON_LABEL);
@@ -111,12 +111,12 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         }
     });
 
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(usernameErrorField);
-        this.add(passwordInfo);
-        this.add(passwordErrorField);
-        this.add(buttons);
+//        this.add(title);
+//        this.add(usernameInfo);
+//        this.add(usernameErrorField);
+//        this.add(passwordInfo);
+//        this.add(passwordErrorField);
+//        this.add(buttons);
 }
 
     /**

@@ -76,7 +76,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
             List<Timetable> tts = new ArrayList<>();
             Timetable ttt = new Timetable(tt);
             tts.add(ttt);
-            SaveViewTimetableOutputData timetables = new SaveViewTimetableOutputData(tts.toArray(new Timetable[0]));
+            SaveViewTimetableOutputData timetables = new SaveViewTimetableOutputData(tts);
             saveViewPresenter.prepareLoggedInView(timetables);
         }
     }
