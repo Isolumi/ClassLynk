@@ -10,15 +10,11 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.Size;
 import com.google.maps.model.TravelMode;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -110,6 +106,7 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                     imgReq.markers(marker);
                 }
 
+                mapMarkers.clear();
 
                 byte[] data = imgReq.await().imageData;
                 ByteArrayInputStream dataStream = new ByteArrayInputStream(data);

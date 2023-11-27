@@ -13,6 +13,7 @@ import ai.classlynk.use_case.static_maps.MapsInteractor;
 import ai.classlynk.view.MapsView;
 import ai.classlynk.view.SaveViewTimetableView;
 import ai.classlynk.view.ViewManager;
+import com.google.cloud.spring.data.firestore.repository.config.EnableReactiveFirestoreRepositories;
 import com.google.maps.errors.ApiException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication(scanBasePackages = "ai.classlynk")
+@EnableReactiveFirestoreRepositories(basePackages = "ai.classlynk")
 public class ClassLynkApplication {
 
     public static void main(String[] args) {
