@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class FirebaseDataAccessObject implements
@@ -55,12 +56,14 @@ public class FirebaseDataAccessObject implements
 
     @Override
     public void deleteTimetable(Timetable timetable) {
-
+        timetableRepository.delete(timetable).subscribe();
     }
 
     @Override
-    public Timetable[] getTimetables() {
-        return new Timetable[0];
+    public List<Timetable> getTimetables() {
+        Flux<Timetable> timetables = timetableRepository.findAll();
+        timetables.subscribe();
+        return timetables.collectList().block();
     }
 
     @Override
