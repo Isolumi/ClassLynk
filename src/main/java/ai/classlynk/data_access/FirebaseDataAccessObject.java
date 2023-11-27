@@ -9,6 +9,7 @@ import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,20 +32,25 @@ public class FirebaseDataAccessObject implements
     @Override
     public Map<String, Course> loadCourses() {
         Flux<Course> courses = courseRepository.findAll();
-        List<Course> courseList = courses.collectList().block();
-        if (courseList == null) {
-            return null;
-        }
-        Map<String, Course> courseMap = new HashMap<>();
-        for (Course course : courseList) {
-            courseMap.put(course.getCourseId(), course);
-        }
-        return courseMap;
+        Mono<Map<String, Course>> courseMap = courses.collectMap(Course::getCourseId);
+        courseMap.subscribe();
+
+        return courseMap.block();
+        /*
+        This is the code to use if we wanted to return a Mono<Map<String, Course>>.
+        Blocking is not recommended in reactive programming.
+        The below code will return the items in Mono.
+        yourService.getCourseMap()
+            .subscribe(courseMap -> {
+                // Handle the resulting Map<Long, Course>
+                System.out.println("Map of courses: " + courseMap);
+            });
+         */
     }
 
     @Override
     public void saveTimetable(Timetable timetable) {
-
+        timetableRepository.save(timetable).subscribe();
     }
 
     @Override
