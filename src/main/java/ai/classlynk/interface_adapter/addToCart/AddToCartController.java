@@ -7,14 +7,14 @@ import ai.classlynk.use_case.AddToCart.AddToCartInputBoundary;
 import ai.classlynk.use_case.AddToCart.AddToCartInputData;
 
 public class AddToCartController {
-    private final AddToCartInputBoundary interactor;
+    private final AddToCartInputBoundary addToCartInteractor;
 
     public AddToCartController(AddToCartInputBoundary interactor) {
-        this.interactor = interactor;
+        this.addToCartInteractor = interactor;
     }
 
     public void addToCart(Course course, ClassBundle classBundle, SClass sClass) {
         AddToCartInputData inputData = new AddToCartInputData(course, classBundle, sClass);
-        interactor.addToCart(inputData);
+        addToCartInteractor.addToCart(inputData);
     }
 }
