@@ -10,6 +10,8 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -29,7 +31,15 @@ public class FirebaseDataAccessObject implements
     @Override
     public Map<String, Course> loadCourses() {
         Flux<Course> courses = courseRepository.findAll();
-        return null;
+        List<Course> courseList = courses.collectList().block();
+        if (courseList == null) {
+            return null;
+        }
+        Map<String, Course> courseMap = new HashMap<>();
+        for (Course course : courseList) {
+            courseMap.put(course.getCourseId(), course);
+        }
+        return courseMap;
     }
 
     @Override
