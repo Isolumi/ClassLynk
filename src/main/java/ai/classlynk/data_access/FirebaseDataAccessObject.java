@@ -11,10 +11,8 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Component
 public class FirebaseDataAccessObject implements
@@ -30,6 +28,10 @@ public class FirebaseDataAccessObject implements
     @Resource
     private UserRepository userRepository;
 
+    /**
+     *
+     * @return all courses stored in firestore
+     */
     @Override
     public Map<String, Course> loadCourses() {
         Flux<Course> courses = courseRepository.findAll();
@@ -49,16 +51,28 @@ public class FirebaseDataAccessObject implements
          */
     }
 
+    /**
+     *
+     * @param timetable the timetable to be stored in firestore
+     */
     @Override
     public void saveTimetable(Timetable timetable) {
         timetableRepository.save(timetable).subscribe();
     }
 
+    /**
+     *
+     * @param timetable the timetable to be deleted from firestore
+     */
     @Override
     public void deleteTimetable(Timetable timetable) {
         timetableRepository.delete(timetable).subscribe();
     }
 
+    /**
+     *
+     * @return returns all timetables of user in firestore
+     */
     @Override
     public List<Timetable> getTimetables() {
         Flux<Timetable> timetables = timetableRepository.findAll();
