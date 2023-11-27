@@ -2,13 +2,14 @@ package ai.classlynk.use_case.save_view_timetables;
 
 import ai.classlynk.entity.Timetable;
 
+import java.util.List;
 public interface SaveViewTimetablesDataAccessInterface {
     //save timetable linked to the user
-    void save(Timetable timetable);
-
-    //load timetables linked to the user
-    Timetable[] getTimetables();
+    void saveTimetable(Timetable timetable);
 
     //delete a timetable linked to the user
-    void delete(Timetable timetable);
+    void deleteTimetable(Timetable timetable);
+
+    //load timetables linked to the user
+    List<Timetable> getTimetables();
 }

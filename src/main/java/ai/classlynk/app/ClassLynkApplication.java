@@ -100,6 +100,7 @@ public class ClassLynkApplication {
         wed.add(d);
         java.util.List<SClass> thur = new ArrayList<>();
         thur.add(e);
+        thur.add(a);
         List<SClass> fri = new ArrayList<>();
         fri.add(f);
         fri.add(g);

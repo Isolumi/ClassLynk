@@ -1,10 +1,10 @@
 package ai.classlynk.use_case.user_auth.register;
 
 public class RegisterInteractor implements RegisterInputBoundary{
-    final RegisterDAO RegisterDAO;
+    final RegisterDataAccessInterface RegisterDAO;
     final RegisterOutputBoundary RegisterOutputBoundary;
 
-    public RegisterInteractor(RegisterDAO registerDAO, RegisterOutputBoundary registerOutputBoundary) {
+    public RegisterInteractor(RegisterDataAccessInterface registerDAO, RegisterOutputBoundary registerOutputBoundary) {
         RegisterDAO = registerDAO;
         RegisterOutputBoundary = registerOutputBoundary;
     }
