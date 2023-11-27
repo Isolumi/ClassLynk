@@ -22,7 +22,7 @@ public class AddToCartInteractor implements AddToCartInputBoundary {
         if (user.getCourseKart().contains(course)) {
             if (user.getClassKart().contains(classBundle.getClasses().get(1))) {
                 if (user.getClassKart().contains(tutorial)) {
-                    presenter.presentResponse(new AddToCartOutputData(false, "CourseBundle and SClass Already Added", user.getCourseKart()));
+                    presenter.presentResponse(new AddToCartOutputData(false, "CourseBundle and SClass Already Added", user.getCourseKart(), user.getClassKart()));
                 } else {
                     for (SClass addedSClass : course.getTutorials()) {
                         if (user.getClassKart().contains(addedSClass)) {
@@ -32,7 +32,7 @@ public class AddToCartInteractor implements AddToCartInputBoundary {
                         }
                     }
                     user.getClassKart().add(tutorial);
-                    presenter.presentResponse(new AddToCartOutputData(true, "SClass Successfully Added", user.getCourseKart()));
+                    presenter.presentResponse(new AddToCartOutputData(true, "SClass Successfully Added", user.getCourseKart(), user.getClassKart()));
                 }
             } else {
                 for (ClassBundle addedBundle : course.getClassBundles()) {
@@ -48,7 +48,7 @@ public class AddToCartInteractor implements AddToCartInputBoundary {
                     user.getClassKart().add(newSClass);
                 }
                 user.getClassKart().add(tutorial);
-                presenter.presentResponse(new AddToCartOutputData(true, "CourseBundle and SClass Successfully Added", user.getCourseKart()));
+                presenter.presentResponse(new AddToCartOutputData(true, "CourseBundle and SClass Successfully Added", user.getCourseKart(), user.getClassKart()));
             }
         } else {
             List<Course> updatedCourseKart = user.getCourseKart();
@@ -58,12 +58,12 @@ public class AddToCartInteractor implements AddToCartInputBoundary {
                 user.getClassKart().add(sClass);
             }
             if (tutorial == null) {
-                presenter.presentResponse(new AddToCartOutputData(true, "Course and CourseBundle Successfully Added", user.getCourseKart()));
+                presenter.presentResponse(new AddToCartOutputData(true, "Course and CourseBundle Successfully Added", user.getCourseKart(), user.getClassKart()));
             } else {
                 List<SClass> updatedSClassKart = user.getClassKart();
                 updatedSClassKart.add(tutorial);
                 user.setCourseKart(updatedCourseKart);
-                presenter.presentResponse(new AddToCartOutputData(true, "Course, CourseBundle and SClass Successfully Added", user.getCourseKart()));
+                presenter.presentResponse(new AddToCartOutputData(true, "Course, CourseBundle and SClass Successfully Added", user.getCourseKart(), user.getClassKart()));
             }
         }
 
