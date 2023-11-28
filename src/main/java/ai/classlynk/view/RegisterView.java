@@ -53,7 +53,6 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
         JLabel repeatPasswordInfo = new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL);
         usernameInfo.setText(String.valueOf(repeatPasswordInputField));
 
-
         JPanel buttons = new JPanel();
         Register = new JButton(RegisterViewModel.Register_BUTTON_LABEL);
         buttons.add(Register);
@@ -150,11 +149,11 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(passwordInfo);
-        this.add(repeatPasswordInfo);
-        this.add(buttons);
+//        this.add(title);
+//        this.add(usernameInfo);
+//        this.add(passwordInfo);
+//        this.add(repeatPasswordInfo);
+//        this.add(buttons);
     }
 
     /**

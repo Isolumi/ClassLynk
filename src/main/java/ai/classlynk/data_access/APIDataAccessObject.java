@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Component
 public class APIDataAccessObject implements TimetableGeneratorDataAccessInterface, MapsDataAccessInterface {
 
     GeoApiContext context;
