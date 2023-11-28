@@ -1,5 +1,6 @@
 package ai.classlynk.view;
 
+import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.Login.LoginState;
 import ai.classlynk.interface_adapter.Login.LoginViewModel;
 import ai.classlynk.interface_adapter.Register.RegisterController;
@@ -30,6 +31,11 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
     private final JButton Register;
     private final JButton GoLogIn;
 
+    BackButtonController backButtonController;
+
+    public void setBackButtonController(BackButtonController backButtonController) {
+        this.backButtonController = backButtonController;
+    }
     public RegisterView(RegisterController controller, RegisterViewModel registerViewModel, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
 
         this.registerController = controller;

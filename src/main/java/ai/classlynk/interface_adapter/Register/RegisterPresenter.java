@@ -2,11 +2,16 @@ package ai.classlynk.interface_adapter.Register;
 
 import ai.classlynk.interface_adapter.Login.LoginState;
 import ai.classlynk.interface_adapter.Login.LoginViewModel;
+import ai.classlynk.interface_adapter.Presenter;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.use_case.user_auth.register.RegisterOutputBoundary;
 
-public class RegisterPresenter implements RegisterOutputBoundary {
+public class RegisterPresenter implements RegisterOutputBoundary, Presenter {
 
+
+    public ViewManagerModel getViewManagerModel() {
+        return viewManagerModel;
+    }
     private final RegisterViewModel registerViewModel;
     private final LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;

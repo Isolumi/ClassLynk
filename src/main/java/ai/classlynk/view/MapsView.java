@@ -1,6 +1,6 @@
 package ai.classlynk.view;
 
-import ai.classlynk.interface_adapter.static_maps.BackButtonController;
+import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.static_maps.MapsState;
 import ai.classlynk.interface_adapter.static_maps.MapsViewModel;
 
@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 

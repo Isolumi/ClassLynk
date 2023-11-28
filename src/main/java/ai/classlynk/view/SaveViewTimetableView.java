@@ -2,6 +2,7 @@ package ai.classlynk.view;
 
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
+import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
 
@@ -18,16 +19,34 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
     private final SaveViewTimetableViewModel saveViewTimetableViewModel;
     private final SaveViewTimetableController saveViewTimetableController;
 
+    BackButtonController backButtonController;
+
+    JButton backButton;
+
+    public void setBackButtonController(BackButtonController backButtonController) {
+        this.backButtonController = backButtonController;
+    }
     public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController) {
         this.saveViewTimetableViewModel = saveViewTimetableViewModel;
         this.saveViewTimetableController = saveViewTimetableController;
         saveViewTimetableViewModel.addPropertyChangeListener(this);
         String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        backButton = new JButton("Go Back");
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel(SaveViewTimetableViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JPanel title = new JPanel(new BorderLayout());
+
+        JPanel buttonPanel = new JPanel();
+        JButton backButton = new JButton("Back");
+        buttonPanel.add(backButton);
+
+        title.add(buttonPanel, BorderLayout.WEST);
+
+        JLabel titleLabel = new JLabel(SaveViewTimetableViewModel.TITLE_LABEL);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        title.add(titleLabel, BorderLayout.CENTER);
+
 
         JPanel timetablePanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -64,6 +83,15 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
                 timetablePanel.add(clas, gbc);
             }
         }
+
+        backButton.addActionListener(
+                e -> {
+                    if(e.getSource().equals(backButton))
+                    {
+                        backButtonController.execute();
+                    }
+                }
+        );
 
         this.add(title);
         this.add(timetablePanel);
