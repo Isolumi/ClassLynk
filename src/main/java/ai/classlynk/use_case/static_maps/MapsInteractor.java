@@ -19,12 +19,18 @@ public class MapsInteractor implements MapsInputBoundary{
     @Override
     public void execute(MapsInputData mapsInputData) {
         Map<String, String> data = null;
+        boolean fail = false;
         try {
             data = mapsDataAccessObject.getStaticMaps(mapsInputData.getTimetable());
         } catch (ApiException | InterruptedException | IOException e) {
             mapsPresenter.prepareFailView("Unable to generate images. Please try again.");
+            fail = true;
         }
-        MapsOutputData mapsOutputData = new MapsOutputData(data, false, mapsInputData.getTimetable());
-        mapsPresenter.prepareSuccessView(mapsOutputData);
+        if(!fail)
+        {
+            MapsOutputData mapsOutputData = new MapsOutputData(data, false, mapsInputData.getTimetable());
+            mapsPresenter.prepareSuccessView(mapsOutputData);
+        }
+
     }
 }

@@ -65,59 +65,59 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
         ArrayList<StaticMapsRequest.Markers> mapMarkers = new ArrayList<>();
         for(String day : timetable.getClasses().keySet())
         {
-//            ArrayList<String> classAddresses = new ArrayList<>();
-//            for(SClass oneClass : timetable.getClasses().get(day))
-//            {
-//                classAddresses.add(oneClass.getLocation());
-//            }
-//
+            ArrayList<String> classAddresses = new ArrayList<>();
+            for(SClass oneClass : timetable.getClasses().get(day))
+            {
+                classAddresses.add(oneClass.getLocation());
+            }
+
             String capitalizedDay = day.substring(0, 1).toUpperCase() + day.substring(1);
-//            if(classAddresses.size() > 1)
-//            {
-//                DirectionsApiRequest request =  DirectionsApi.newRequest(context)
-//                        .origin(classAddresses.get(0))
-//                        .destination(classAddresses.get(classAddresses.size() - 1))
-//                        .mode(TravelMode.WALKING);
-//                String waypoints = "";
-//                for(String location : classAddresses.subList(1, classAddresses.size() - 1))
-//                {
-//                    waypoints += location + "|";
-//                }
-//
-//                request.waypoints(waypoints);
-//
-//                res = request.await();
-//                polyline = res.routes[0].overviewPolyline;
-//
-//                for(int i = 0; i < classAddresses.size(); i++)
-//                {
-//                    StaticMapsRequest.Markers marker = new StaticMapsRequest.Markers();
-//                    marker.addLocation(classAddresses.get(i));
-//                    marker.label(Integer.toString(i + 1));
-//                    mapMarkers.add(marker);
-//                }
-//
-//                StaticMapsRequest imgReq = StaticMapsApi.newRequest(context, new Size(1000, 1000))
-//                        .path(polyline);
-//
-//                for(StaticMapsRequest.Markers marker : mapMarkers)
-//                {
-//                    imgReq.markers(marker);
-//                }
-//
-//                mapMarkers.clear();
-//
-//                byte[] data = imgReq.await().imageData;
-//                ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-//                BufferedImage output = ImageIO.read(dataStream);
+            if(classAddresses.size() > 1)
+            {
+                DirectionsApiRequest request =  DirectionsApi.newRequest(context)
+                        .origin(classAddresses.get(0))
+                        .destination(classAddresses.get(classAddresses.size() - 1))
+                        .mode(TravelMode.WALKING);
+                String waypoints = "";
+                for(String location : classAddresses.subList(1, classAddresses.size() - 1))
+                {
+                    waypoints += location + "|";
+                }
+
+                request.waypoints(waypoints);
+
+                res = request.await();
+                polyline = res.routes[0].overviewPolyline;
+
+                for(int i = 0; i < classAddresses.size(); i++)
+                {
+                    StaticMapsRequest.Markers marker = new StaticMapsRequest.Markers();
+                    marker.addLocation(classAddresses.get(i));
+                    marker.label(Integer.toString(i + 1));
+                    mapMarkers.add(marker);
+                }
+
+                StaticMapsRequest imgReq = StaticMapsApi.newRequest(context, new Size(1000, 1000))
+                        .path(polyline);
+
+                for(StaticMapsRequest.Markers marker : mapMarkers)
+                {
+                    imgReq.markers(marker);
+                }
+
+                mapMarkers.clear();
+
+                byte[] data = imgReq.await().imageData;
+                ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+                BufferedImage output = ImageIO.read(dataStream);
                 File f = new File("src/main/resources/images/" + capitalizedDay + "Route" + ".jpg");
-//                ImageIO.write(output, "jpg", f);
+                ImageIO.write(output, "jpg", f);
                 mapLinks.put(capitalizedDay, f.getAbsolutePath());
-//            }
-//            else
-//            {
-//                mapLinks.put(capitalizedDay, "no image");
-//            }
+            }
+            else
+            {
+                mapLinks.put(capitalizedDay, "no image");
+            }
         }
         return mapLinks;
     }

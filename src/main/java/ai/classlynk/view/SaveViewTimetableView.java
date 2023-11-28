@@ -5,6 +5,8 @@ import ai.classlynk.entity.Timetable;
 import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
+import ai.classlynk.interface_adapter.static_maps.MapsController;
+import ai.classlynk.interface_adapter.static_maps.MapsViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,37 +18,33 @@ import java.util.List;
 
 public class SaveViewTimetableView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "Your Timetables";
-    private final SaveViewTimetableViewModel saveViewTimetableViewModel;
-    private final SaveViewTimetableController saveViewTimetableController;
 
     BackButtonController backButtonController;
 
     JButton backButton;
 
+    JButton generateMapsButton;
+
     public void setBackButtonController(BackButtonController backButtonController) {
         this.backButtonController = backButtonController;
     }
-    public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController) {
-        this.saveViewTimetableViewModel = saveViewTimetableViewModel;
-        this.saveViewTimetableController = saveViewTimetableController;
+    public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController, MapsController mapsController) {
         saveViewTimetableViewModel.addPropertyChangeListener(this);
         String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         backButton = new JButton("Go Back");
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        JPanel title = new JPanel(new BorderLayout());
+        JPanel title = new JPanel();
+        title.setLayout(new BoxLayout(title, BoxLayout.X_AXIS));
 
-        JPanel buttonPanel = new JPanel();
-        JButton backButton = new JButton("Back");
-        buttonPanel.add(backButton);
-
-        title.add(buttonPanel, BorderLayout.WEST);
+        title.add(backButton);
+        title.add(Box.createHorizontalGlue());
 
         JLabel titleLabel = new JLabel(SaveViewTimetableViewModel.TITLE_LABEL);
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        title.add(titleLabel, BorderLayout.CENTER);
+        title.add(titleLabel);
 
+        title.add(Box.createHorizontalGlue());
 
         JPanel timetablePanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -83,6 +81,8 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
                 timetablePanel.add(clas, gbc);
             }
         }
+        generateMapsButton = new JButton("View Maps");
+        timetablePanel.add(generateMapsButton);
 
         backButton.addActionListener(
                 e -> {
@@ -90,6 +90,16 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
                     {
                         backButtonController.execute();
                     }
+                }
+        );
+
+        //TODO: this and the creation of the button will need to be in a for loop if multiple timetables are displayed at once
+        generateMapsButton.addActionListener(
+                e -> {
+                        if(e.getSource().equals(generateMapsButton))
+                        {
+                            mapsController.execute(timetable);
+                        }
                 }
         );
 

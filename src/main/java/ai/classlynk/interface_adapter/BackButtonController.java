@@ -9,10 +9,10 @@ public class BackButtonController {
 
     private ViewModel previousMenuViewModel;
 
-    public BackButtonController(Presenter presenter, ViewModel saveViewTimetableViewModel)
+    public BackButtonController(Presenter presenter, ViewModel viewModel)
     {
         this.presenter = presenter;
-        this.previousMenuViewModel = saveViewTimetableViewModel;
+        this.previousMenuViewModel = viewModel;
     }
 
     public void execute()

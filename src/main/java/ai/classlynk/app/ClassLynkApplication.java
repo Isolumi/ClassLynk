@@ -55,19 +55,22 @@ public class ClassLynkApplication {
         JPanel views = new JPanel(cardLayout);
         application.add(views);
 
+
+
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
 
-        SaveViewTimetableView saveViewTimetableView = getSaveViewTimetableView(viewManagerModel);
-
-
-        views.add(saveViewTimetableView, saveViewTimetableView.viewName);
 
         APIDataAccessObject apa = new APIDataAccessObject();
         MapsViewModel mapsViewModel = new MapsViewModel();
         MapsPresenter mapsPresenter = new MapsPresenter(mapsViewModel, viewManagerModel);
         MapsInteractor mapsInteractor = new MapsInteractor(apa, mapsPresenter);
         MapsController mapsController = MapsUseCaseFactory.createMapsUseCase(viewManagerModel, apa, mapsViewModel);
+
+        SaveViewTimetableView saveViewTimetableView = getSaveViewTimetableView(viewManagerModel, mapsController);
+
+        views.add(saveViewTimetableView, saveViewTimetableView.viewName);
+
         BackButtonController backButtonController = new BackButtonController(mapsPresenter, new SaveViewTimetableViewModel());
 
 
@@ -140,7 +143,7 @@ public class ClassLynkApplication {
     }
 
     @NotNull
-    private static SaveViewTimetableView getSaveViewTimetableView(ViewManagerModel viewManagerModel) {
+    private static SaveViewTimetableView getSaveViewTimetableView(ViewManagerModel viewManagerModel, MapsController mapsController) {
         // define view models
         SaveViewTimetableViewModel saveViewTimetableViewModel = new SaveViewTimetableViewModel();
 
@@ -158,12 +161,13 @@ public class ClassLynkApplication {
         SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController(
                 saveViewTimetableInteractor);
         saveViewTimetableController.execute(true);
-
-        // define views
-        return new SaveViewTimetableView(
+        SaveViewTimetableView saveViewTimetableView = new SaveViewTimetableView(
                 saveViewTimetableViewModel,
-                saveViewTimetableController
+                saveViewTimetableController, mapsController
         );
+        saveViewTimetableView.setBackButtonController(new BackButtonController(saveViewTimetablePresenter, new MapsViewModel()));
+        // define views
+        return saveViewTimetableView;
     }
 
 }

@@ -149,11 +149,11 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-//        this.add(title);
-//        this.add(usernameInfo);
-//        this.add(passwordInfo);
-//        this.add(repeatPasswordInfo);
-//        this.add(buttons);
+        this.add(title);
+        this.add(usernameInfo);
+        this.add(passwordInfo);
+        this.add(repeatPasswordInfo);
+        this.add(buttons);
     }
 
     /**

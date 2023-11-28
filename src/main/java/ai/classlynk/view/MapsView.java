@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.Map;
 import java.util.Objects;
 
@@ -68,6 +69,14 @@ public class MapsView extends JPanel implements PropertyChangeListener {
                     if(e.getSource().equals(backButton))
                     {
                         backButtonController.execute();
+                        for (String path : mapsViewModel.getState().getImageLocations().values()) {
+                            File file = new File(path);
+                            if (file.exists()) {
+                                Image image = Toolkit.getDefaultToolkit().getImage(path);
+                                image.flush();
+                                file.delete();
+                            }
+                        }
                     }
                 }
         );
@@ -97,27 +106,38 @@ public class MapsView extends JPanel implements PropertyChangeListener {
         }
     }
 
+    private ImageIcon getImageIcon(String path) {
+        Image image = Toolkit.getDefaultToolkit().getImage(path);
+        return new ImageIcon(image);
+    }
+
     private void updateFields(MapsState state) {
         Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
         Map<String, String> imageLocations = state.getImageLocations();
+
         for (int i = 0; i < 5; i++) {
             JPanel parent = (JPanel) menus.getComponent(i);
-            JLabel child = (JLabel) parent.getComponent(1);
-            switch (i) {
-                case 0 -> child.setText(formattedTimetable.get("Monday"));
-                case 1 -> child.setText(formattedTimetable.get("Tuesday"));
-                case 2 -> child.setText(formattedTimetable.get("Wednesday"));
-                case 3 -> child.setText(formattedTimetable.get("Thursday"));
-                case 4 -> child.setText(formattedTimetable.get("Friday"));
-            }
-            child = (JLabel) parent.getComponent(0);
-            switch (i) {
-                case 0 -> child.setIcon(new ImageIcon(imageLocations.get("Monday")));
-                case 1 -> child.setIcon(new ImageIcon(imageLocations.get("Tuesday")));
-                case 2 -> child.setIcon(new ImageIcon(imageLocations.get("Wednesday")));
-                case 3 -> child.setIcon(new ImageIcon(imageLocations.get("Thursday")));
-                case 4 -> child.setIcon(new ImageIcon(imageLocations.get("Friday")));
-            }
+            JLabel child = (JLabel) parent.getComponent(0);
+
+            ImageIcon newIcon = getImageIcon(imageLocations.get(getDayOfWeek(i)));
+            child.setIcon(newIcon);
+
+            JTextArea child2 = (JTextArea) parent.getComponent(1);
+            child2.setText(formattedTimetable.get(getDayOfWeek(i)));
+
+            parent.revalidate();
+            parent.repaint();
         }
+    }
+
+    private String getDayOfWeek(int i) {
+        return switch (i) {
+            case 0 -> "Monday";
+            case 1 -> "Tuesday";
+            case 2 -> "Wednesday";
+            case 3 -> "Thursday";
+            case 4 -> "Friday";
+            default -> "";
+        };
     }
 }
