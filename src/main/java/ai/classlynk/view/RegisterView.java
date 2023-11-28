@@ -40,12 +40,12 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
         JLabel title = new JLabel(RegisterViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        Label usernameInfo = new Label(
-                new JLabel(RegisterViewModel.USERNAME_LABEL), usernameInputField);
-        Label passwordInfo = new Label(
-                new JLabel(RegisterViewModel.PASSWORD_LABEL), passwordInputField);
-        Label repeatPasswordInfo = new Label(
-                new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
+//        Label usernameInfo = new Label(
+//                new JLabel(RegisterViewModel.USERNAME_LABEL), usernameInputField);
+//        Label passwordInfo = new Label(
+//                new JLabel(RegisterViewModel.PASSWORD_LABEL), passwordInputField);
+//        Label repeatPasswordInfo = new Label(
+//                new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
 
         JPanel buttons = new JPanel();
         Register = new JButton(RegisterViewModel.Register_BUTTON_LABEL);
@@ -143,11 +143,11 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(passwordInfo);
-        this.add(repeatPasswordInfo);
-        this.add(buttons);
+//        this.add(title);
+//        this.add(usernameInfo);
+//        this.add(passwordInfo);
+//        this.add(repeatPasswordInfo);
+//        this.add(buttons);
     }
 
     /**

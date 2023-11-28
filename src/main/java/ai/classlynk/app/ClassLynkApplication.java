@@ -7,6 +7,7 @@ import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableView
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInteractor;
 import ai.classlynk.view.SaveViewTimetableView;
 import ai.classlynk.view.ViewManager;
+import com.google.cloud.spring.data.firestore.repository.config.EnableReactiveFirestoreRepositories;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 
 @SpringBootApplication(scanBasePackages = "ai.classlynk")
+@EnableReactiveFirestoreRepositories(basePackages = "ai.classlynk")
 public class ClassLynkApplication {
 
     public static void main(String[] args) {
