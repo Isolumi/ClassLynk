@@ -1,10 +1,15 @@
 package ai.classlynk.interface_adapter.save_view_timetables;
 
+import ai.classlynk.interface_adapter.Presenter;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableOutputBoundary;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableOutputData;
 
-public class SaveViewTimetablePresenter implements SaveViewTimetableOutputBoundary {
+public class SaveViewTimetablePresenter implements SaveViewTimetableOutputBoundary, Presenter {
+
+    public ViewManagerModel getViewManagerModel() {
+        return viewManagerModel;
+    }
     private final SaveViewTimetableViewModel saveViewTimetableViewModel;
     private final ViewManagerModel viewManagerModel;
 

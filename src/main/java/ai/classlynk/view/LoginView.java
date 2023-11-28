@@ -1,5 +1,6 @@
 package ai.classlynk.view;
 
+import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.Login.LoginController;
 import ai.classlynk.interface_adapter.Login.LoginState;
 import ai.classlynk.interface_adapter.Login.LoginViewModel;
@@ -17,33 +18,41 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
-        public final String viewName = "Login";
+    public final String viewName = "Login";
 
-        private final LoginViewModel loginViewModel;
+    private final LoginViewModel loginViewModel;
 
-        private final RegisterViewModel registerViewModel;
-        private final JTextField usernameInputField = new JTextField(15);
-        private final JPasswordField passwordInputField = new JPasswordField(15);
-        private final JLabel usernameErrorField = new JLabel();
-        private final JLabel passwordErrorField = new JLabel();
-        private final LoginController loginController;
-        private final ViewManagerModel viewManagerModel;
-        private final JButton Login;
-        private final JButton GoRegister;
+    private final RegisterViewModel registerViewModel;
+    private final JTextField usernameInputField = new JTextField(15);
+    private final JPasswordField passwordInputField = new JPasswordField(15);
+    private final JLabel usernameErrorField = new JLabel();
+    private final JLabel passwordErrorField = new JLabel();
+    private final LoginController loginController;
+    private final ViewManagerModel viewManagerModel;
+    private final JButton Login;
+    private final JButton GoRegister;
+    JButton backButton;
+    BackButtonController backButtonController;
+
+    public void setBackButtonController(BackButtonController backButtonController) {
+        this.backButtonController = backButtonController;
+    }
     public LoginView(LoginController controller, LoginViewModel loginViewModel, RegisterViewModel registerViewModel, ViewManagerModel viewManagerModel) {
 
+        this.setLayout(new BorderLayout());
         this.loginController = controller;
         this.loginViewModel = loginViewModel;
         this.registerViewModel = registerViewModel;
         this.viewManagerModel = viewManagerModel;
         loginViewModel.addPropertyChangeListener(this);
-        JLabel title = new JLabel(loginViewModel.TITLE_LABEL);
+        JPanel title =  new JPanel();
+        title.add(new JLabel(loginViewModel.TITLE_LABEL));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-//        Label usernameInfo = new Label(
-//                new JLabel(loginViewModel.USERNAME_LABEL), usernameInputField);
-//        Label passwordInfo = new Label(
-//                new JLabel(loginViewModel.PASSWORD_LABEL), passwordInputField);
+        JLabel usernameInfo = new JLabel(loginViewModel.USERNAME_LABEL);
+        usernameInfo.setText(String.valueOf(usernameInputField));
+        JLabel passwordInfo = new JLabel(loginViewModel.PASSWORD_LABEL);
+        usernameInfo.setText(String.valueOf(passwordInputField));
 
         JPanel buttons = new JPanel();
         Login = new JButton(LoginViewModel.Login_BUTTON_LABEL);
@@ -75,6 +84,19 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 }
         );
+
+        backButton = new JButton("Go Back");
+
+        backButton.addActionListener(
+                e -> {
+                    if(e.getSource().equals(backButton))
+                    {
+                        backButtonController.execute();
+                    }
+                }
+        );
+
+        title.add(backButton);
         usernameInputField.addKeyListener(new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -111,12 +133,12 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         }
     });
 
-//        this.add(title);
-//        this.add(usernameInfo);
-//        this.add(usernameErrorField);
-//        this.add(passwordInfo);
-//        this.add(passwordErrorField);
-//        this.add(buttons);
+        this.add(title);
+        this.add(usernameInfo);
+        this.add(usernameErrorField);
+        this.add(passwordInfo);
+        this.add(passwordErrorField);
+        this.add(buttons);
 }
 
     /**

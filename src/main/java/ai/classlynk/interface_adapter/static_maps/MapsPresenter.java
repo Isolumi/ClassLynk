@@ -1,16 +1,20 @@
 package ai.classlynk.interface_adapter.static_maps;
 
+import ai.classlynk.interface_adapter.Presenter;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.use_case.static_maps.MapsOutputBoundary;
 import ai.classlynk.use_case.static_maps.MapsOutputData;
 
-public class MapsPresenter implements MapsOutputBoundary {
+public class MapsPresenter implements MapsOutputBoundary, Presenter {
 
     private final MapsViewModel mapsViewModel;
+
     private final ViewManagerModel viewManagerModel;
 
-    //TODO: add new view model for save/view so can go back
 
+    public ViewManagerModel getViewManagerModel() {
+        return viewManagerModel;
+    }
 
     public MapsPresenter(MapsViewModel mapsViewModel, ViewManagerModel viewManagerModel)
     {

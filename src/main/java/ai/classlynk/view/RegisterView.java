@@ -1,5 +1,6 @@
 package ai.classlynk.view;
 
+import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.Login.LoginState;
 import ai.classlynk.interface_adapter.Login.LoginViewModel;
 import ai.classlynk.interface_adapter.Register.RegisterController;
@@ -30,6 +31,11 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
     private final JButton Register;
     private final JButton GoLogIn;
 
+    BackButtonController backButtonController;
+
+    public void setBackButtonController(BackButtonController backButtonController) {
+        this.backButtonController = backButtonController;
+    }
     public RegisterView(RegisterController controller, RegisterViewModel registerViewModel, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
 
         this.registerController = controller;
@@ -40,12 +46,12 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
         JLabel title = new JLabel(RegisterViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-//        Label usernameInfo = new Label(
-//                new JLabel(RegisterViewModel.USERNAME_LABEL), usernameInputField);
-//        Label passwordInfo = new Label(
-//                new JLabel(RegisterViewModel.PASSWORD_LABEL), passwordInputField);
-//        Label repeatPasswordInfo = new Label(
-//                new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
+        JLabel usernameInfo = new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL);
+        usernameInfo.setText(String.valueOf(usernameInputField));
+        JLabel passwordInfo = new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL);
+        usernameInfo.setText(String.valueOf(passwordInputField));
+        JLabel repeatPasswordInfo = new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL);
+        usernameInfo.setText(String.valueOf(repeatPasswordInputField));
 
         JPanel buttons = new JPanel();
         Register = new JButton(RegisterViewModel.Register_BUTTON_LABEL);
@@ -143,11 +149,11 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-//        this.add(title);
-//        this.add(usernameInfo);
-//        this.add(passwordInfo);
-//        this.add(repeatPasswordInfo);
-//        this.add(buttons);
+        this.add(title);
+        this.add(usernameInfo);
+        this.add(passwordInfo);
+        this.add(repeatPasswordInfo);
+        this.add(buttons);
     }
 
     /**
