@@ -10,7 +10,6 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.Size;
 import com.google.maps.model.TravelMode;
-import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -35,17 +34,11 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
     /**
      * Creates Google Maps images with static routes
      * @param timetable The timetable to generate the routes for
-     * @return
-     * @throws ApiException
-     * @throws InterruptedException
-     * @throws IOException
+     * @return A map containing the days of the week, and the filepath to the route image for each day of the week
      */
     @Override
     public Map<String, String> getStaticMaps(Timetable timetable) throws ApiException, InterruptedException, IOException {
-        /**
-         * Gets daily routes for every day in the timetable
-         * @return a map with keys of the days of the week and values of filepaths to the images
-         */
+
         Map<String, String> mapLinks = new HashMap<>();
         DirectionsResult res;
         EncodedPolyline polyline;
@@ -116,7 +109,7 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
      *Gets and returns the length of the route by walk between the origin and destination in meters.
      * @param origin The starting location of the route
      * @param destination The end location of the route
-     * @return
+     * @return the length of the route in meters
      */
     @Override
     public float getRouteLength(String origin, String destination) {
