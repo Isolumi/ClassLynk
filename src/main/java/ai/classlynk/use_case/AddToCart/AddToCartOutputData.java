@@ -1,21 +1,31 @@
 package ai.classlynk.use_case.AddToCart;
 
 import ai.classlynk.entity.Course;
+import ai.classlynk.entity.SClass;
 
 import java.util.List;
 
 public class AddToCartOutputData {
     private boolean success;
     private String message;
-    private List<Course> updatedCart;
+    private List<Course> updatedCourseCart;
+    private List<SClass> updatedClassCart;
 
-    public AddToCartOutputData(boolean success, String message, List<Course> updatedCart) {
+    public AddToCartOutputData(boolean success, String message, List<Course> updatedCourseCart, List<SClass> updatedClassCart) {
         this.success = success;
         this.message = message;
-        this.updatedCart = updatedCart;
+        this.updatedCourseCart = updatedCourseCart;
+        this.updatedClassCart = updatedClassCart;
     }
 
-    // Getters for the properties
+    public List<SClass> getUpdatedClassCart() {
+        return updatedClassCart;
+    }
+
+    public void setUpdatedClassCart(List<SClass> updatedClassCart) {
+        this.updatedClassCart = updatedClassCart;
+    }
+
     public boolean isSuccess() {
         return success;
     }
@@ -24,8 +34,8 @@ public class AddToCartOutputData {
         return message;
     }
 
-    public List<Course> getUpdatedCart() {
-        return updatedCart;
+    public List<Course> getUpdatedCourseCart() {
+        return updatedCourseCart;
     }
 
     public void setSuccess(boolean success) {
@@ -37,6 +47,7 @@ public class AddToCartOutputData {
     }
 
     public void setUpdatedCart(List<Course> updatedCart) {
-        this.updatedCart = updatedCart;
+        this.updatedCourseCart = updatedCart;
     }
+
 }
