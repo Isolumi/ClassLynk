@@ -16,8 +16,7 @@ public class ViewCoursePresenter implements ViewCourseOutputBoundary {
 
     @Override
     public void presentResponse(ViewCourseOutputData response) {
-        // Populate the ViewModel with data and switch view.
-        viewCourseViewModel.setState(new ViewCourseState(response.getCourses()));
+        viewCourseViewModel.setState(new ViewCourseState(response.getAllCourses()));
         viewCourseViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(viewCourseViewModel.getViewName());

@@ -3,89 +3,99 @@ package ai.classlynk.view;
 import ai.classlynk.entity.ClassBundle;
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.SClass;
+import ai.classlynk.interface_adapter.ViewCourse.ViewCourseController;
+import ai.classlynk.interface_adapter.ViewCourse.ViewCourseViewModel;
+import ai.classlynk.interface_adapter.addToCart.AddToCartController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public class ViewCourseView extends JFrame {
-    private JPanel mainPanel;
-    private JList<Course> courseList;
-    private JPanel detailsPanel;
-    private DefaultListModel<Course> courseListModel;
-    private JLabel courseNameLabel;
-    private JLabel courseDescriptionLabel;
-    private JPanel classBundlesPanel;
-    private JPanel tutorialsPanel;
+public class ViewCourseView extends JPanel implements PropertyChangeListener {
+    private final ViewCourseViewModel courseViewModel;
+    private final ViewCourseController courseController;
+    private final AddToCartController addToCartController;
 
-    public ViewCourseView() {
-        setTitle("View Courses");
-        setSize(800, 600);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainPanel = new JPanel(new BorderLayout());
-        courseListModel = new DefaultListModel<>();
-        courseList = new JList<>(courseListModel);
-        courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        courseList.addListSelectionListener(e -> showCourseDetails(courseList.getSelectedValue()));
-        mainPanel.add(new JScrollPane(courseList), BorderLayout.WEST);
+    private JComboBox<Course> courseComboBox;
+    private JComboBox<ClassBundle> classBundleComboBox;
+    private JComboBox<SClass> tutorialComboBox;
+    private JButton addToCartButton;
 
-        detailsPanel = new JPanel();
-        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-        courseNameLabel = new JLabel();
-        courseDescriptionLabel = new JLabel();
-        classBundlesPanel = new JPanel(new FlowLayout());
-        tutorialsPanel = new JPanel(new FlowLayout());
+    public ViewCourseView(ViewCourseController courseController, ViewCourseViewModel courseViewModel, AddToCartController addToCartController) {
+        this.courseController = courseController;
+        this.courseViewModel = courseViewModel;
+        this.addToCartController = addToCartController;
 
-        detailsPanel.add(courseNameLabel);
-        detailsPanel.add(courseDescriptionLabel);
-        detailsPanel.add(new JLabel("Class Bundles:"));
-        detailsPanel.add(classBundlesPanel);
-        detailsPanel.add(new JLabel("Tutorials:"));
-        detailsPanel.add(tutorialsPanel);
-
-        mainPanel.add(detailsPanel, BorderLayout.CENTER);
-        add(mainPanel);
+        courseViewModel.addPropertyChangeListener(this);
+        initializeComponents();
+        layoutComponents();
+        setupInteractions();
     }
 
-    public void setCourses(List<Course> courses) {
-        courseListModel.clear();
+    private void initializeComponents() {
+        courseComboBox = new JComboBox<>();
+        classBundleComboBox = new JComboBox<>();
+        tutorialComboBox = new JComboBox<>();
+        addToCartButton = new JButton("Add to Cart");
+
+        updateCourses();
+    }
+
+    private void layoutComponents() {
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(new JLabel("Select Course:"));
+        this.add(courseComboBox);
+        this.add(new JLabel("Select Class Bundle:"));
+        this.add(classBundleComboBox);
+        this.add(new JLabel("Select Tutorial:"));
+        this.add(tutorialComboBox);
+        this.add(addToCartButton);
+    }
+
+    private void setupInteractions() {
+        courseComboBox.addActionListener(e -> {
+            Course selectedCourse = (Course) courseComboBox.getSelectedItem();
+            updateClassBundlesAndTutorials(selectedCourse);
+        });
+
+        addToCartButton.addActionListener(e -> {
+            Course selectedCourse = (Course) courseComboBox.getSelectedItem();
+            ClassBundle selectedBundle = (ClassBundle) classBundleComboBox.getSelectedItem();
+            SClass selectedTutorial = (SClass) tutorialComboBox.getSelectedItem();
+            addToCartController.addToCart(selectedCourse, selectedBundle, selectedTutorial);
+        });
+    }
+
+    private void updateCourses() {
+        courseComboBox.removeAllItems();
+        List<Course> courses = courseViewModel.getState().getCourses();
         for (Course course : courses) {
-            courseListModel.addElement(course);
+            courseComboBox.addItem(course);
         }
     }
 
-    private void showCourseDetails(Course course) {
-        if (course == null) return;
-        courseNameLabel.setText("Name: " + course.getCourseName());
-        courseDescriptionLabel.setText("Description: " + course.getCourseDescription());
+    private void updateClassBundlesAndTutorials(Course selectedCourse) {
+        classBundleComboBox.removeAllItems();
+        tutorialComboBox.removeAllItems();
 
-        classBundlesPanel.removeAll();
-        for (ClassBundle bundle : course.getClassBundles()) {
-            JButton bundleButton = new JButton(bundle.getLectureId());
-            bundleButton.addActionListener(e -> selectClassBundle(bundle));
-            classBundlesPanel.add(bundleButton);
+        if (selectedCourse != null) {
+            for (ClassBundle bundle : selectedCourse.getClassBundles()) {
+                classBundleComboBox.addItem(bundle);
+            }
+            for (SClass tutorial : selectedCourse.getTutorials()) {
+                tutorialComboBox.addItem(tutorial);
+            }
         }
+    }
 
-        tutorialsPanel.removeAll();
-        for (SClass tutorial : course.getTutorials()) {
-            JButton tutorialButton = new JButton(tutorial.getClassId());
-            tutorialButton.addActionListener(e -> selectTutorial(tutorial));
-            tutorialsPanel.add(tutorialButton);
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("state".equals(evt.getPropertyName())) {
+            updateCourses();
         }
-
-        detailsPanel.revalidate();
-        detailsPanel.repaint();
     }
-
-    private void selectClassBundle(ClassBundle bundle) {
-        // Implement the logic for when a classBundle is selected
-        JOptionPane.showMessageDialog(this, "Selected Class Bundle: " + bundle.getLectureId());
-    }
-
-    private void selectTutorial(SClass tutorial) {
-        // Implement the logic for when a tutorial is selected
-        JOptionPane.showMessageDialog(this, "Selected Tutorial: " + tutorial.getClassId());
-    }
-
 }
