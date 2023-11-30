@@ -31,9 +31,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         private final ViewManagerModel viewManagerModel;
         private final JButton Login;
         private final JButton GoRegister;
-      public void setBackButtonController(BackButtonController backButtonController) {
-        this.backButtonController = backButtonController;
-    }
     public LoginView(LoginController controller, LoginViewModel lginViewModel, RegisterViewModel rgisterViewModel, ViewManagerModel viwManagerModel) {
 
         this.setLayout(new BorderLayout());
@@ -81,19 +78,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 }
         );
-
-        backButton = new JButton("Go Back");
-
-        backButton.addActionListener(
-                e -> {
-                    if(e.getSource().equals(backButton))
-                    {
-                        backButtonController.execute();
-                    }
-                }
-        );
-
-        title.add(backButton);
         usernameInputField.addKeyListener(new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
