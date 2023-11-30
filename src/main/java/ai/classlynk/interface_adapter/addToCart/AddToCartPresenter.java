@@ -1,9 +1,11 @@
 package ai.classlynk.interface_adapter.addToCart;
 
 import ai.classlynk.interface_adapter.ViewManagerModel;
+import ai.classlynk.use_case.AddToCart.AddToCartInputBoundary;
+import ai.classlynk.use_case.AddToCart.AddToCartOutputBoundary;
 import ai.classlynk.use_case.AddToCart.AddToCartOutputData;
 
-public class AddToCartPresenter {
+public class AddToCartPresenter implements AddToCartOutputBoundary {
     private final AddToCartViewModel addToCartViewModel;
     private final ViewManagerModel viewManagerModel;
 
