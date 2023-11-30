@@ -31,14 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//@SpringBootApplication(scanBasePackages = "ai.classlynk")
-@EnableReactiveFirestoreRepositories(basePackages = "ai.classlynk")
+@SpringBootApplication(scanBasePackages = "ai.classlynk")
+//@EnableReactiveFirestoreRepositories(basePackages = "ai.classlynk")
 public class ClassLynkApplication {
 
     public static void main(String[] args) {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(ClassLynkApplication.class);
         builder.headless(false);
-        ConfigurableApplicationContext context = builder.run(args);
+        builder.run(args);
     }
     @Bean
     public CommandLineRunner commandLineRunner() {
