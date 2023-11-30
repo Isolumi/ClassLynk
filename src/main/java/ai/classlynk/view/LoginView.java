@@ -18,32 +18,29 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "Login";
+        public final String viewName = "Login";
 
-    private final LoginViewModel loginViewModel;
+        private final LoginViewModel loginViewModel;
 
-    private final RegisterViewModel registerViewModel;
-    private final JTextField usernameInputField = new JTextField(15);
-    private final JPasswordField passwordInputField = new JPasswordField(15);
-    private final JLabel usernameErrorField = new JLabel();
-    private final JLabel passwordErrorField = new JLabel();
-    private final LoginController loginController;
-    private final ViewManagerModel viewManagerModel;
-    private final JButton Login;
-    private final JButton GoRegister;
-    JButton backButton;
-    BackButtonController backButtonController;
-
-    public void setBackButtonController(BackButtonController backButtonController) {
+        private final RegisterViewModel registerViewModel;
+        private final JTextField usernameInputField = new JTextField(15);
+        private final JPasswordField passwordInputField = new JPasswordField(15);
+        private final JLabel usernameErrorField = new JLabel();
+        private final JLabel passwordErrorField = new JLabel();
+        private final LoginController loginController;
+        private final ViewManagerModel viewManagerModel;
+        private final JButton Login;
+        private final JButton GoRegister;
+      public void setBackButtonController(BackButtonController backButtonController) {
         this.backButtonController = backButtonController;
     }
-    public LoginView(LoginController controller, LoginViewModel loginViewModel, RegisterViewModel registerViewModel, ViewManagerModel viewManagerModel) {
+    public LoginView(LoginController controller, LoginViewModel lginViewModel, RegisterViewModel rgisterViewModel, ViewManagerModel viwManagerModel) {
 
         this.setLayout(new BorderLayout());
         this.loginController = controller;
-        this.loginViewModel = loginViewModel;
-        this.registerViewModel = registerViewModel;
-        this.viewManagerModel = viewManagerModel;
+        this.loginViewModel = lginViewModel;
+        this.registerViewModel = rgisterViewModel;
+        this.viewManagerModel = viwManagerModel;
         loginViewModel.addPropertyChangeListener(this);
         JPanel title =  new JPanel();
         title.add(new JLabel(loginViewModel.TITLE_LABEL));
