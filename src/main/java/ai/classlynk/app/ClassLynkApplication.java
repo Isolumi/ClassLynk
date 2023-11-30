@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootApplication(scanBasePackages = "ai.classlynk")
+//@SpringBootApplication(scanBasePackages = "ai.classlynk")
 @EnableReactiveFirestoreRepositories(basePackages = "ai.classlynk")
 public class ClassLynkApplication {
 

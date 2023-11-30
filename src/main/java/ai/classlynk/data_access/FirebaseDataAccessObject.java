@@ -2,6 +2,7 @@ package ai.classlynk.data_access;
 
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.Timetable;
+import ai.classlynk.entity.User;
 import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
@@ -88,5 +89,20 @@ public class FirebaseDataAccessObject implements
     @Override
     public void userCreate(String Name, String password) {
 
+    }
+
+    @Override
+    public boolean existsByName(String username) {
+        return false;
+    }
+
+    @Override
+    public User getUser(String username) {
+        return null;
+    }
+
+    @Override
+    public boolean verifyPassword(User user) {
+        return false;
     }
 }
