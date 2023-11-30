@@ -10,7 +10,6 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.Size;
 import com.google.maps.model.TravelMode;
-import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,27 +23,6 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
 
     GeoApiContext context;
 
-
-    //ONLY use for this is to shut down the context on close
-    public GeoApiContext getContext() {
-        return context;
-    }
-
-
-//    public APIDataAccessObject(ResourceLoader resourceLoader, @Value("${spring.cloud.gcp.maps-api-key.location}") String apiKeyLocation)
-//    {
-//        Resource resource = resourceLoader.getResource(apiKeyLocation);
-//        String apiKey;
-//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
-//            apiKey = reader.readLine();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        context = new GeoApiContext.Builder()
-//                .apiKey(apiKey)
-//                .build();
-//    }
-
     public APIDataAccessObject()
     {
         //TODO: set api key with variable name "MAPS_API_KEY" in intellij environment variables
@@ -53,12 +31,14 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                 .build();
     }
 
+    /**
+     * Creates Google Maps images with static routes
+     * @param timetable The timetable to generate the routes for
+     * @return A map containing the days of the week, and the filepath to the route image for each day of the week
+     */
     @Override
     public Map<String, String> getStaticMaps(Timetable timetable) throws ApiException, InterruptedException, IOException {
-        /**
-         * Gets daily routes for every day in the timetable
-         * @return a map with keys of the days of the week and values of filepaths to the images
-         */
+
         Map<String, String> mapLinks = new HashMap<>();
         DirectionsResult res;
         EncodedPolyline polyline;
@@ -72,6 +52,8 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
             }
 
             String capitalizedDay = day.substring(0, 1).toUpperCase() + day.substring(1);
+            /*generates route image if there are more than 1 class, otherwise puts a dummy path since a route
+            with one location is not sensible*/
             if(classAddresses.size() > 1)
             {
                 DirectionsApiRequest request =  DirectionsApi.newRequest(context)
@@ -79,6 +61,7 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                         .destination(classAddresses.get(classAddresses.size() - 1))
                         .mode(TravelMode.WALKING);
                 String waypoints = "";
+                //adding the waypoints (middle classes) to the route
                 for(String location : classAddresses.subList(1, classAddresses.size() - 1))
                 {
                     waypoints += location + "|";
@@ -88,7 +71,7 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
 
                 res = request.await();
                 polyline = res.routes[0].overviewPolyline;
-
+                //Creates markers for each class to display on the route image
                 for(int i = 0; i < classAddresses.size(); i++)
                 {
                     StaticMapsRequest.Markers marker = new StaticMapsRequest.Markers();
@@ -106,7 +89,7 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
                 }
 
                 mapMarkers.clear();
-
+                //Saves the image to a file and saves the path in a map
                 byte[] data = imgReq.await().imageData;
                 ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
                 BufferedImage output = ImageIO.read(dataStream);
@@ -122,6 +105,12 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
         return mapLinks;
     }
 
+    /**
+     *Gets and returns the length of the route by walk between the origin and destination in meters.
+     * @param origin The starting location of the route
+     * @param destination The end location of the route
+     * @return the length of the route in meters
+     */
     @Override
     public float getRouteLength(String origin, String destination) {
         DirectionsResult res;
