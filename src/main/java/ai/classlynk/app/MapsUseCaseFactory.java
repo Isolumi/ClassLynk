@@ -4,9 +4,10 @@ import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.interface_adapter.static_maps.MapsController;
 import ai.classlynk.interface_adapter.static_maps.MapsPresenter;
 import ai.classlynk.interface_adapter.static_maps.MapsViewModel;
-import ai.classlynk.use_case.static_maps.*;
-
-import java.util.Map;
+import ai.classlynk.use_case.static_maps.MapsDataAccessInterface;
+import ai.classlynk.use_case.static_maps.MapsInputBoundary;
+import ai.classlynk.use_case.static_maps.MapsInteractor;
+import ai.classlynk.use_case.static_maps.MapsOutputBoundary;
 
 public class MapsUseCaseFactory {
 
