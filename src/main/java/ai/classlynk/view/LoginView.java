@@ -30,16 +30,22 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         private final ViewManagerModel viewManagerModel;
         private final JButton Login;
         private final JButton GoRegister;
-    public LoginView(LoginController controller, LoginViewModel loginViewModel, RegisterViewModel registerViewModel, ViewManagerModel viewManagerModel) {
+    public LoginView(LoginController controller, LoginViewModel lginViewModel, RegisterViewModel rgisterViewModel, ViewManagerModel viwManagerModel) {
 
         this.loginController = controller;
-        this.loginViewModel = loginViewModel;
-        this.registerViewModel = registerViewModel;
-        this.viewManagerModel = viewManagerModel;
+        this.loginViewModel = lginViewModel;
+        this.registerViewModel = rgisterViewModel;
+        this.viewManagerModel = viwManagerModel;
         loginViewModel.addPropertyChangeListener(this);
         JLabel title = new JLabel(loginViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        class Label extends JPanel {
+            Label(JLabel label, JTextField textField) {
+                this.add(label);
+                this.add(textField);
+            }
+        }
         Label usernameInfo = new Label(
                 new JLabel(loginViewModel.USERNAME_LABEL), usernameInputField);
         Label passwordInfo = new Label(

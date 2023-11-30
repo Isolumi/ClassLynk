@@ -1,16 +1,18 @@
 package ai.classlynk.interface_adapter.Login;
 
 import ai.classlynk.interface_adapter.ViewManagerModel;
+import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableState;
+import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
 import ai.classlynk.use_case.user_auth.login.LoginOutputBoundary;
 import ai.classlynk.use_case.user_auth.login.LoginOutputData;
 
 public class LoginPresenter implements LoginOutputBoundary {
     private final LoginViewModel loginViewModel;
-    private final LoggedInViewModel loggedInViewModel;
+    private final SaveViewTimetableViewModel loggedInViewModel;
     private ViewManagerModel viewManagerModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
-                          LoggedInViewModel loggedInViewModel,
+                          SaveViewTimetableViewModel loggedInViewModel,
                           LoginViewModel loginViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
@@ -21,8 +23,7 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the logged in view.
 
-        LoggedInState loggedInState = loggedInViewModel.getState();
-        loggedInState.setUsername(response.getUsername());
+        SaveViewTimetableState loggedInState = loggedInViewModel.getState();
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
 
@@ -35,5 +36,5 @@ public class LoginPresenter implements LoginOutputBoundary {
         LoginState loginState = loginViewModel.getState();
         loginState.setUsernameError(error);
         loginViewModel.firePropertyChanged();
-    }
+    }}
 

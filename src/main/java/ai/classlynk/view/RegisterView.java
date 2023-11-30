@@ -30,15 +30,22 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
     private final JButton Register;
     private final JButton GoLogIn;
 
-    public RegisterView(RegisterController controller, RegisterViewModel registerViewModel, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
+    public RegisterView(RegisterController controller, RegisterViewModel rgisterViewModel, LoginViewModel lginViewModel, ViewManagerModel viwManagerModel) {
 
         this.registerController = controller;
-        this.registerViewModel = registerViewModel;
-        this.loginViewModel = loginViewModel;
-        this.viewManagerModel = viewManagerModel;
+        this.registerViewModel = rgisterViewModel;
+        this.loginViewModel = lginViewModel;
+        this.viewManagerModel = viwManagerModel;
         registerViewModel.addPropertyChangeListener(this);
         JLabel title = new JLabel(RegisterViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        class Label extends JPanel {
+            Label(JLabel label, JTextField textField) {
+                this.add(label);
+                this.add(textField);
+            }
+        }
 
         Label usernameInfo = new Label(
                 new JLabel(RegisterViewModel.USERNAME_LABEL), usernameInputField);
