@@ -1,58 +1,73 @@
 package ai.classlynk.view;
 
+import ai.classlynk.entity.ClassBundle;
+import ai.classlynk.entity.Course;
+import ai.classlynk.entity.SClass;
+import ai.classlynk.interface_adapter.addToCart.AddToCartController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.List;
 
 public class AddToCartView extends JFrame {
-    private JList<Course> courseList;
-    private JList<SClass> sClassList;
-    private JButton addButton; // This could be multiple buttons if needed
-    private AddToCartController controller;
+    private final AddToCartController addToCartController;
+    private JComboBox<Course> courseComboBox;
+    private JComboBox<ClassBundle> classBundleComboBox;
+    private JComboBox<SClass> sClassComboBox;
+    private JButton addToCartButton;
 
-    public AddToCartView(AddToCartController controller, AddToCartViewModel viewModel) {
-        this.controller = controller;
-        viewModel.addPropertyChangeListener(evt -> updateLists());
+    public AddToCartView(AddToCartController addToCartController) {
+        this.addToCartController = addToCartController;
+        initializeUI();
+    }
 
+    private void initializeUI() {
         setTitle("Add to Cart");
-        setSize(500, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(500, 300);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        courseList = new JList<>();
-        sClassList = new JList<>();
+        courseComboBox = new JComboBox<>();
+        classBundleComboBox = new JComboBox<>();
+        sClassComboBox = new JComboBox<>();
+        addToCartButton = new JButton("Add to Cart");
 
-        JPanel listPanel = new JPanel();
-        listPanel.setLayout(new GridLayout(1, 2));
-        listPanel.add(new JScrollPane(courseList));
-        listPanel.add(new JScrollPane(sClassList));
+        addToCartButton.addActionListener(this::handleAddToCartAction);
 
-        add(listPanel, BorderLayout.CENTER);
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(4, 2));
+        panel.add(new JLabel("Select Course:"));
+        panel.add(courseComboBox);
+        panel.add(new JLabel("Select Class Bundle:"));
+        panel.add(classBundleComboBox);
+        panel.add(new JLabel("Select SClass:"));
+        panel.add(sClassComboBox);
+        panel.add(addToCartButton);
 
-        addButton = new JButton("Add Item");
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Logic for adding items to the cart
-            }
-        });
-        add(addButton, BorderLayout.SOUTH);
+        add(panel, BorderLayout.CENTER);
     }
 
-    private void updateLists() {
-        // Logic to update the lists based on the ViewModel's state
-        AddToCartState state = controller.getViewModel().getState();
-        DefaultListModel<Course> courseModel = new DefaultListModel<>();
-        for (Course course : state.getCourseCart()) {
-            courseModel.addElement(course);
-        }
-        courseList.setModel(courseModel);
+    private void handleAddToCartAction(ActionEvent event) {
+        Course selectedCourse = (Course) courseComboBox.getSelectedItem();
+        ClassBundle selectedBundle = (ClassBundle) classBundleComboBox.getSelectedItem();
+        SClass selectedSClass = (SClass) sClassComboBox.getSelectedItem();
 
-        DefaultListModel<SClass> sClassModel = new DefaultListModel<>();
-        for (SClass sClass : state.getsClasses()) {
-            sClassModel.addElement(sClass);
+        if (selectedCourse != null && selectedBundle != null && selectedSClass != null) {
+            addToCartController.addToCart(selectedCourse, selectedBundle, selectedSClass);
         }
-        sClassList.setModel(sClassModel);
     }
+
+    public void setCourses(List<Course> courses) {
+        courseComboBox.setModel(new DefaultComboBoxModel<>(courses.toArray(new Course[0])));
+    }
+
+    public void setClassBundles(List<ClassBundle> classBundles) {
+        classBundleComboBox.setModel(new DefaultComboBoxModel<>(classBundles.toArray(new ClassBundle[0])));
+    }
+
+    public void setSClasses(List<SClass> sClasses) {
+        sClassComboBox.setModel(new DefaultComboBoxModel<>(sClasses.toArray(new SClass[0])));
+    }
+
 }
