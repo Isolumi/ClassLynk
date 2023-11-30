@@ -11,7 +11,7 @@ public class ViewCourseOutputData {
         this.course = courses;
     }
 
-    public List<Course> getCourse() {
+    public List<Course> getCourses() {
         return course;
     }
 }
