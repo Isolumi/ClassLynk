@@ -34,12 +34,11 @@ public class MapsView extends JPanel implements PropertyChangeListener {
 
         MapsState state = mapsViewModel.getState();
 
+        //Creates the menus containing the image of the route and the classes on the day in a text format for each day
         Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
         String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         for (String day : days) {
             JPanel dayPanel = new JPanel();
-//            dayPanel.add(new JLabel(new ImageIcon("../../../../resources/Images/" + day + "Route.jpg")));
-            //TODO: if below doesent work, use above line to manually get paths and can make generation function not return data
             dayPanel.add(new JLabel(new ImageIcon(state.getImageLocations().get(day))));
             JTextArea timetableText = new JTextArea(formattedTimetable.get(day));
             timetableText.setWrapStyleWord(true);
@@ -52,7 +51,7 @@ public class MapsView extends JPanel implements PropertyChangeListener {
         }
 
         JPanel topPanel = new JPanel(new BorderLayout());
-
+        //Creates switcher buttons for each day of the week
         JPanel daySwitcherButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
         for (String day : days) {
             JButton button = new JButton(day);
@@ -69,6 +68,7 @@ public class MapsView extends JPanel implements PropertyChangeListener {
                     if(e.getSource().equals(backButton))
                     {
                         backButtonController.execute();
+                        //Flushes image from cache and deletes image to ensure image is updated properly
                         for (String path : mapsViewModel.getState().getImageLocations().values()) {
                             File file = new File(path);
                             if (file.exists()) {
@@ -86,8 +86,6 @@ public class MapsView extends JPanel implements PropertyChangeListener {
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(menus, BorderLayout.CENTER);
-//        frame.add(topPanel, BorderLayout.NORTH);
-//        frame.add(menus, BorderLayout.CENTER);
 
     }
 
@@ -97,7 +95,7 @@ public class MapsView extends JPanel implements PropertyChangeListener {
         if(Objects.equals(state.getApiError(), "Unable to generate images. Please try again."))
         {
             JOptionPane.showMessageDialog(this, state.getApiError());
-            //brings user back to previous menu
+            //brings user back to previous menu by simulating a click on the back button
             backButton.doClick();
         }
         else
@@ -111,6 +109,10 @@ public class MapsView extends JPanel implements PropertyChangeListener {
         return new ImageIcon(image);
     }
 
+    /**
+     * Updates the state of the view to match the new timetable and images.
+     * @param state The new state to be used
+     */
     private void updateFields(MapsState state) {
         Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
         Map<String, String> imageLocations = state.getImageLocations();
