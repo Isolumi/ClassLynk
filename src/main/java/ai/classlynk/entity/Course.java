@@ -21,6 +21,7 @@ public class Course {
         this.classBundles = classBundles;
         this.tutorials = tutorialBundle;
     }
+    public Course(){}
 
     public List<SClass> getTutorials() {
         return tutorials;

@@ -12,6 +12,7 @@ public class Timetable {
     public Timetable(Map<String, List<SClass>> classes) {
         this.classes = classes;
     }
+    public Timetable(){}
 
     @DocumentId
     private Map<String, List<SClass>> classes;
