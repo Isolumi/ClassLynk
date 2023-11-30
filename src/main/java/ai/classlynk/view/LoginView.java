@@ -1,5 +1,6 @@
 package ai.classlynk.view;
 
+import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.Login.LoginController;
 import ai.classlynk.interface_adapter.Login.LoginState;
 import ai.classlynk.interface_adapter.Login.LoginViewModel;
@@ -30,26 +31,25 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         private final ViewManagerModel viewManagerModel;
         private final JButton Login;
         private final JButton GoRegister;
+      public void setBackButtonController(BackButtonController backButtonController) {
+        this.backButtonController = backButtonController;
+    }
     public LoginView(LoginController controller, LoginViewModel lginViewModel, RegisterViewModel rgisterViewModel, ViewManagerModel viwManagerModel) {
 
+        this.setLayout(new BorderLayout());
         this.loginController = controller;
         this.loginViewModel = lginViewModel;
         this.registerViewModel = rgisterViewModel;
         this.viewManagerModel = viwManagerModel;
         loginViewModel.addPropertyChangeListener(this);
-        JLabel title = new JLabel(loginViewModel.TITLE_LABEL);
+        JPanel title =  new JPanel();
+        title.add(new JLabel(loginViewModel.TITLE_LABEL));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        class Label extends JPanel {
-            Label(JLabel label, JTextField textField) {
-                this.add(label);
-                this.add(textField);
-            }
-        }
-        Label usernameInfo = new Label(
-                new JLabel(loginViewModel.USERNAME_LABEL), usernameInputField);
-        Label passwordInfo = new Label(
-                new JLabel(loginViewModel.PASSWORD_LABEL), passwordInputField);
+        JLabel usernameInfo = new JLabel(loginViewModel.USERNAME_LABEL);
+        usernameInfo.setText(String.valueOf(usernameInputField));
+        JLabel passwordInfo = new JLabel(loginViewModel.PASSWORD_LABEL);
+        usernameInfo.setText(String.valueOf(passwordInputField));
 
         JPanel buttons = new JPanel();
         Login = new JButton(LoginViewModel.Login_BUTTON_LABEL);
@@ -81,6 +81,19 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 }
         );
+
+        backButton = new JButton("Go Back");
+
+        backButton.addActionListener(
+                e -> {
+                    if(e.getSource().equals(backButton))
+                    {
+                        backButtonController.execute();
+                    }
+                }
+        );
+
+        title.add(backButton);
         usernameInputField.addKeyListener(new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
