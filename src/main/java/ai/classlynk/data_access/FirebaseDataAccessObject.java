@@ -8,7 +8,10 @@ import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessIn
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
 import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
 import com.google.cloud.spring.data.firestore.FirestoreReactiveRepository;
-import com.google.firebase.auth.*;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.auth.UserRecord.CreateRequest;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -30,7 +33,7 @@ public class FirebaseDataAccessObject implements
     @Resource
     private FirestoreReactiveRepository<User> userRepository;
 
-    private FirebaseAuth fireAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth fireAuth;
 
     /**
      *
@@ -89,8 +92,12 @@ public class FirebaseDataAccessObject implements
     }
 
     @Override
-    public void userCreate(String Name, String password) {
-
+    public void userCreate(String email, String password) throws FirebaseAuthException {
+        fireAuth = FirebaseAuth.getInstance();
+        CreateRequest request = new CreateRequest()
+                .setEmail(email)
+                .setPassword(password);
+        fireAuth.createUser(request);
     }
 
     @Override
