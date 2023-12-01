@@ -6,31 +6,51 @@ import ai.classlynk.entity.SClass;
 import java.util.List;
 
 public class AddToCartState {
-    private List<Course> courseCart;
-    private List<SClass> sClasses;
+    private boolean success;
 
-    public AddToCartState() {
+    public String getMessage() {
+        return message;
     }
 
-    public AddToCartState(AddToCartState copy) {
-        courseCart = copy.courseCart;
-        sClasses = copy.sClasses;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public List<Course> getCourseCart() {
-        return courseCart;
+    private String message;
+
+    public List<Course> getUpdatedCourseCart() {
+        return updatedCourseCart;
     }
 
-    public void setCourseCart(List<Course> courseCart) {
-        this.courseCart = courseCart;
+    public void setUpdatedCourseCart(List<Course> updatedCourseCart) {
+        this.updatedCourseCart = updatedCourseCart;
     }
 
-    public List<SClass> getsClasses() {
-        return sClasses;
+    private List<Course> updatedCourseCart;
+
+    public List<SClass> getUpdatedClassCart() {
+        return updatedClassCart;
     }
 
-    public void setsClasses(List<SClass> sClasses) {
-        this.sClasses = sClasses;
+    public void setUpdatedClassCart(List<SClass> updatedClassCart) {
+        this.updatedClassCart = updatedClassCart;
+    }
+
+    private List<SClass> updatedClassCart;
+
+    public AddToCartState(boolean success, String message, List<Course> updatedCourseCart, List<SClass> updatedClassCart) {
+        this.success = success;
+        this.message = message;
+        this.updatedCourseCart = updatedCourseCart;
+        this.updatedClassCart = updatedClassCart;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
 }

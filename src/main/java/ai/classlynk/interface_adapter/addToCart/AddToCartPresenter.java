@@ -1,28 +1,29 @@
 package ai.classlynk.interface_adapter.addToCart;
 
+
+import ai.classlynk.interface_adapter.Presenter;
 import ai.classlynk.interface_adapter.ViewManagerModel;
-import ai.classlynk.use_case.AddToCart.AddToCartInputBoundary;
 import ai.classlynk.use_case.AddToCart.AddToCartOutputBoundary;
 import ai.classlynk.use_case.AddToCart.AddToCartOutputData;
+import kotlin.jvm.internal.PackageReference;
 
-public class AddToCartPresenter implements AddToCartOutputBoundary {
+public class AddToCartPresenter implements AddToCartOutputBoundary, Presenter {
     private final AddToCartViewModel addToCartViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public AddToCartPresenter(AddToCartViewModel viewModel, ViewManagerModel viewManagerModel) {
-        this.addToCartViewModel = viewModel;
+    public AddToCartPresenter(AddToCartViewModel addToCartViewModel, ViewManagerModel viewManagerModel) {
+        this.addToCartViewModel = addToCartViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void presentResponse(AddToCartOutputData outputData) {
-        AddToCartState state = addToCartViewModel.getState();
-        state.setCourseCart(outputData.getUpdatedCourseCart());
-        state.setsClasses(outputData.getUpdatedClassCart());
-        this.addToCartViewModel.setState(state);
-        this.addToCartViewModel.firePropertyChanged();
+        addToCartViewModel.setAddToCartState(new AddToCartState(outputData.isSuccess(), outputData.getMessage(), outputData.getUpdatedCourseCart(), outputData.getUpdatedClassCart()));
+    }
 
-        this.viewManagerModel.setActiveView(addToCartViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+    @Override
+    public ViewManagerModel getViewManagerModel() {
+        return this.viewManagerModel;
     }
 }
+

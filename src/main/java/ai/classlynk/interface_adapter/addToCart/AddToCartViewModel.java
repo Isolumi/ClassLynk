@@ -1,35 +1,32 @@
 package ai.classlynk.interface_adapter.addToCart;
 
-import ai.classlynk.interface_adapter.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 
-public class AddToCartViewModel extends ViewModel {
+public class AddToCartViewModel {
     private AddToCartState state;
-
-    public static final String TITLE_LABEL = "Add to cart";
+    private final PropertyChangeSupport support;
 
     public AddToCartViewModel() {
-        super("Add to cart");
+        this.state = new AddToCartState(false, "", new ArrayList<>(), new ArrayList<>());
+        this.support = new PropertyChangeSupport(this);
     }
 
-    public void setState(AddToCartState state) {
+    public void setAddToCartState(AddToCartState state) {
         this.state = state;
+        firePropertyChanged();
     }
-
-    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public AddToCartState getState() {
-        return this.state;
+        return state;
     }
 
-    @Override
     public void firePropertyChanged() {
         support.firePropertyChange("state", null, this.state);
     }
 
-    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }

@@ -34,4 +34,5 @@ public class ViewCourseViewModel extends ViewModel {
     public ViewCourseState getState() {
         return state;
     }
+
 }
