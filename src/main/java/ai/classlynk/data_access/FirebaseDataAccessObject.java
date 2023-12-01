@@ -8,6 +8,7 @@ import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessIn
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
 import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
 import com.google.cloud.spring.data.firestore.FirestoreReactiveRepository;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
@@ -34,6 +35,7 @@ public class FirebaseDataAccessObject implements
     private FirestoreReactiveRepository<User> userRepository;
 
     private FirebaseAuth fireAuth;
+    FirebaseApp.initializeApp();
 
     /**
      *

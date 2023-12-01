@@ -13,6 +13,7 @@ import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInteractor;
 import ai.classlynk.view.SaveViewTimetableView;
 import ai.classlynk.view.ViewManager;
 import com.google.cloud.spring.data.firestore.repository.config.EnableReactiveFirestoreRepositories;
+import com.google.firebase.auth.FirebaseAuthException;
 import jakarta.annotation.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
@@ -43,9 +44,8 @@ public class ClassLynkApplication {
             test();
         };
     }
-    public void test() {
-        var a = firebaseDataAccessObject.getTimetable("user2");
-        System.out.println(a.getUserId());
+    public void test() throws FirebaseAuthException {
+        firebaseDataAccessObject.userCreate("hubertx98@gmail.com", "asdfasdf");
     }
     public void start() {
         ViewManagerModel viewManagerModel = new ViewManagerModel();

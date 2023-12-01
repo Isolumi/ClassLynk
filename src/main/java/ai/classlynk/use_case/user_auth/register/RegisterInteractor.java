@@ -1,5 +1,7 @@
 package ai.classlynk.use_case.user_auth.register;
 
+import com.google.firebase.auth.FirebaseAuthException;
+
 public class RegisterInteractor implements RegisterInputBoundary{
     final RegisterDataAccessInterface RegisterDAO;
     final RegisterOutputBoundary RegisterOutputBoundary;
@@ -9,7 +11,7 @@ public class RegisterInteractor implements RegisterInputBoundary{
         RegisterOutputBoundary = registerOutputBoundary;
     }
 
-    public void execute(RegisterInputData inputData){
+    public void execute(RegisterInputData inputData) throws FirebaseAuthException {
      if (RegisterDAO.existedByName(inputData.getName())){
          RegisterOutputBoundary.fail("This name has been used!");
         } else if (inputData.getPw1().equals(inputData.getPw2())) {
