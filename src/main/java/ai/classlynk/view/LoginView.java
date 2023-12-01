@@ -18,22 +18,25 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
-        public final String viewName = "Login";
+    public final String viewName = "Login";
 
-        private final LoginViewModel loginViewModel;
+    private final LoginViewModel loginViewModel;
 
-        private final RegisterViewModel registerViewModel;
-        private final JTextField usernameInputField = new JTextField(15);
-        private final JPasswordField passwordInputField = new JPasswordField(15);
-        private final JLabel usernameErrorField = new JLabel();
-        private final JLabel passwordErrorField = new JLabel();
-        private final LoginController loginController;
-        private final ViewManagerModel viewManagerModel;
-        private final JButton Login;
-        private final JButton GoRegister;
-      public void setBackButtonController(BackButtonController backButtonController) {
+    private final RegisterViewModel registerViewModel;
+    private final JTextField usernameInputField = new JTextField(15);
+    private final JPasswordField passwordInputField = new JPasswordField(15);
+    private final JLabel usernameErrorField = new JLabel();
+    private final JLabel passwordErrorField = new JLabel();
+    private final LoginController loginController;
+    private final ViewManagerModel viewManagerModel;
+    private final JButton Login;
+    private final JButton GoRegister;
+    private BackButtonController backButtonController;
+
+    public void setBackButtonController(BackButtonController backButtonController) {
         this.backButtonController = backButtonController;
     }
+
     public LoginView(LoginController controller, LoginViewModel lginViewModel, RegisterViewModel rgisterViewModel, ViewManagerModel viwManagerModel) {
 
         this.setLayout(new BorderLayout());
@@ -42,7 +45,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.registerViewModel = rgisterViewModel;
         this.viewManagerModel = viwManagerModel;
         loginViewModel.addPropertyChangeListener(this);
-        JPanel title =  new JPanel();
+        JPanel title = new JPanel();
         title.add(new JLabel(loginViewModel.TITLE_LABEL));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -58,15 +61,16 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         buttons.add(GoRegister);
         GoRegister.addActionListener(
                 new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-            if (evt.getSource().equals(GoRegister)) {
-                    RegisterState registerState = registerViewModel.getState();
-                    registerViewModel.setState(registerState);
-                    registerViewModel.firePropertyChanged();
-                    viewManagerModel.setActiveView(registerViewModel.getViewName());
-                    viewManagerModel.firePropertyChanged();
-            }
-        }});
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(GoRegister)) {
+                            RegisterState registerState = registerViewModel.getState();
+                            registerViewModel.setState(registerState);
+                            registerViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(registerViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                });
         Login.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
@@ -82,12 +86,11 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
-        backButton = new JButton("Go Back");
+        JButton backButton = new JButton("Go Back");
 
         backButton.addActionListener(
                 e -> {
-                    if(e.getSource().equals(backButton))
-                    {
+                    if (e.getSource().equals(backButton)) {
                         backButtonController.execute();
                     }
                 }
@@ -95,40 +98,40 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         title.add(backButton);
         usernameInputField.addKeyListener(new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            LoginState currentState = loginViewModel.getState();
-            currentState.setUsername(usernameInputField.getText() + e.getKeyChar());
-            loginViewModel.setState(currentState);
-        }
+            @Override
+            public void keyTyped(KeyEvent e) {
+                LoginState currentState = loginViewModel.getState();
+                currentState.setUsername(usernameInputField.getText() + e.getKeyChar());
+                loginViewModel.setState(currentState);
+            }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
 
-        @Override
-        public void keyReleased(KeyEvent e) {
-        }
-    });
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         passwordInputField.addKeyListener(
                 new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            LoginState currentState = loginViewModel.getState();
-            currentState.setPassword(passwordInputField.getText() + e.getKeyChar());
-            loginViewModel.setState(currentState);
-        }
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        LoginState currentState = loginViewModel.getState();
+                        currentState.setPassword(passwordInputField.getText() + e.getKeyChar());
+                        loginViewModel.setState(currentState);
+                    }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                    }
 
-        @Override
-        public void keyReleased(KeyEvent e) {
-        }
-    });
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                    }
+                });
 
         this.add(title);
         this.add(usernameInfo);
@@ -136,7 +139,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
-}
+    }
 
     /**
      * React to a button click that results in evt.
