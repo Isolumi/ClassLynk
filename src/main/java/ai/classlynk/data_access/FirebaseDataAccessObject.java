@@ -27,7 +27,6 @@ public class FirebaseDataAccessObject implements
     private TimetableRepository timetableRepository;
     @Resource
     private UserRepository userRepository;
-
     /**
      *
      * @return all courses stored in firestore
@@ -86,7 +85,11 @@ public class FirebaseDataAccessObject implements
     }
 
     @Override
-    public void userCreate(String Name, String password) {
+    public boolean verifyPassword(String name, String Password) {
+        return false;
+    }
 
+    @Override
+    public void userCreate(String Name, String password) {
     }
 }

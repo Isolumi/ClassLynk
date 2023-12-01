@@ -5,5 +5,5 @@ import ai.classlynk.entity.User;
 public interface LoginDataAccessInterface {
     boolean existedByName(String username);
 
-    boolean verifyPassword(String user);
+    boolean verifyPassword(String name, String Password);
 }

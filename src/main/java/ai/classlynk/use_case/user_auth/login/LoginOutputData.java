@@ -12,4 +12,8 @@ public class LoginOutputData {
     public String getUsername() {
         return username;
     }
+
+    public boolean getStatus(){
+        return useCaseFailed;
+    }
 }
