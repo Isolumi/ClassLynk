@@ -6,6 +6,4 @@ import org.jetbrains.annotations.NotNull;
 import reactor.core.publisher.Flux;
 
 public interface CourseRepository extends FirestoreReactiveRepository<Course> {
-    @NotNull
-    Flux<Course> findAll();
 }

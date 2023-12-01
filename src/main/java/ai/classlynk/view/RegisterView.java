@@ -30,6 +30,8 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
     private final ViewManagerModel viewManagerModel;
     private final JButton Register;
     private final JButton GoLogIn;
+
+
     public RegisterView(RegisterController controller, RegisterViewModel rgisterViewModel, LoginViewModel lginViewModel, ViewManagerModel viwManagerModel) {
 
         this.registerController = controller;

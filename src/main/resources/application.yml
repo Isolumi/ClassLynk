@@ -1,8 +1,6 @@
 spring:
   cloud:
     gcp:
-      maps-api-key:
-        location: classpath:./config/mapsAPIKey.txt
       project-id: timetablegenerator-e55f3
       firestore:
         credentials:
