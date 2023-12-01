@@ -7,8 +7,10 @@ import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
 import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.spring.data.firestore.FirestoreReactiveRepository;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Component
@@ -35,7 +38,13 @@ public class FirebaseDataAccessObject implements
     private FirestoreReactiveRepository<User> userRepository;
 
     private FirebaseAuth fireAuth;
-    FirebaseApp.initializeApp();
+    FirebaseOptions options = FirebaseOptions.builder()
+            .setCredentials(GoogleCredentials.getApplicationDefault())
+            .build();
+    FirebaseApp app = FirebaseApp.initializeApp(options);
+
+    public FirebaseDataAccessObject() throws IOException {
+    }
 
     /**
      *
@@ -95,7 +104,7 @@ public class FirebaseDataAccessObject implements
 
     @Override
     public void userCreate(String email, String password) throws FirebaseAuthException {
-        fireAuth = FirebaseAuth.getInstance();
+        fireAuth = FirebaseAuth.getInstance(app);
         CreateRequest request = new CreateRequest()
                 .setEmail(email)
                 .setPassword(password);
