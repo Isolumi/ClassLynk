@@ -9,13 +9,22 @@ import java.util.Map;
 
 @Document(collectionName = "timetables")
 public class Timetable {
-    public Timetable(Map<String, List<SClass>> classes) {
+    @DocumentId
+    private String userId;
+    private Map<String, List<SClass>> classes;
+    public Timetable(String userId, Map<String, List<SClass>> classes) {
+        this.userId = userId;
         this.classes = classes;
     }
     public Timetable(){}
 
-    @DocumentId
-    private Map<String, List<SClass>> classes;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public Map<String, List<SClass>> getClasses() {
         return classes;

@@ -35,10 +35,11 @@ public class FirebaseDataAccessObject implements
      */
     @Override
     public Map<String, Course> loadCourses() {
+        // retrieve Flux of courses from firebase
         Flux<Course> courses = courseRepository.findAll();
+        // converts return data into a Mono of type Map
         Mono<Map<String, Course>> courseMap = courses.collectMap(Course::getCourseId);
-        courseMap.subscribe();
-
+        // converts type Mono into Map<String, Course> and returns
         return courseMap.block();
         /*
         This is the code to use if we wanted to return a Mono<Map<String, Course>>.
