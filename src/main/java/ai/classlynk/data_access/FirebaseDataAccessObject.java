@@ -88,8 +88,12 @@ public class FirebaseDataAccessObject implements
     }
 
     @Override
-    public void userCreate(String Name, String password) {
+    public boolean verifyPassword(String name, String Password) {
+        return false;
+    }
 
+    @Override
+    public void userCreate(String Name, String password) {
     }
 
     @Override

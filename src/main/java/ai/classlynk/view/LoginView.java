@@ -18,24 +18,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "Login";
 
-    private final LoginViewModel loginViewModel;
+        public final String viewName = "Login";
 
-    private final RegisterViewModel registerViewModel;
-    private final JTextField usernameInputField = new JTextField(15);
-    private final JPasswordField passwordInputField = new JPasswordField(15);
-    private final JLabel usernameErrorField = new JLabel();
-    private final JLabel passwordErrorField = new JLabel();
-    private final LoginController loginController;
-    private final ViewManagerModel viewManagerModel;
-    private final JButton Login;
-    private final JButton GoRegister;
-    private BackButtonController backButtonController;
+        private final LoginViewModel loginViewModel;
 
-    public void setBackButtonController(BackButtonController backButtonController) {
-        this.backButtonController = backButtonController;
-    }
+        private final RegisterViewModel registerViewModel;
+        private final JTextField usernameInputField = new JTextField(15);
+        private final JPasswordField passwordInputField = new JPasswordField(15);
+        private final JLabel usernameErrorField = new JLabel();
+        private final JLabel passwordErrorField = new JLabel();
+        private final LoginController loginController;
+        private final ViewManagerModel viewManagerModel;
+        private final JButton Login;
+        private final JButton GoRegister;
 
     public LoginView(LoginController controller, LoginViewModel lginViewModel, RegisterViewModel rgisterViewModel, ViewManagerModel viwManagerModel) {
 
@@ -86,17 +82,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
-        JButton backButton = new JButton("Go Back");
 
-        backButton.addActionListener(
-                e -> {
-                    if (e.getSource().equals(backButton)) {
-                        backButtonController.execute();
-                    }
-                }
-        );
-
-        title.add(backButton);
         usernameInputField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
