@@ -9,7 +9,10 @@ public class AddToCartInputData {
     private SClass sClass;
     private ClassBundle classBundle;
 
-    public AddToCartInputData(Course course, ClassBundle classBundle, SClass sClass) {
+    public AddToCartInputData(Course course, ClassBundle classBundle, SClass sClass) throws IllegalArgumentException{
+        if (course == null) {
+            throw new IllegalArgumentException("Please select course and lecture section");
+        }
         this.course = course;
         this.classBundle = classBundle;
         this.sClass = sClass;
