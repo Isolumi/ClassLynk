@@ -8,9 +8,6 @@ import ai.classlynk.interface_adapter.ViewCourse.ViewCourseViewModel;
 import ai.classlynk.interface_adapter.addToCart.AddToCartController;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -20,20 +17,51 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
     private final ViewCourseController courseController;
     private final AddToCartController addToCartController;
 
+    public JComboBox<Course> getCourseComboBox() {
+        return courseComboBox;
+    }
+
     private JComboBox<Course> courseComboBox;
+
+    public JComboBox<ClassBundle> getClassBundleComboBox() {
+        return classBundleComboBox;
+    }
+
     private JComboBox<ClassBundle> classBundleComboBox;
+
+    public JComboBox<SClass> getTutorialComboBox() {
+        return tutorialComboBox;
+    }
+
     private JComboBox<SClass> tutorialComboBox;
+
+    public JButton getAddToCartButton() {
+        return addToCartButton;
+    }
+
     private JButton addToCartButton;
+
+    public JButton getClearSelectionButton() {
+        return clearSelectionButton;
+    }
+
+    private JButton clearSelectionButton;
+    private Course currentlySelectedCourse;
 
     public ViewCourseView(ViewCourseController courseController, ViewCourseViewModel courseViewModel, AddToCartController addToCartController) {
         this.courseController = courseController;
         this.courseViewModel = courseViewModel;
         this.addToCartController = addToCartController;
 
+        loadCourses();
         courseViewModel.addPropertyChangeListener(this);
         initializeComponents();
         layoutComponents();
         setupInteractions();
+    }
+
+    private void loadCourses() {
+        courseController.execute();
     }
 
     private void initializeComponents() {
@@ -41,6 +69,7 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         classBundleComboBox = new JComboBox<>();
         tutorialComboBox = new JComboBox<>();
         addToCartButton = new JButton("Add to Cart");
+        clearSelectionButton = new JButton("Clear Selection");
 
         updateCourses();
     }
@@ -54,12 +83,19 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         this.add(new JLabel("Select Tutorial:"));
         this.add(tutorialComboBox);
         this.add(addToCartButton);
+        this.add(clearSelectionButton);
     }
 
     private void setupInteractions() {
         courseComboBox.addActionListener(e -> {
             Course selectedCourse = (Course) courseComboBox.getSelectedItem();
-            updateClassBundlesAndTutorials(selectedCourse);
+            if (currentlySelectedCourse != null && currentlySelectedCourse.equals(selectedCourse)) {
+                clearSelections();
+                currentlySelectedCourse = null;
+            } else {
+                updateClassBundlesAndTutorials(selectedCourse);
+                currentlySelectedCourse = selectedCourse;
+            }
         });
 
         addToCartButton.addActionListener(e -> {
@@ -68,6 +104,15 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
             SClass selectedTutorial = (SClass) tutorialComboBox.getSelectedItem();
             addToCartController.addToCart(selectedCourse, selectedBundle, selectedTutorial);
         });
+
+        clearSelectionButton.addActionListener(e -> clearSelections());
+    }
+
+    private void clearSelections() {
+        courseComboBox.setSelectedIndex(-1);
+        classBundleComboBox.removeAllItems();
+        tutorialComboBox.removeAllItems();
+        currentlySelectedCourse = null;
     }
 
     private void updateCourses() {
@@ -99,3 +144,4 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         }
     }
 }
+
