@@ -34,7 +34,6 @@ public class Timetable {
         this.classes = classes;
     }
 
-    @Transient
     public Map<String, String> getFormattedTimetable()
     {
         StringBuilder singleDayFormat;

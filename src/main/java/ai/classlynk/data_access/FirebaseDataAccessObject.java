@@ -8,12 +8,12 @@ import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessIn
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
 import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
 import com.google.cloud.spring.data.firestore.FirestoreReactiveRepository;
+import com.google.firebase.auth.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -29,6 +29,8 @@ public class FirebaseDataAccessObject implements
     private FirestoreReactiveRepository<Timetable> timetableRepository;
     @Resource
     private FirestoreReactiveRepository<User> userRepository;
+
+    private FirebaseAuth fireAuth = FirebaseAuth.getInstance();
 
     /**
      *
@@ -78,8 +80,7 @@ public class FirebaseDataAccessObject implements
      */
     @Override
     public Timetable getTimetable(String userId) {
-        Mono<Timetable> timetables = timetableRepository.findById(userId);
-        return timetables.block();
+        return timetableRepository.findById(userId).block();
     }
 
     @Override

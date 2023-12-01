@@ -56,7 +56,7 @@ class TimetableTest {
         testClasses.put("Wednesday", wed);
         testClasses.put("Thursday", thur);
         testClasses.put("Friday", fri);
-        testTimetable = new Timetable(testClasses);
+        testTimetable = new Timetable("user1", testClasses);
     }
 
     @Test
