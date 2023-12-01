@@ -31,7 +31,7 @@ public class OptimalTimetableCalculator {
                         }
                         test.get(tut.getWeekday()).add(tut);
 
-                        Timetable conflictTest = new Timetable(test);
+                        Timetable conflictTest = new Timetable("application",test);
                         if (!hasTimeConflict(conflictTest)) {
                             if (!validLectureTutorialCombos.containsKey(course.getCourseName())) {
                                 validLectureTutorialCombos.put(course.getCourseName(), new ArrayList<List<ClassBundle>>());
@@ -126,7 +126,7 @@ public class OptimalTimetableCalculator {
             }
         }
 
-        return new Timetable(timeTable);
+        return new Timetable("application", timeTable);
     }
 
     private static boolean hasTimeConflict(Timetable timetable) {
