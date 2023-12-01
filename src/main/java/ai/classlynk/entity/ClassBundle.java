@@ -11,6 +11,7 @@ public class ClassBundle {
         this.lectureId = lectureId;
         this.classes = classes;
     }
+    public ClassBundle(){}
 
     public String getLectureId() {
         return lectureId;

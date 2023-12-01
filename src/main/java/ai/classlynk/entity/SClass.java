@@ -19,6 +19,7 @@ public class SClass {
         this.location = location;
         this.isTutorial = isTutorial;
     }
+    public SClass(){}
 
     public String getClassId() {
         return classId;
