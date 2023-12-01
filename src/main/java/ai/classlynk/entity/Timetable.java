@@ -3,6 +3,7 @@ package ai.classlynk.entity;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.spring.data.firestore.Document;
 
+import java.beans.Transient;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class Timetable {
         this.classes = classes;
     }
 
+    @Transient
     public Map<String, String> getFormattedTimetable()
     {
         StringBuilder singleDayFormat;

@@ -1,6 +1,8 @@
 package ai.classlynk.app;
 
 import ai.classlynk.data_access.FirebaseDataAccessObject;
+import ai.classlynk.entity.SClass;
+import ai.classlynk.entity.Timetable;
 import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
@@ -19,7 +21,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 
 import javax.swing.*;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication(scanBasePackages = "ai.classlynk")
 @EnableReactiveFirestoreRepositories(basePackages = "ai.classlynk")
@@ -35,8 +40,12 @@ public class ClassLynkApplication {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            start();
+            test();
         };
+    }
+    public void test() {
+        var a = firebaseDataAccessObject.getTimetable("user2");
+        System.out.println(a.getUserId());
     }
     public void start() {
         ViewManagerModel viewManagerModel = new ViewManagerModel();

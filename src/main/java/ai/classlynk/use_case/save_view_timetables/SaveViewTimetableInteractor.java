@@ -2,7 +2,14 @@ package ai.classlynk.use_case.save_view_timetables;
 
 import ai.classlynk.data_access.FirebaseDataAccessObject;
 import ai.classlynk.data_access.TimetableRepository;
+import ai.classlynk.entity.SClass;
+import ai.classlynk.entity.Timetable;
 import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SaveViewTimetableInteractor implements SaveViewTimetableInputBoundary {
     final SaveViewTimetableOutputBoundary saveViewPresenter;
@@ -14,7 +21,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
         this.saveViewTimetablesDataAccessInterface = firebaseDataAccessObject;
     }
 
-//    @Override
+    //    @Override
 //    public void execute(SaveViewTimetableInputData inputData) {
 //        if (inputData.loggedIn()) {
 //            saveViewPresenter.prepareNotLoggedInView();
@@ -37,7 +44,7 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
 //        if (!inputData.loggedIn()) {
 //            saveViewPresenter.prepareNotLoggedInView();
 //        } else {
-//            Map<String, java.util.List<SClass>> tt = new HashMap<>();
+//            Map<String, List<SClass>> tt = new HashMap<>();
 //            SClass a = new SClass(
 //                    "c1", "lec0102", "10:00:00", "11:00:00",
 //                    "monday", "bahen", "252 Bloor St W, Toronto, ON M5S 1V6", false);
@@ -77,10 +84,10 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
 //            tt.put("wednesday", wed);
 //            tt.put("thursday", thur);
 //            tt.put("friday", fri);
-//            Timetable ttt = new Timetable(tt);
+//            Timetable ttt = new Timetable("user1", tt);
+//            saveViewTimetablesDataAccessInterface.saveTimetable(ttt);
 //            List<Timetable> tts = new ArrayList<>();
 //            tts.add(ttt);
 //            SaveViewTimetableOutputData timetables = new SaveViewTimetableOutputData(tts);
 //            saveViewPresenter.prepareLoggedInView(timetables);
-//        }
-}
+        }

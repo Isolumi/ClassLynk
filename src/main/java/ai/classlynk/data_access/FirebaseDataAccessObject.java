@@ -7,6 +7,7 @@ import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
 import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
+import com.google.cloud.spring.data.firestore.FirestoreReactiveRepository;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -23,11 +24,11 @@ public class FirebaseDataAccessObject implements
         RegisterDataAccessInterface {
 
     @Resource
-    private CourseRepository courseRepository;
+    private FirestoreReactiveRepository<Course> courseRepository;
     @Resource
-    private TimetableRepository timetableRepository;
+    private FirestoreReactiveRepository<Timetable> timetableRepository;
     @Resource
-    private UserRepository userRepository;
+    private FirestoreReactiveRepository<User> userRepository;
 
     /**
      *
@@ -59,7 +60,7 @@ public class FirebaseDataAccessObject implements
      */
     @Override
     public void saveTimetable(Timetable timetable) {
-        timetableRepository.save(timetable).subscribe();
+        timetableRepository.save(timetable).block();
     }
 
     /**
@@ -68,18 +69,17 @@ public class FirebaseDataAccessObject implements
      */
     @Override
     public void deleteTimetable(Timetable timetable) {
-        timetableRepository.delete(timetable).subscribe();
+        timetableRepository.delete(timetable).block();
     }
 
     /**
-     *
+     * @param userId the ID of the user whose timetable is being retrieved
      * @return returns all timetables of user in firestore
      */
     @Override
-    public List<Timetable> getTimetables() {
-        Flux<Timetable> timetables = timetableRepository.findAll();
-        timetables.subscribe();
-        return timetables.collectList().block();
+    public Timetable getTimetable(String userId) {
+        Mono<Timetable> timetables = timetableRepository.findById(userId);
+        return timetables.block();
     }
 
     @Override
