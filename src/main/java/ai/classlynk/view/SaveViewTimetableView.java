@@ -27,6 +27,7 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
     public void setBackButtonController(MenuSwitchingController menuSwitchingController) {
         this.menuSwitchingController = menuSwitchingController;
     }
+
     public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController, MapsController mapsController) {
         saveViewTimetableViewModel.addPropertyChangeListener(this);
         String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
@@ -65,19 +66,21 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
             timetablePanel.add(weekday, gbc);
         }
 
-        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables();  // TODO: this only returns first timetable right now
-        for (int i = 0; i < 5; i ++) {
-            List<SClass> classes = timetable.getClasses().get(daysOfWeek[i].toLowerCase());
-            for (SClass aClass : classes) {
-                JLabel clas = new JLabel(aClass.getCourseId());
-                clas.setBackground(Color.red);
-                clas.setOpaque(true);
-                gbc.fill = GridBagConstraints.BOTH;
-                gbc.gridx = i + 1;
-                gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
-                gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
-                        - Integer.parseInt(aClass.getStartTime().substring(0, 2));
-                timetablePanel.add(clas, gbc);
+        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables();
+        if (timetable != null) {
+            for (int i = 0; i < 5; i++) {
+                List<SClass> classes = timetable.getClasses().get(daysOfWeek[i].toLowerCase());
+                for (SClass aClass : classes) {
+                    JLabel clas = new JLabel(aClass.getCourseId());
+                    clas.setBackground(Color.red);
+                    clas.setOpaque(true);
+                    gbc.fill = GridBagConstraints.BOTH;
+                    gbc.gridx = i + 1;
+                    gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                    gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
+                            - Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                    timetablePanel.add(clas, gbc);
+                }
             }
         }
         generateMapsButton = new JButton("View Maps");
@@ -85,8 +88,7 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
         backButton.addActionListener(
                 e -> {
-                    if(e.getSource().equals(backButton))
-                    {
+                    if (e.getSource().equals(backButton)) {
                         menuSwitchingController.execute();
                     }
                 }
@@ -94,10 +96,9 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
         generateMapsButton.addActionListener(
                 e -> {
-                        if(e.getSource().equals(generateMapsButton))
-                        {
-                            mapsController.execute(timetable);
-                        }
+                    if (e.getSource().equals(generateMapsButton)) {
+                        mapsController.execute(timetable);
+                    }
                 }
         );
 
