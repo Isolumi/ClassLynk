@@ -2,6 +2,7 @@ package ai.classlynk.data_access;
 
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.Timetable;
+import ai.classlynk.entity.User;
 import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
@@ -27,6 +28,7 @@ public class FirebaseDataAccessObject implements
     private TimetableRepository timetableRepository;
     @Resource
     private UserRepository userRepository;
+
     /**
      *
      * @return all courses stored in firestore
@@ -80,16 +82,17 @@ public class FirebaseDataAccessObject implements
     }
 
     @Override
-    public boolean existedByName(String Name) {
-        return false;
-    }
-
-    @Override
-    public boolean verifyPassword(String name, String Password) {
-        return false;
-    }
-
-    @Override
     public void userCreate(String Name, String password) {
+
+    }
+
+    @Override
+    public boolean existsByName(String username) {
+        return false;
+    }
+
+    @Override
+    public boolean verifyPassword(String username, String password) {
+        return false;
     }
 }

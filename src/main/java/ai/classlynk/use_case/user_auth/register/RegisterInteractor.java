@@ -10,7 +10,7 @@ public class RegisterInteractor implements RegisterInputBoundary{
     }
 
     public void execute(RegisterInputData inputData){
-     if (RegisterDAO.existedByName(inputData.getName())){
+     if (RegisterDAO.existsByName(inputData.getName())){
          RegisterOutputBoundary.prepareFailView("This name has been used!");
         } else if (!inputData.getPw1().equals(inputData.getPw2())) {
          RegisterOutputBoundary.prepareFailView("Two Passwords are different!");
