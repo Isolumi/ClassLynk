@@ -3,7 +3,8 @@ package ai.classlynk.data_access;
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.Timetable;
 import ai.classlynk.entity.User;
-import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
+import ai.classlynk.use_case.AddToCart.AddToCartDataAccessInterface;
+import ai.classlynk.use_case.ViewCourse.ViewCourseDataAccessInterface;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
 import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
@@ -18,10 +19,11 @@ import java.util.Objects;
 
 @Component
 public class FirebaseDataAccessObject implements
-        ExploreCoursesDataAccessInterface,
         SaveViewTimetablesDataAccessInterface,
         LoginDataAccessInterface,
-        RegisterDataAccessInterface {
+        RegisterDataAccessInterface,
+        ViewCourseDataAccessInterface,
+        AddToCartDataAccessInterface {
 
     @Resource
     private FirestoreReactiveRepository<Course> courseRepository;
@@ -38,7 +40,7 @@ public class FirebaseDataAccessObject implements
      * @return all courses stored in firestore
      */
     @Override
-    public Map<String, Course> loadCourses() {
+    public Map<String, Course> getAllCourses() {
         // retrieve Flux of courses from firebase
         Flux<Course> courses = courseRepository.findAll();
         // converts return data into a Mono of type Map
@@ -97,7 +99,7 @@ public class FirebaseDataAccessObject implements
      */
     @Override
     public void userCreate(String username, String password) {
-        userRepository.save(new User(username, password)).block();
+        userRepository.save(User.getInstance(username, password)).block();
     }
 
     /**
@@ -118,5 +120,15 @@ public class FirebaseDataAccessObject implements
     @Override
     public boolean verifyPassword(String username, String password) {
         return Objects.requireNonNull(userRepository.findById(username).block()).getPassword().equals(password);
+    }
+
+    /**
+     *
+     * @param username username of user to fetch from database
+     * @return user that was fetched
+     */
+    @Override
+    public User getUser(String username) {
+        return userRepository.findById(username).block();
     }
 }

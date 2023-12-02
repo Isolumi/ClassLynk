@@ -1,5 +1,6 @@
 package ai.classlynk.view;
 
+import ai.classlynk.entity.User;
 import ai.classlynk.interface_adapter.Login.LoginController;
 import ai.classlynk.interface_adapter.Login.LoginState;
 import ai.classlynk.interface_adapter.Login.LoginViewModel;
@@ -18,7 +19,7 @@ import java.beans.PropertyChangeListener;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
 
-        public final String viewName = "Login";
+        public final String viewName = "log in";
 
         private final LoginViewModel loginViewModel;
 
@@ -44,10 +45,13 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         title.add(new JLabel(loginViewModel.TITLE_LABEL));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel usernameInfo = new JLabel(loginViewModel.USERNAME_LABEL);
-        usernameInfo.setText(String.valueOf(usernameInputField));
-        JLabel passwordInfo = new JLabel(loginViewModel.PASSWORD_LABEL);
-        usernameInfo.setText(String.valueOf(passwordInputField));
+        JPanel usernameInput = new JPanel();
+        usernameInput.add(new JLabel(loginViewModel.USERNAME_LABEL));
+        usernameInput.add(usernameInputField);
+
+        JPanel passwordInput = new JPanel();
+        passwordInput.add(new JLabel(loginViewModel.PASSWORD_LABEL));
+        passwordInput.add(passwordInputField);
 
         JPanel buttons = new JPanel();
         Login = new JButton(LoginViewModel.Login_BUTTON_LABEL);
@@ -119,9 +123,9 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 });
 
         this.add(title);
-        this.add(usernameInfo);
+        this.add(usernameInput);
         this.add(usernameErrorField);
-        this.add(passwordInfo);
+        this.add(passwordInput);
         this.add(passwordErrorField);
         this.add(buttons);
     }
@@ -136,11 +140,24 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         LoginState state = (LoginState) evt.getNewValue();
+
+        if(state.getUsernameError() != null)
+        {
+            JOptionPane.showMessageDialog(this, state.getUsernameError());
+        }
         setFields(state);
     }
 
     private void setFields(LoginState state) {
-        usernameInputField.setText(state.getUsername());
+        if(state.getUsernameError() == null)
+        {
+            usernameInputField.setText(state.getUsername());
+        }
+        else
+        {
+            usernameInputField.setText("");
+        }
+        passwordInputField.setText("");
     }
 
 }

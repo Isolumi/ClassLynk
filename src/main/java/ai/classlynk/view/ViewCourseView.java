@@ -3,16 +3,20 @@ package ai.classlynk.view;
 import ai.classlynk.entity.ClassBundle;
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.SClass;
+import ai.classlynk.interface_adapter.MenuSwitchingController;
 import ai.classlynk.interface_adapter.ViewCourse.ViewCourseController;
 import ai.classlynk.interface_adapter.ViewCourse.ViewCourseViewModel;
 import ai.classlynk.interface_adapter.addToCart.AddToCartController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.List;
 
 public class ViewCourseView extends JPanel implements PropertyChangeListener {
+    public final String viewName = "View Courses";
     private final ViewCourseViewModel courseViewModel;
     private final ViewCourseController courseController;
     private final AddToCartController addToCartController;
@@ -48,6 +52,14 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
     private JButton clearSelectionButton;
     private Course currentlySelectedCourse;
 
+    MenuSwitchingController menuSwitchingController;
+
+    JButton backButton;
+
+    public void setBackButtonController(MenuSwitchingController menuSwitchingController) {
+        this.menuSwitchingController = menuSwitchingController;
+    }
+
     public ViewCourseView(ViewCourseController courseController, ViewCourseViewModel courseViewModel, AddToCartController addToCartController) {
         this.courseController = courseController;
         this.courseViewModel = courseViewModel;
@@ -70,6 +82,7 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         tutorialComboBox = new JComboBox<>();
         addToCartButton = new JButton("Add to Cart");
         clearSelectionButton = new JButton("Clear Selection");
+        backButton = new JButton("Go back");
 
         updateCourses();
     }
@@ -84,6 +97,7 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         this.add(tutorialComboBox);
         this.add(addToCartButton);
         this.add(clearSelectionButton);
+        this.add(backButton);
     }
 
     private void setupInteractions() {
@@ -106,6 +120,14 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         });
 
         clearSelectionButton.addActionListener(e -> clearSelections());
+        backButton.addActionListener(
+                e -> {
+                    if(e.getSource().equals(backButton))
+                    {
+                        menuSwitchingController.execute();
+                    }
+                }
+        );
     }
 
     private void clearSelections() {

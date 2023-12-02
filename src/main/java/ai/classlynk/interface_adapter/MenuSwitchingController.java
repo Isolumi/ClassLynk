@@ -17,6 +17,7 @@ public class MenuSwitchingController {
         presenter.getViewManagerModel().setActiveView(previousMenuViewModel.getViewName());
         presenter.getViewManagerModel().firePropertyChanged();
         previousMenuViewModel.firePropertyChanged();
+        System.out.println(previousMenuViewModel.getViewName());
     }
 
 

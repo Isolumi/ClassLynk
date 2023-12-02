@@ -11,7 +11,7 @@ public class ViewCourseViewModel extends ViewModel {
     private ViewCourseState state;
 
     public ViewCourseViewModel() {
-        super("viewCourses");
+        super("View Courses");
         this.state = new ViewCourseState();
     }
 

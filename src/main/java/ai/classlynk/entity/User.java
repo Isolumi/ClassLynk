@@ -8,6 +8,9 @@ import java.util.List;
 
 @Document(collectionName = "users")
 public class User {
+
+    private static User instance;
+
     @DocumentId
     private String username;
 
@@ -58,11 +61,25 @@ public class User {
 
 
 
-    public User(String id, String password) {
-        this.username = id;
-        this.password = password;
-        this.courseKart = new ArrayList<>();
-        this.classKart = new ArrayList<>();
+    private User(String id, String password) {
+            this.username = id;
+            this.password = password;
+            this.courseKart = new ArrayList<>();
+            this.classKart = new ArrayList<>();
+
     }
+
+    public static User getInstance(String id, String password)
+    {
+        if(instance == null)
+        {
+            instance = new User(id, password);
+        }
+        return instance;
+    }
+
+    /**
+     * DO NOT USE, THIS IS ONLY FOR DATA PERSISTENCE
+     */
     public User(){}
 }

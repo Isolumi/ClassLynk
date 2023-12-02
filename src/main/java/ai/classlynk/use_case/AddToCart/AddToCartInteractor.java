@@ -20,8 +20,8 @@ public class AddToCartInteractor implements AddToCartInputBoundary {
         Course course = inputData.getCourse();
         ClassBundle classBundle = inputData.getClassBundle();
         SClass tutorial = inputData.getSClass();
-        List<Course> userCourseCart = addToCartDataAccessObject.getUserCourseCart();
-        List<SClass> userSClassCart = addToCartDataAccessObject.getUserSClassCart();
+        List<Course> userCourseCart = User.getInstance("", "").getCourseKart();
+        List<SClass> userSClassCart = User.getInstance("", "").getClassKart();
         if (userCourseCart.contains(course)) {
             if (userSClassCart.contains(classBundle.getClasses().get(1))) {
                 if (userSClassCart.contains(tutorial)) {
@@ -33,6 +33,7 @@ public class AddToCartInteractor implements AddToCartInputBoundary {
                         }
                     }
                     userSClassCart.add(tutorial);
+                    User.getInstance("", "").setClassKart(userSClassCart);
                     presenter.presentResponse(new AddToCartOutputData(true, "SClass Successfully Added", userCourseCart, userSClassCart));
                 }
             } else {
@@ -45,6 +46,7 @@ public class AddToCartInteractor implements AddToCartInputBoundary {
                 }
                 userSClassCart.addAll(classBundle.getClasses());
                 userSClassCart.add(tutorial);
+                User.getInstance("", "").setClassKart(userSClassCart);
                 presenter.presentResponse(new AddToCartOutputData(true, "CourseBundle and SClass Successfully Added", userCourseCart, userSClassCart));
             }
         } else {
@@ -54,9 +56,11 @@ public class AddToCartInteractor implements AddToCartInputBoundary {
             } else {
                 userSClassCart.addAll(classBundle.getClasses());
                 if (tutorial == null) {
+                    User.getInstance("", "").setCourseKart(userCourseCart);
                     presenter.presentResponse(new AddToCartOutputData(true, "Course and CourseBundle Successfully Added", userCourseCart, userSClassCart));
                 } else {
                     userSClassCart.add(tutorial);
+                    User.getInstance("", "").setCourseKart(userCourseCart);
                     presenter.presentResponse(new AddToCartOutputData(true, "Course, CourseBundle and SClass Successfully Added", userCourseCart, userSClassCart));
                 }
             }

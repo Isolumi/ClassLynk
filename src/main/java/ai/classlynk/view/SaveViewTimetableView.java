@@ -20,25 +20,24 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
     MenuSwitchingController menuSwitchingController;
 
-    JButton backButton;
+    JButton viewCoursesButton;
 
     JButton generateMapsButton;
 
-    public void setBackButtonController(MenuSwitchingController menuSwitchingController) {
+    public void setMenuSwitchingController(MenuSwitchingController menuSwitchingController) {
         this.menuSwitchingController = menuSwitchingController;
     }
 
     public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController, MapsController mapsController) {
         saveViewTimetableViewModel.addPropertyChangeListener(this);
         String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        backButton = new JButton("Go Back");
+        viewCoursesButton = new JButton("View Courses");
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel title = new JPanel();
         title.setLayout(new BoxLayout(title, BoxLayout.X_AXIS));
 
-        title.add(backButton);
         title.add(Box.createHorizontalGlue());
 
         JLabel titleLabel = new JLabel(SaveViewTimetableViewModel.TITLE_LABEL);
@@ -47,6 +46,7 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
         title.add(Box.createHorizontalGlue());
 
         JPanel timetablePanel = new JPanel(new GridBagLayout());
+        timetablePanel.add(viewCoursesButton);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
@@ -86,9 +86,9 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
         generateMapsButton = new JButton("View Maps");
         timetablePanel.add(generateMapsButton);
 
-        backButton.addActionListener(
+        viewCoursesButton.addActionListener(
                 e -> {
-                    if (e.getSource().equals(backButton)) {
+                    if (e.getSource().equals(viewCoursesButton)) {
                         menuSwitchingController.execute();
                     }
                 }

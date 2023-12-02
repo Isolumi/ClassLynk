@@ -4,15 +4,29 @@ import ai.classlynk.data_access.APIDataAccessObject;
 import ai.classlynk.data_access.FirebaseDataAccessObject;
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
+import ai.classlynk.interface_adapter.Login.LoginController;
+import ai.classlynk.interface_adapter.Login.LoginPresenter;
+import ai.classlynk.interface_adapter.Login.LoginViewModel;
 import ai.classlynk.interface_adapter.MenuSwitchingController;
+import ai.classlynk.interface_adapter.Register.RegisterController;
 import ai.classlynk.interface_adapter.Register.RegisterPresenter;
 import ai.classlynk.interface_adapter.Register.RegisterViewModel;
+import ai.classlynk.interface_adapter.ViewCourse.ViewCourseController;
+import ai.classlynk.interface_adapter.ViewCourse.ViewCoursePresenter;
+import ai.classlynk.interface_adapter.ViewCourse.ViewCourseViewModel;
 import ai.classlynk.interface_adapter.ViewManagerModel;
+import ai.classlynk.interface_adapter.addToCart.AddToCartController;
+import ai.classlynk.interface_adapter.addToCart.AddToCartPresenter;
+import ai.classlynk.interface_adapter.addToCart.AddToCartViewModel;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetablePresenter;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
 import ai.classlynk.interface_adapter.static_maps.*;
+import ai.classlynk.use_case.AddToCart.AddToCartInteractor;
+import ai.classlynk.use_case.ViewCourse.ViewCourseInteractor;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInteractor;
+import ai.classlynk.use_case.user_auth.login.LoginInteractor;
+import ai.classlynk.use_case.user_auth.register.RegisterInteractor;
 import ai.classlynk.view.*;
 import com.google.cloud.spring.data.firestore.repository.config.EnableReactiveFirestoreRepositories;
 import com.google.maps.errors.ApiException;
@@ -73,16 +87,20 @@ public class ClassLynkApplication {
 
         views.add(mapsView, mapsView.viewName);
 
+        ArrayList<Object> loginRegisterViews = getLoginUseCase(viewManagerModel);
+        //Login View
+        views.add((LoginView)loginRegisterViews.get(0), ((LoginView)(loginRegisterViews.get(0))).viewName);
+        //Register View
+        views.add((RegisterView)loginRegisterViews.get(1), (((RegisterView) loginRegisterViews.get(1))).viewName);
 
-        RegisterView registerView;
+        ViewCourseView viewCourseView = getViewCourseView(viewManagerModel);
 
+        views.add(viewCourseView, viewCourseView.viewName);
 
-
-
-
-        viewManagerModel.setActiveView(saveViewTimetableView.viewName);
+        viewManagerModel.setActiveView(((LoginView)(loginRegisterViews.get(0))).viewName);
         viewManagerModel.firePropertyChanged();
 
+        application.setPreferredSize(new Dimension(1500, 1000));
         application.pack();
         application.setLocationRelativeTo(null);
         application.setVisible(true);
@@ -106,12 +124,12 @@ public class ClassLynkApplication {
         // define controllers
         SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController(
                 saveViewTimetableInteractor);
-        saveViewTimetableController.execute(true, "user1");
+        saveViewTimetableController.execute(true, "user1", new Timetable());
         SaveViewTimetableView saveViewTimetableView = new SaveViewTimetableView(
                 saveViewTimetableViewModel,
                 saveViewTimetableController, mapsController
         );
-        saveViewTimetableView.setBackButtonController(new MenuSwitchingController(saveViewTimetablePresenter, new MapsViewModel()));
+        saveViewTimetableView.setMenuSwitchingController(new MenuSwitchingController(saveViewTimetablePresenter, new ViewCourseViewModel()));
         // define views
         return saveViewTimetableView;
     }
@@ -153,20 +171,47 @@ public class ClassLynkApplication {
         return mapsView;
     }
 
-    private RegisterView getRegisterView()
+    private ArrayList<Object> getLoginUseCase(ViewManagerModel viewManagerModel)
     {
         RegisterViewModel registerViewModel = new RegisterViewModel();
+        LoginViewModel loginViewModel = new LoginViewModel();
 
+        RegisterPresenter registerPresenter = new RegisterPresenter(viewManagerModel, registerViewModel, loginViewModel);
+
+        LoginPresenter loginPresenter = new LoginPresenter(viewManagerModel, new SaveViewTimetableViewModel(), loginViewModel);
+
+        LoginInteractor loginInteractor = new LoginInteractor(firebaseDataAccessObject, loginPresenter);
+
+        RegisterInteractor registerInteractor = new RegisterInteractor(firebaseDataAccessObject, registerPresenter);
+
+        RegisterController registerController = new RegisterController(registerInteractor);
+
+        LoginController loginController = new LoginController(loginInteractor);
+
+        LoginView loginView = new LoginView(loginController, loginViewModel, registerViewModel, viewManagerModel);
+
+        RegisterView registerView = new RegisterView(registerController, registerViewModel, loginViewModel, viewManagerModel);
+
+        ArrayList<Object> views = new ArrayList<>();
+        views.add(loginView);
+        views.add(registerView);
+        return views;
     }
-
-    private LoginView getLoginView()
+    private ViewCourseView getViewCourseView(ViewManagerModel viewManagerModel)
     {
+        ViewCourseViewModel viewCourseViewModel = new ViewCourseViewModel();
+        ViewCoursePresenter viewCoursePresenter = new ViewCoursePresenter(viewManagerModel, viewCourseViewModel);
+        ViewCourseInteractor viewCourseInteractor = new ViewCourseInteractor(firebaseDataAccessObject, viewCoursePresenter);
+        ViewCourseController viewCourseController = new ViewCourseController(viewCourseInteractor);
 
-    }
+        AddToCartViewModel addToCartViewModel = new AddToCartViewModel();
+        AddToCartPresenter addToCartPresenter = new AddToCartPresenter(addToCartViewModel, viewManagerModel);
+        AddToCartInteractor addToCartInteractor = new AddToCartInteractor(addToCartPresenter, firebaseDataAccessObject);
+        AddToCartController addToCartController = new AddToCartController(addToCartInteractor);
 
-    private ViewCourseView getViewCourseView()
-    {
-
+        ViewCourseView viewCourseView = new ViewCourseView(viewCourseController, viewCourseViewModel, addToCartController);
+        viewCourseView.setBackButtonController(new MenuSwitchingController(viewCoursePresenter, new SaveViewTimetableViewModel()));
+        return viewCourseView;
     }
 
 }
