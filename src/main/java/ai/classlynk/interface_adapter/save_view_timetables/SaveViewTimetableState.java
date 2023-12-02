@@ -5,7 +5,7 @@ import ai.classlynk.entity.Timetable;
 import java.util.List;
 
 public class SaveViewTimetableState {
-    private List<Timetable> timetables;
+    private Timetable timetables;
 
     public SaveViewTimetableState(SaveViewTimetableState copy) {
         this.timetables = copy.timetables;
@@ -13,11 +13,11 @@ public class SaveViewTimetableState {
     public SaveViewTimetableState() {
     }
 
-    public List<Timetable> getTimetables() {
+    public Timetable getTimetables() {
         return timetables;
     }
 
-    public void setTimetables(List<Timetable> timetables) {
+    public void setTimetables(Timetable timetables) {
         this.timetables = timetables;
     }
 }
