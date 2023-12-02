@@ -39,7 +39,7 @@ class RegisterInteractorTest {
         }
 
         @Override
-        public boolean existedByName(String Name) {
+        public boolean existsByName(String Name) {
             for(FakeUser i: FakeUsers){
                 if (Objects.equals(i.GetName(), Name)){
                     return true;
@@ -66,7 +66,7 @@ class RegisterInteractorTest {
             @Override
             public void success() {
                 // 2 things to check: the output data is correct, and the user has been created in the DAO.
-                assertTrue(userRepository.existedByName("Paul"));
+                assertTrue(userRepository.existsByName("Paul"));
             }
 
             @Override

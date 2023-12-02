@@ -27,7 +27,7 @@ class LoginInteractorTest {
             return this.Password;
         }
     }
-    class FakeFirebaseDataAccessObject implements  LoginDataAccessInterface{
+    class FakeFirebaseDataAccessObject implements LoginDataAccessInterface{
         private ArrayList<FakeUser> FakeUsers;
 
         FakeFirebaseDataAccessObject(ArrayList<FakeUser> users) {
@@ -40,7 +40,7 @@ class LoginInteractorTest {
         }
 
         @Override
-        public boolean existedByName(String Name) {
+        public boolean existsByName(String Name) {
             for(FakeUser i: FakeUsers){
                 if (Objects.equals(i.GetName(), Name)){
                     return true;
