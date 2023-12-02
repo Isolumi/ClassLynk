@@ -1,5 +1,7 @@
 package ai.classlynk.use_case.user_auth.register;
 
+import com.google.firebase.auth.FirebaseAuthException;
+
 public class RegisterInteractor implements RegisterInputBoundary{
     final RegisterDataAccessInterface RegisterDAO;
     final RegisterOutputBoundary RegisterOutputBoundary;
@@ -8,6 +10,7 @@ public class RegisterInteractor implements RegisterInputBoundary{
         RegisterDAO = registerDAO;
         RegisterOutputBoundary = registerOutputBoundary;
     }
+
 
     public void execute(RegisterInputData inputData){
      if (RegisterDAO.existsByName(inputData.getName())){

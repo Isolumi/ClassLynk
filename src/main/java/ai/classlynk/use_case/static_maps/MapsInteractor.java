@@ -16,6 +16,12 @@ public class MapsInteractor implements MapsInputBoundary{
         mapsDataAccessObject = apiDataAccessObject;
         mapsPresenter = mapsOutputBoundary;
     }
+
+    /**
+     * Generates route images and sends image urls and new timetable to presenter.
+     *
+     * @param mapsInputData The timetable to generate the routes for.
+     */
     @Override
     public void execute(MapsInputData mapsInputData) {
         Map<String, String> data = null;

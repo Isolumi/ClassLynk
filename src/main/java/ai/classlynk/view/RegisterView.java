@@ -7,6 +7,7 @@ import ai.classlynk.interface_adapter.Register.RegisterController;
 import ai.classlynk.interface_adapter.Register.RegisterState;
 import ai.classlynk.interface_adapter.Register.RegisterViewModel;
 import ai.classlynk.interface_adapter.ViewManagerModel;
+import com.google.firebase.auth.FirebaseAuthException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +31,8 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
     private final ViewManagerModel viewManagerModel;
     private final JButton Register;
     private final JButton GoLogIn;
+
+
     public RegisterView(RegisterController controller, RegisterViewModel rgisterViewModel, LoginViewModel lginViewModel, ViewManagerModel viwManagerModel) {
 
         this.registerController = controller;
@@ -71,11 +74,15 @@ public class RegisterView extends JPanel implements ActionListener, PropertyChan
                         if (evt.getSource().equals(Register)) {
                             RegisterState currentState = registerViewModel.getState();
 
-                            registerController.execute(
-                                    currentState.getUsername(),
-                                    currentState.getPassword(),
-                                    currentState.getRepeatPassword()
-                            );
+                            try {
+                                registerController.execute(
+                                        currentState.getUsername(),
+                                        currentState.getPassword(),
+                                        currentState.getRepeatPassword()
+                                );
+                            } catch (FirebaseAuthException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 }
