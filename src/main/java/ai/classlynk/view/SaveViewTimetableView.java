@@ -28,6 +28,8 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
     JButton generateMapsButton;
 
+    JButton saveTimetableButton;
+
     public void setMenuSwitchingController(MenuSwitchingController menuSwitchingController) {
         this.menuSwitchingController = menuSwitchingController;
     }
@@ -90,6 +92,8 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
         }
         generateMapsButton = new JButton("View Maps");
         timetablePanel.add(generateMapsButton);
+        saveTimetableButton = new JButton("save");
+        timetablePanel.add(saveTimetableButton);
 
         viewCoursesButton.addActionListener(
                 e -> {
@@ -103,6 +107,16 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
                 e -> {
                     if (e.getSource().equals(generateMapsButton)) {
                         mapsController.execute(timetable);
+                    }
+                }
+        );
+
+        saveTimetableButton.addActionListener(
+                e -> {
+                    if (e.getSource().equals(saveTimetableButton)) {
+                        String username = User.getInstance("", "").getUsername();
+                        Timetable t = saveViewTimetableViewModel.getState().getTimetables();
+                        saveViewTimetableController.execute(true, username, t);
                     }
                 }
         );
