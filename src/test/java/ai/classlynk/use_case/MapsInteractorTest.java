@@ -55,7 +55,7 @@ class MapsInteractorTest {
         testClasses.put("Wednesday", wed);
         testClasses.put("Thursday", thur);
         testClasses.put("Friday", fri);
-        Timetable testTimetable = new Timetable(testClasses);
+        Timetable testTimetable = new Timetable("user1", testClasses);
 
         APIDataAccessObject apa = new APIDataAccessObject();
 

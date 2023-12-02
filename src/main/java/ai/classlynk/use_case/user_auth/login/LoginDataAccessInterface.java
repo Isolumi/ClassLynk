@@ -3,7 +3,9 @@ package ai.classlynk.use_case.user_auth.login;
 import ai.classlynk.entity.User;
 
 public interface LoginDataAccessInterface {
-    boolean existedByName(String username);
 
-    boolean verifyPassword(String name, String Password);
+    boolean existsByUsername(String username);
+    User getUser(String username);
+
+    boolean verifyPassword(User user, String password);
 }

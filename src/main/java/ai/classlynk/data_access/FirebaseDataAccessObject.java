@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -30,8 +29,11 @@ public class FirebaseDataAccessObject implements
     @Resource
     private FirestoreReactiveRepository<User> userRepository;
 
+
+    public FirebaseDataAccessObject() {
+    }
+
     /**
-     *
      * @return all courses stored in firestore
      */
     @Override
@@ -55,7 +57,6 @@ public class FirebaseDataAccessObject implements
     }
 
     /**
-     *
      * @param timetable the timetable to be stored in firestore
      */
     @Override
@@ -64,7 +65,6 @@ public class FirebaseDataAccessObject implements
     }
 
     /**
-     *
      * @param timetable the timetable to be deleted from firestore
      */
     @Override
@@ -78,36 +78,45 @@ public class FirebaseDataAccessObject implements
      */
     @Override
     public Timetable getTimetable(String userId) {
-        Mono<Timetable> timetables = timetableRepository.findById(userId);
-        return timetables.block();
+        return timetableRepository.findById(userId).block();
     }
 
+    /**
+     * @param username username to check if it exists in database
+     * @return whether the email exists in database
+     */
     @Override
-    public boolean existedByName(String Name) {
-        return false;
+    public boolean existsByUsername(String username) {
+        return Boolean.TRUE.equals(userRepository.existsById(username).block());
     }
 
+    /**
+     * @param username username of new user
+     * @param password password of new user
+     */
     @Override
-    public boolean verifyPassword(String name, String Password) {
-        return false;
+    public void userCreate(String username, String password)   {
+        userRepository.save(new User(username, password)).block();
     }
 
-    @Override
-    public void userCreate(String Name, String password) {
-    }
-
-    @Override
-    public boolean existsByName(String username) {
-        return false;
-    }
-
+    /**
+     *
+     * @param username username of user to fetch from database
+     * @return user that was fetched
+     */
     @Override
     public User getUser(String username) {
-        return null;
+        return userRepository.findById(username).block();
     }
 
+    /**
+     *
+     * @param user user that is trying to log in
+     * @param password user input from password field
+     * @return returns whether passwords match
+     */
     @Override
-    public boolean verifyPassword(User user) {
-        return false;
+    public boolean verifyPassword(User user, String password) {
+        return user.getPassword().equals(password);
     }
 }

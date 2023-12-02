@@ -3,6 +3,7 @@ package ai.classlynk.app;
 import ai.classlynk.data_access.FirebaseDataAccessObject;
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
+import ai.classlynk.entity.User;
 import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
@@ -13,6 +14,7 @@ import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInteractor;
 import ai.classlynk.view.SaveViewTimetableView;
 import ai.classlynk.view.ViewManager;
 import com.google.cloud.spring.data.firestore.repository.config.EnableReactiveFirestoreRepositories;
+import com.google.firebase.auth.FirebaseAuthException;
 import jakarta.annotation.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
@@ -44,8 +46,8 @@ public class ClassLynkApplication {
         };
     }
     public void test() {
-        var a = firebaseDataAccessObject.getTimetable("user2");
-        System.out.println(a.getUserId());
+        var a = firebaseDataAccessObject.existsByUsername("ungfabunga");
+        System.out.println(a);
     }
     public void start() {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
