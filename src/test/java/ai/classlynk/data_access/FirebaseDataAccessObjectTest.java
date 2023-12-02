@@ -62,6 +62,14 @@ public class FirebaseDataAccessObjectTest extends IntegrationTest {
 
     @Test
     void testVerifyPassword() {
-        
+        String testUsername = "test-user";
+        String testPassword = "no";
+        firebaseDataAccessObject.userDelete(testUsername);
+        firebaseDataAccessObject.userCreate(testUsername, testPassword);
+        boolean passwordStatus = firebaseDataAccessObject.verifyPassword(testUsername, testPassword);
+        assertTrue(passwordStatus);
+        passwordStatus = firebaseDataAccessObject.verifyPassword(testUsername, testPassword+"1");
+        assertFalse(passwordStatus);
+        firebaseDataAccessObject.userDelete(testUsername);
     }
 }
