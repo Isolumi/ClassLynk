@@ -100,18 +100,13 @@ public class FirebaseDataAccessObject implements
     }
 
     /**
-     * @param email email to check if it exists in database
-     * @return whether the email exists in database
-     */
-
-    /**
      *
-     * @param email
-     * @return
+     * @param username username of user to fetch from database
+     * @return user that was fetched
      */
     @Override
-    public User getUser(String email) {
-        return null;
+    public User getUser(String username) {
+        return userRepository.findById(username).block();
     }
 
     @Override
