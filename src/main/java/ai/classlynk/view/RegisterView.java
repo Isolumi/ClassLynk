@@ -61,8 +61,8 @@ public class RegisterView extends JPanel implements PropertyChangeListener {
         passwordInput.add(passwordInputField);
 
         JPanel repeatPasswordInput = new JPanel();
-        passwordInput.add(new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL));
-        passwordInput.add(repeatPasswordInputField);
+        repeatPasswordInput.add(new JLabel(RegisterViewModel.REPEAT_PASSWORD_LABEL));
+        repeatPasswordInput.add(repeatPasswordInputField);
 
 
         JPanel buttons = new JPanel();
@@ -83,7 +83,6 @@ public class RegisterView extends JPanel implements PropertyChangeListener {
                     }}
         );
         Register.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(Register)) {

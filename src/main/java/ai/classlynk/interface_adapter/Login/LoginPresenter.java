@@ -1,5 +1,6 @@
 package ai.classlynk.interface_adapter.Login;
 
+import ai.classlynk.entity.User;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableState;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
@@ -24,6 +25,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         // On success, switch to the logged in view.
 
         SaveViewTimetableState loggedInState = loggedInViewModel.getState();
+        loggedInState.setTimetables(User.getInstance("", "").getTimetables());
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
 

@@ -15,7 +15,7 @@ public class User {
     private String username;
 
     private String password;
-    private List<Timetable> timetables;
+    private Timetable timetables;
     private List<Course> courseKart;
     private List<SClass> classKart;
 
@@ -35,11 +35,11 @@ public class User {
         this.username = username;
     }
 
-    public List<Timetable> getTimetables() {
+    public Timetable getTimetables() {
         return timetables;
     }
 
-    public void setTimetables(List<Timetable> timetables) {
+    public void setTimetables(Timetable timetables) {
         this.timetables = timetables;
     }
 

@@ -35,12 +35,25 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     public LoginView(LoginController controller, LoginViewModel lginViewModel, RegisterViewModel rgisterViewModel, ViewManagerModel viwManagerModel) {
 
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridBagLayout());
         this.loginController = controller;
         this.loginViewModel = lginViewModel;
         this.registerViewModel = rgisterViewModel;
         this.viewManagerModel = viwManagerModel;
         loginViewModel.addPropertyChangeListener(this);
+
+        JPanel main = new JPanel();
+        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = GridBagConstraints.RELATIVE;
+        constraints.gridy = GridBagConstraints.RELATIVE;
+        constraints.anchor = GridBagConstraints.CENTER;
+
+
+
         JPanel title = new JPanel();
         title.add(new JLabel(loginViewModel.TITLE_LABEL));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -102,7 +115,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
             public void keyReleased(KeyEvent e) {
             }
         });
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         passwordInputField.addKeyListener(
                 new KeyListener() {
@@ -122,12 +134,11 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 });
 
-        this.add(title);
-        this.add(usernameInput);
-        this.add(usernameErrorField);
-        this.add(passwordInput);
-        this.add(passwordErrorField);
-        this.add(buttons);
+        main.add(title);
+        main.add(usernameInput);
+        main.add(passwordInput);
+        main.add(buttons);
+        this.add(main);
     }
 
     /**

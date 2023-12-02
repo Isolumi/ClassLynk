@@ -2,8 +2,10 @@ package ai.classlynk.view;
 
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
+import ai.classlynk.entity.User;
 import ai.classlynk.interface_adapter.MenuSwitchingController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
+import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableState;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
 import ai.classlynk.interface_adapter.static_maps.MapsController;
 
@@ -20,6 +22,8 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
     MenuSwitchingController menuSwitchingController;
 
+    SaveViewTimetableController saveViewTimetableController;
+
     JButton viewCoursesButton;
 
     JButton generateMapsButton;
@@ -30,6 +34,7 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
     public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController, MapsController mapsController) {
         saveViewTimetableViewModel.addPropertyChangeListener(this);
+        this.saveViewTimetableController = saveViewTimetableController;
         String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         viewCoursesButton = new JButton("View Courses");
 
@@ -108,6 +113,8 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        SaveViewTimetableState state = (SaveViewTimetableState) evt.getNewValue();
+        //TODO UPDATE VIEW FOR NEW TIMETABLE
     }
 
     @Override
