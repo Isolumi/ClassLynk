@@ -35,7 +35,7 @@ public class RegisterPresenter implements RegisterOutputBoundary, Presenter {
     }
 
     @Override
-    public void fail(String error) {
+    public void prepareFailView(String error) {
         RegisterState registerState = registerViewModel.getState();
         registerState.setUsernameError(error);
         registerViewModel.firePropertyChanged();
