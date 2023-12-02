@@ -3,6 +3,7 @@ package ai.classlynk.app;
 import ai.classlynk.data_access.FirebaseDataAccessObject;
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
+import ai.classlynk.entity.User;
 import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
@@ -44,8 +45,9 @@ public class ClassLynkApplication {
             test();
         };
     }
-    public void test() throws FirebaseAuthException {
-        firebaseDataAccessObject.userCreate("hubertx98@gmail.com", "asdfasdf");
+    public void test() {
+        var a = firebaseDataAccessObject.existsByUsername("ungabunga");
+        System.out.println(a);
     }
     public void start() {
         ViewManagerModel viewManagerModel = new ViewManagerModel();

@@ -1,9 +1,6 @@
 package ai.classlynk.use_case.user_auth.login;
 
 import ai.classlynk.entity.User;
-import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
-import ai.classlynk.use_case.user_auth.login.LoginInputBoundary;
-import ai.classlynk.use_case.user_auth.login.LoginInputData;
 
 public class LoginInteractor implements LoginInputBoundary {
     final LoginDataAccessInterface userDataAccessObject;
@@ -18,7 +15,7 @@ public class LoginInteractor implements LoginInputBoundary {
     @Override
     public void execute(LoginInputData loginInputData) {
         String username = loginInputData.getUsername();
-        if (!userDataAccessObject.existsByName(username)) {
+        if (!userDataAccessObject.existsByUsername(username)) {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         } else {
             User user = userDataAccessObject.getUser(username);

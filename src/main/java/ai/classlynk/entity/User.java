@@ -1,23 +1,36 @@
 package ai.classlynk.entity;
 
+import com.google.cloud.firestore.annotation.DocumentId;
+import com.google.cloud.spring.data.firestore.Document;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: need to make this an entity probably
+@Document(collectionName = "users")
 public class User {
-    @Id
-    private String id;
+    @DocumentId
+    private String email;
+
+    private String password;
     private List<Timetable> timetables;
     private List<Course> courseKart;
     private List<SClass> classKart;
-    public String getId() {
-        return id;
+
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Timetable> getTimetables() {
@@ -46,9 +59,11 @@ public class User {
 
 
 
-    public User(String id) {
-        this.id = id;
+    public User(String id, String password) {
+        this.email = id;
+        this.password = password;
         this.courseKart = new ArrayList<>();
         this.classKart = new ArrayList<>();
     }
+    public User(){}
 }

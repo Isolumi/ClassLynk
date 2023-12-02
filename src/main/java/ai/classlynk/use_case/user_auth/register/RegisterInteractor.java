@@ -12,10 +12,10 @@ public class RegisterInteractor implements RegisterInputBoundary{
     }
 
     public void execute(RegisterInputData inputData) throws FirebaseAuthException {
-     if (RegisterDAO.existedByName(inputData.getName())){
-         RegisterOutputBoundary.fail("This name has been used!");
+     if (RegisterDAO.existsByUsername(inputData.getName())){
+         RegisterOutputBoundary.fail("Email has been taken");
         } else if (inputData.getPw1().equals(inputData.getPw2())) {
-         RegisterOutputBoundary.fail("Two Passwords are different!");
+         RegisterOutputBoundary.fail("Passwords do not match");
      }else
      RegisterDAO.userCreate(inputData.getName(), inputData.getPw2());
      RegisterOutputBoundary.success();

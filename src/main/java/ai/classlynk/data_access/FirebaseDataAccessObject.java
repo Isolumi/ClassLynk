@@ -7,20 +7,12 @@ import ai.classlynk.use_case.explore_courses.ExploreCoursesDataAccessInterface;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import ai.classlynk.use_case.user_auth.login.LoginDataAccessInterface;
 import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.spring.data.firestore.FirestoreReactiveRepository;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
-import com.google.firebase.auth.UserRecord.CreateRequest;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Component
@@ -37,17 +29,11 @@ public class FirebaseDataAccessObject implements
     @Resource
     private FirestoreReactiveRepository<User> userRepository;
 
-    private FirebaseAuth fireAuth;
-    FirebaseOptions options = FirebaseOptions.builder()
-            .setCredentials(GoogleCredentials.getApplicationDefault())
-            .build();
-    FirebaseApp app = FirebaseApp.initializeApp(options);
 
-    public FirebaseDataAccessObject() throws IOException {
+    public FirebaseDataAccessObject() {
     }
 
     /**
-     *
      * @return all courses stored in firestore
      */
     @Override
@@ -71,7 +57,6 @@ public class FirebaseDataAccessObject implements
     }
 
     /**
-     *
      * @param timetable the timetable to be stored in firestore
      */
     @Override
@@ -80,7 +65,6 @@ public class FirebaseDataAccessObject implements
     }
 
     /**
-     *
      * @param timetable the timetable to be deleted from firestore
      */
     @Override
@@ -97,27 +81,36 @@ public class FirebaseDataAccessObject implements
         return timetableRepository.findById(userId).block();
     }
 
+    /**
+     * @param username username to check if it exists in database
+     * @return whether the email exists in database
+     */
     @Override
-    public boolean existedByName(String Name) {
-        return false;
+    public boolean existsByUsername(String username) {
+        return Boolean.TRUE.equals(userRepository.existsById(username).block());
     }
 
+    /**
+     * @param username username of new user
+     * @param password password of new user
+     */
     @Override
-    public void userCreate(String email, String password) throws FirebaseAuthException {
-        fireAuth = FirebaseAuth.getInstance(app);
-        CreateRequest request = new CreateRequest()
-                .setEmail(email)
-                .setPassword(password);
-        fireAuth.createUser(request);
+    public void userCreate(String username, String password)   {
+        userRepository.save(new User(username, password)).block();
     }
 
-    @Override
-    public boolean existsByName(String username) {
-        return false;
-    }
+    /**
+     * @param email email to check if it exists in database
+     * @return whether the email exists in database
+     */
 
+    /**
+     *
+     * @param email
+     * @return
+     */
     @Override
-    public User getUser(String username) {
+    public User getUser(String email) {
         return null;
     }
 
