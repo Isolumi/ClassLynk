@@ -23,6 +23,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,15 +43,35 @@ public class ClassLynkApplication {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            test();
+            start();
         };
-    }
-    public void test() {
-        var a = firebaseDataAccessObject.existsByName("ungfabunga");
-        System.out.println(a);
     }
     public void start() {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
+        JFrame application = new JFrame("ClassLynk");
+        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        CardLayout cardLayout = new CardLayout();
+
+        JPanel views = new JPanel(cardLayout);
+        application.add(views);
+
+        new ViewManager(views, cardLayout, viewManagerModel);
+
+        SaveViewTimetableView saveViewTimetableView = getSaveViewTimetableView(viewManagerModel);
+
+        views.add(saveViewTimetableView, saveViewTimetableView.viewName);
+
+        viewManagerModel.setActiveView(saveViewTimetableView.viewName);
+        viewManagerModel.firePropertyChanged();
+
+        application.pack();
+        application.setLocationRelativeTo(null);
+        application.setVisible(true);
+    }
+
+    @NotNull
+    private SaveViewTimetableView getSaveViewTimetableView(ViewManagerModel viewManagerModel) {
         // define view models
         SaveViewTimetableViewModel saveViewTimetableViewModel = new SaveViewTimetableViewModel();
 
@@ -67,57 +88,14 @@ public class ClassLynkApplication {
         // define controllers
         SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController(
                 saveViewTimetableInteractor);
-        saveViewTimetableController.execute(true);
-//        JFrame application = new JFrame("ClassLynk");
-//        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//
-//        CardLayout cardLayout = new CardLayout();
-//
-//        JPanel views = new JPanel(cardLayout);
-//        application.add(views);
-//
-//        ViewManagerModel viewManagerModel = new ViewManagerModel();
-//        new ViewManager(views, cardLayout, viewManagerModel);
-//
-//        SaveViewTimetableView saveViewTimetableView = getSaveViewTimetableView(viewManagerModel);
-//
-//        views.add(saveViewTimetableView, saveViewTimetableView.viewName);
-//
-//        viewManagerModel.setActiveView(saveViewTimetableView.viewName);
-//        viewManagerModel.firePropertyChanged();
-//
-//        application.pack();
-//        application.setLocationRelativeTo(null);
-//        application.setVisible(true);
-
+        saveViewTimetableController.execute(true, "user1");
+        SaveViewTimetableView saveViewTimetableView = new SaveViewTimetableView(
+                saveViewTimetableViewModel,
+                saveViewTimetableController
+        );
+        saveViewTimetableView.setBackButtonController(new BackButtonController(saveViewTimetablePresenter, new MapsViewModel()));
+        // define views
+        return saveViewTimetableView;
     }
-
-//    @NotNull
-//    private static SaveViewTimetableView getSaveViewTimetableView(ViewManagerModel viewManagerModel) {
-//        // define view models
-//        SaveViewTimetableViewModel saveViewTimetableViewModel = new SaveViewTimetableViewModel();
-//
-//        // define presenters
-//        SaveViewTimetablePresenter saveViewTimetablePresenter = new SaveViewTimetablePresenter(
-//                saveViewTimetableViewModel,
-//                viewManagerModel);
-//
-//        // define interactors
-//        SaveViewTimetableInteractor saveViewTimetableInteractor = new SaveViewTimetableInteractor(
-//                saveViewTimetablePresenter
-//        );
-//
-//        // define controllers
-//        SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController(
-//                saveViewTimetableInteractor);
-//        saveViewTimetableController.execute(true);
-//        SaveViewTimetableView saveViewTimetableView = new SaveViewTimetableView(
-//                saveViewTimetableViewModel,
-//                saveViewTimetableController
-//        );
-//        saveViewTimetableView.setBackButtonController(new BackButtonController(saveViewTimetablePresenter, new MapsViewModel()));
-//        // define views
-//        return saveViewTimetableView;
-//    }
 
 }

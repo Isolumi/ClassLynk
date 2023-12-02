@@ -1,6 +1,9 @@
 package ai.classlynk.use_case.save_view_timetables;
 
 import ai.classlynk.data_access.FirebaseDataAccessObject;
+import ai.classlynk.entity.Timetable;
+
+import java.sql.Time;
 
 public class SaveViewTimetableInteractor implements SaveViewTimetableInputBoundary {
     final SaveViewTimetableOutputBoundary saveViewPresenter;
@@ -14,12 +17,12 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
 
     @Override
     public void execute(SaveViewTimetableInputData inputData) {
-        if (inputData.loggedIn()) {
+        if (!inputData.loggedIn()) {
             saveViewPresenter.prepareNotLoggedInView();
         } else {
-            SaveViewTimetableOutputData timetables = new SaveViewTimetableOutputData(
-                    firebaseDataAccessObject.getTimetable(inputData.username()));
-            saveViewPresenter.prepareLoggedInView(timetables);
+            Timetable timetable = firebaseDataAccessObject.getTimetable(inputData.username());
+            SaveViewTimetableOutputData outputData = new SaveViewTimetableOutputData(timetable);
+            saveViewPresenter.prepareLoggedInView(outputData);
         }
     }
 }

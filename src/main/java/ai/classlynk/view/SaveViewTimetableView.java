@@ -64,34 +64,34 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
             timetablePanel.add(weekday, gbc);
         }
 
-//        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables().get(0);  // TODO: this only returns first timetable right now
-//        for (int i = 0; i < 5; i ++) {
-//            List<SClass> classes = timetable.getClasses().get(daysOfWeek[i].toLowerCase());
-//            for (SClass aClass : classes) {
-//                JLabel clas = new JLabel(aClass.getCourseId());
-//                clas.setBackground(Color.red);
-//                clas.setOpaque(true);
-//                gbc.fill = GridBagConstraints.BOTH;
-//                gbc.gridx = i + 1;
-//                gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
-//                gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
-//                        - Integer.parseInt(aClass.getStartTime().substring(0, 2));
-//                timetablePanel.add(clas, gbc);
-//            }
-//        }
-//        generateMapsButton = new JButton("View Maps");
-//        timetablePanel.add(generateMapsButton);
-//
-//        backButton.addActionListener(
-//                e -> {
-//                    if(e.getSource().equals(backButton))
-//                    {
-//                        backButtonController.execute();
-//                    }
-//                }
-//        );
+        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables();  // TODO: this only returns first timetable right now
+        for (int i = 0; i < 5; i ++) {
+            List<SClass> classes = timetable.getClasses().get(daysOfWeek[i].toLowerCase());
+            for (SClass aClass : classes) {
+                JLabel clas = new JLabel(aClass.getCourseId());
+                clas.setBackground(Color.red);
+                clas.setOpaque(true);
+                gbc.fill = GridBagConstraints.BOTH;
+                gbc.gridx = i + 1;
+                gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
+                        - Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                timetablePanel.add(clas, gbc);
+            }
+        }
+        generateMapsButton = new JButton("View Maps");
+        timetablePanel.add(generateMapsButton);
 
-        //TODO: this and the creation of the button will need to be in a for loop if multiple timetables are displayed at once
+        backButton.addActionListener(
+                e -> {
+                    if(e.getSource().equals(backButton))
+                    {
+                        backButtonController.execute();
+                    }
+                }
+        );
+
+//        TODO: this and the creation of the button will need to be in a for loop if multiple timetables are displayed at once
 //        generateMapsButton.addActionListener(
 //                e -> {
 //                        if(e.getSource().equals(generateMapsButton))

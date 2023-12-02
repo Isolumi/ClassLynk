@@ -9,8 +9,8 @@ public class SaveViewTimetableController {
         this.saveViewTimetableInputBoundary = saveViewTimetableInputBoundary;
     }
 
-    public void execute(boolean logInStatus) {
-        SaveViewTimetableInputData saveViewTimetableInputData = new SaveViewTimetableInputData(logInStatus);
+    public void execute(boolean logInStatus, String username) {
+        SaveViewTimetableInputData saveViewTimetableInputData = new SaveViewTimetableInputData(logInStatus, username);
         saveViewTimetableInputBoundary.execute(saveViewTimetableInputData);
     }
 }
