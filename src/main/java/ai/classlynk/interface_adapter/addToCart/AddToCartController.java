@@ -13,8 +13,8 @@ public class AddToCartController {
         this.addToCartInteractor = interactor;
     }
 
-    public void addToCart(Course course, ClassBundle classBundle, SClass sClass) {
-        AddToCartInputData inputData = new AddToCartInputData(course, classBundle, sClass);
+    public void addToCart(Course course) {
+        AddToCartInputData inputData = new AddToCartInputData(course);
         addToCartInteractor.addToCart(inputData);
     }
 }

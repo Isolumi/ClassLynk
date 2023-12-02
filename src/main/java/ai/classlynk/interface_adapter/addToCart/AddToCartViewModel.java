@@ -10,7 +10,7 @@ public class AddToCartViewModel {
     private final PropertyChangeSupport support;
 
     public AddToCartViewModel() {
-        this.state = new AddToCartState(false, "", new ArrayList<>(), new ArrayList<>());
+        this.state = new AddToCartState(false, "", new ArrayList<>());
         this.support = new PropertyChangeSupport(this);
     }
 

@@ -206,7 +206,7 @@ public class ClassLynkApplication {
 
         AddToCartViewModel addToCartViewModel = new AddToCartViewModel();
         AddToCartPresenter addToCartPresenter = new AddToCartPresenter(addToCartViewModel, viewManagerModel);
-        AddToCartInteractor addToCartInteractor = new AddToCartInteractor(addToCartPresenter, firebaseDataAccessObject);
+        AddToCartInteractor addToCartInteractor = new AddToCartInteractor(addToCartPresenter);
         AddToCartController addToCartController = new AddToCartController(addToCartInteractor);
 
         ViewCourseView viewCourseView = new ViewCourseView(viewCourseController, viewCourseViewModel, addToCartController);
