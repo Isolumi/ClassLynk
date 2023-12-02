@@ -1,15 +1,12 @@
 package ai.classlynk.interface_adapter;
 
-import ai.classlynk.interface_adapter.Presenter;
-import ai.classlynk.interface_adapter.ViewModel;
-
-public class BackButtonController {
+public class MenuSwitchingController {
 
     private Presenter presenter;
 
     private ViewModel previousMenuViewModel;
 
-    public BackButtonController(Presenter presenter, ViewModel viewModel)
+    public MenuSwitchingController(Presenter presenter, ViewModel viewModel)
     {
         this.presenter = presenter;
         this.previousMenuViewModel = viewModel;

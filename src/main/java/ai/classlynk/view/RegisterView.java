@@ -1,6 +1,5 @@
 package ai.classlynk.view;
 
-import ai.classlynk.interface_adapter.BackButtonController;
 import ai.classlynk.interface_adapter.Login.LoginState;
 import ai.classlynk.interface_adapter.Login.LoginViewModel;
 import ai.classlynk.interface_adapter.Register.RegisterController;
