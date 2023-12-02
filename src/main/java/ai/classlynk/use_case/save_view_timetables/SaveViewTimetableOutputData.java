@@ -4,5 +4,5 @@ import ai.classlynk.entity.Timetable;
 
 import java.util.List;
 
-public record SaveViewTimetableOutputData(List<Timetable> timetables) {
+public record SaveViewTimetableOutputData(Timetable timetables) {
 }
