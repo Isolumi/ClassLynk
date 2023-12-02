@@ -110,7 +110,7 @@ public class FirebaseDataAccessObject implements
     }
 
     @Override
-    public boolean verifyPassword(User user) {
-        return false;
+    public boolean verifyPassword(User user, String password) {
+        return user.getPassword().equals(password);
     }
 }

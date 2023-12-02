@@ -6,5 +6,5 @@ public interface LoginDataAccessInterface {
     boolean existsByUsername(String username);
     User getUser(String username);
 
-    boolean verifyPassword(User user);
+    boolean verifyPassword(User user, String password);
 }
