@@ -35,4 +35,15 @@ public class SaveViewTimetableInteractor implements SaveViewTimetableInputBounda
             saveViewPresenter.prepareLoggedInView(outputData);
         }
     }
+
+    @Override
+    public void executeSaveTimetable(SaveViewTimetableInputData inputData) {
+        if (!inputData.loggedIn()) {
+            saveViewPresenter.prepareNotLoggedInView();
+        } else {
+            firebaseDataAccessObject.saveTimetable(inputData.timetable());
+            SaveViewTimetableOutputData outputData = new SaveViewTimetableOutputData(inputData.timetable());
+            saveViewPresenter.prepareLoggedInView(outputData);
+        }
+    }
 }
