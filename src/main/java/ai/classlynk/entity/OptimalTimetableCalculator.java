@@ -3,16 +3,14 @@ package ai.classlynk.entity;
 import ai.classlynk.data_access.APIDataAccessObject;
 import org.checkerframework.checker.units.qual.A;
 
+import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class OptimalTimetableCalculator {
     public static Timetable generateTimetable(List<Course> courses) {
-        HashMap<String, List<List<ClassBundle>>> validLectureTutorialCombos = new HashMap<>(); //Maps Course Name to valid lecture tutorial pairs of that course
+        HashMap<String, List<Node>> validLectureTutorialCombos = new HashMap<>(); //Maps Course Name to valid lecture tutorial pairs of that course
         for (Course course : courses) {
             for (ClassBundle lec : course.getClassBundles()) {
                 if(!course.getTutorials().isEmpty()){
@@ -33,51 +31,61 @@ public class OptimalTimetableCalculator {
 
                         Timetable conflictTest = new Timetable("application",test);
                         if (!hasTimeConflict(conflictTest)) {
-                            if (!validLectureTutorialCombos.containsKey(course.getCourseName())) {
-                                validLectureTutorialCombos.put(course.getCourseName(), new ArrayList<List<ClassBundle>>());
+                            if (!validLectureTutorialCombos.containsKey(course.getCourseId())) {
+                                validLectureTutorialCombos.put(course.getCourseId(), new ArrayList<Node>());
+                            }else{
+
                             }
                             SClass[] tutList = {tut};
                             ClassBundle tutorialBundle = new ClassBundle(tut.getClassId(), Arrays.asList(tutList));
 
 
                             ArrayList<ClassBundle> validPair = new ArrayList<>();
+                            String id = course.getCourseId() + lec.lectureId + tutorialBundle.lectureId;
                             validPair.add(lec);
                             validPair.add(tutorialBundle);
-                            validLectureTutorialCombos.get(course.getCourseName()).add(validPair);
+                            validLectureTutorialCombos.get(course.getCourseId()).add(new Node(id, validPair));
                         }
 
                     }
                 }else{
-                    if (!validLectureTutorialCombos.containsKey(course.getCourseName())) {
-                        validLectureTutorialCombos.put(course.getCourseName(), new ArrayList<List<ClassBundle>>());
+                    if (!validLectureTutorialCombos.containsKey(course.getCourseId())) {
+                        validLectureTutorialCombos.put(course.getCourseId(), new ArrayList<Node>());
                     }
                     ArrayList<ClassBundle> validPair = new ArrayList<>();
+                    String id = course.getCourseId() + lec.lectureId;
                     validPair.add(lec);
-                    validLectureTutorialCombos.get(course.getCourseName()).add(validPair);
+                    validLectureTutorialCombos.get(course.getCourseId()).add(new Node(id, validPair));
                 }
 
             }
         }
-        HashMap<String, List<List<ClassBundle>>>  adjacencyMatrix = new HashMap<>();
+
+        for (String name : validLectureTutorialCombos.keySet()) {
+            System.out.println(name);
+            for(Node pair : validLectureTutorialCombos.get(name)){
+                System.out.print("|");
+                for(ClassBundle sclass : pair.info) {
+                    System.out.print(sclass.lectureId);
+                }
+                System.out.print("|");
+            }
+            System.out.println();
+
+        }
+
         for(int i = 0; i < courses.size() - 1; i++){
-            for(List<ClassBundle> pairs: validLectureTutorialCombos.get(courses.get(i).getCourseId())){
-                StringBuilder id = new StringBuilder();
-                for(ClassBundle classBundle : pairs){
-                    id.append(classBundle.getLectureId());
-                }
-                adjacencyMatrix.put(id.toString(), new ArrayList<List<ClassBundle>>());
-                for(List<ClassBundle> pair2: validLectureTutorialCombos.get(courses.get(i + 1).getCourseId())){
-                    adjacencyMatrix.get(id.toString()).add(pair2);
-                }
+            for(Node pairs: validLectureTutorialCombos.get(courses.get(i).getCourseId())){
+                pairs.adj.addAll(validLectureTutorialCombos.get(courses.get(i + 1).getCourseId()));
             }
         }
 
         List<Timetable> validTimeTables = new ArrayList<>();
 
-        for(List<ClassBundle> pairs: validLectureTutorialCombos.get(courses.get(0).getCourseId())){
+        for(Node pairs: validLectureTutorialCombos.get(courses.get(0).getCourseId())){
             List<List<ClassBundle>> cur = new ArrayList<>();
-            cur.add(pairs);
-            returnValidTimeTables(validTimeTables, cur, adjacencyMatrix);
+            cur.add(pairs.info);
+            returnValidTimeTables(validTimeTables, cur, pairs);
         }
 
         Timetable bestTimetable = validTimeTables.get(0);
@@ -90,20 +98,18 @@ public class OptimalTimetableCalculator {
     }
 
 
-    private static void returnValidTimeTables(List<Timetable> all, List<List<ClassBundle>> cur, HashMap<String, List<List<ClassBundle>>>  adjacencyMatrix) {
-        String id = cur.get(cur.size() - 1).get(0).lectureId + cur.get(cur.size() - 1).get(1).lectureId;
-        if(adjacencyMatrix.get(id).isEmpty()){
+    private static void returnValidTimeTables(List<Timetable> all, List<List<ClassBundle>> cur, Node curNode) {
+        if(curNode.adj.isEmpty()){
             Timetable potentialTimetable = classBundlesToTimetable(cur);
             if(!hasTimeConflict(potentialTimetable)){
                 all.add(potentialTimetable);
             }
             return;
         }else{
-            List<List<ClassBundle>> children = adjacencyMatrix.get(id);
-            for (List<ClassBundle> child : children){
+            for (Node child : curNode.adj){
                 ArrayList<List<ClassBundle>> newCur = new ArrayList<>(cur);
-                newCur.add(child);
-                returnValidTimeTables(all, newCur, adjacencyMatrix);
+                newCur.add(child.info);
+                returnValidTimeTables(all, newCur, child);
             }
         }
     }
@@ -130,17 +136,22 @@ public class OptimalTimetableCalculator {
     }
 
     private static boolean hasTimeConflict(Timetable timetable) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm:ss");
         for (String day : timetable.getClasses().keySet()) {
             for (SClass sClass1 : timetable.getClasses().get(day)) {
                 LocalTime startTime1 = LocalTime.parse(sClass1.getStartTime(), formatter);
                 LocalTime endTime1 = LocalTime.parse(sClass1.getEndTime(), formatter);
                 for (SClass sClass2 : timetable.getClasses().get(day)) {
-                    if (!sClass1.equals(sClass2)) {
+                    if (!(sClass1.getCourseId() + sClass1.getClassId()).equals(sClass2.getCourseId() + sClass2.getClassId())) {
                         LocalTime startTime2 = LocalTime.parse(sClass2.getStartTime(), formatter);
                         LocalTime endTime2 = LocalTime.parse(sClass2.getEndTime(), formatter);
-                        if (!(endTime1.isBefore(startTime2) || endTime2.isBefore(startTime1))) {
-                            return true;
+                        if (!(endTime1.isBefore(startTime2)) && startTime1.isBefore(startTime2) || !(endTime2.isBefore(startTime1)) && startTime2.isBefore(startTime1) || startTime1.equals(startTime2) && endTime1.equals(endTime2)) {
+                            if(!(endTime1.equals(startTime2) || endTime2.equals(startTime1)) ){
+                                System.out.println(day+sClass1.getCourseId()+sClass1.getClassId() + " and " + sClass2.getCourseId()+sClass2.getClassId() +" conflicts");
+                                System.out.println(startTime1 + " " + endTime1);
+                                System.out.println(startTime2 + " " + endTime2);
+                                return true;
+                            }
                         }
                     }
                 }
