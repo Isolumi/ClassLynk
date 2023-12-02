@@ -46,7 +46,7 @@ public class ClassLynkApplication {
         };
     }
     public void test() {
-        var a = firebaseDataAccessObject.existsByUsername("ungfabunga");
+        var a = firebaseDataAccessObject.existsByName("ungfabunga");
         System.out.println(a);
     }
     public void start() {

@@ -46,7 +46,7 @@ public class FirebaseDataAccessObjectTest extends IntegrationTest {
     void testDeleteUser() {
         String testUsername = "test-user";
         firebaseDataAccessObject.userDelete(testUsername);
-        boolean exists = firebaseDataAccessObject.existsByUsername(testUsername);
+        boolean exists = firebaseDataAccessObject.existsByName(testUsername);
         assertFalse(exists);
     }
 
@@ -56,7 +56,7 @@ public class FirebaseDataAccessObjectTest extends IntegrationTest {
         String testPassword = "no";
         firebaseDataAccessObject.userDelete(testUsername);
         firebaseDataAccessObject.userCreate(testUsername, testPassword);
-        boolean exists = firebaseDataAccessObject.existsByUsername(testUsername);
+        boolean exists = firebaseDataAccessObject.existsByName(testUsername);
         assertTrue(exists);
     }
 
