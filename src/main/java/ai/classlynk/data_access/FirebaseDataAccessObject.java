@@ -95,8 +95,16 @@ public class FirebaseDataAccessObject implements
      * @param password password of new user
      */
     @Override
-    public void userCreate(String username, String password)   {
+    public void userCreate(String username, String password) {
         userRepository.save(new User(username, password)).block();
+    }
+
+    /**
+     *
+     * @param username username of user to delete
+     */
+    public void userDelete(String username) {
+        userRepository.deleteById(username).block();
     }
 
     /**

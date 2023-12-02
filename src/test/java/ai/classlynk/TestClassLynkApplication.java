@@ -1,11 +1,11 @@
 package ai.classlynk;
 
-import ai.classlynk.data_access.FirebaseDataAccessObject;
-import jakarta.annotation.Resource;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import com.google.cloud.spring.data.firestore.repository.config.EnableReactiveFirestoreRepositories;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootApplication(scanBasePackages = "ai.classlynk")
+@EnableReactiveFirestoreRepositories(basePackages = "ai.classlynk")
 public class TestClassLynkApplication {
 
 }

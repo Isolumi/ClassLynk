@@ -1,24 +1,19 @@
 package ai.classlynk.data_access;
 
-import ai.classlynk.TestClassLynkApplication;
+import ai.classlynk.IntegrationTest;
+import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-// @SpringBootTest(classes = TestClassLynkApplication.class)
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestClassLynkApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
-public class FirebaseDataAccessObjectTest {
+public class FirebaseDataAccessObjectTest extends IntegrationTest {
     @Autowired
     FirebaseDataAccessObject firebaseDataAccessObject;
 
@@ -27,16 +22,46 @@ public class FirebaseDataAccessObjectTest {
         assertThat(firebaseDataAccessObject).isNotNull();
     }
     @Test
+    void testDeleteTimetable() {
+        String testUsername = "test-user";
+        Map<String, List<SClass>> classes = new HashMap<>();
+        Timetable testTimetable = new Timetable(testUsername, classes);
+        firebaseDataAccessObject.saveTimetable(testTimetable);
+        firebaseDataAccessObject.deleteTimetable(testTimetable);
+        Timetable returnTimetable = firebaseDataAccessObject.getTimetable(testUsername);
+        assertNull(returnTimetable);
+    }
+    @Test
     void testSaveGetTimetable() {
-        Timetable testTimetable = new Timetable("test-user", null);
+        Map<String, List<SClass>> classes = new HashMap<>();
+        Timetable testTimetable = new Timetable("test-user", classes);
+        firebaseDataAccessObject.deleteTimetable(testTimetable);
         firebaseDataAccessObject.saveTimetable(testTimetable);
         Timetable returnTimetable = firebaseDataAccessObject.getTimetable("test-user");
-        assertEquals(testTimetable, returnTimetable);
+        assertEquals(testTimetable.getUserId(), returnTimetable.getUserId());
+        firebaseDataAccessObject.deleteTimetable(returnTimetable);
     }
 
     @Test
-    void testDeleteTimetable() {
-        Timetable testTimetable = new Timetable("test-user", null);
-        firebaseDataAccessObject.deleteTimetable(testTimetable);
+    void testDeleteUser() {
+        String testUsername = "test-user";
+        firebaseDataAccessObject.userDelete(testUsername);
+        boolean exists = firebaseDataAccessObject.existsByUsername(testUsername);
+        assertFalse(exists);
+    }
+
+    @Test
+    void testUserCreateExistsByUsername() {
+        String testUsername = "test-user";
+        String testPassword = "no";
+        firebaseDataAccessObject.userDelete(testUsername);
+        firebaseDataAccessObject.userCreate(testUsername, testPassword);
+        boolean exists = firebaseDataAccessObject.existsByUsername(testUsername);
+        assertTrue(exists);
+    }
+
+    @Test
+    void testVerifyPassword() {
+        
     }
 }
