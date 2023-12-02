@@ -11,6 +11,6 @@ public class SaveViewTimetableController {
 
     public void execute(boolean logInStatus, String username) {
         SaveViewTimetableInputData saveViewTimetableInputData = new SaveViewTimetableInputData(logInStatus, username);
-        saveViewTimetableInputBoundary.execute(saveViewTimetableInputData);
+        saveViewTimetableInputBoundary.executeDatabaseFetch(saveViewTimetableInputData);
     }
 }
