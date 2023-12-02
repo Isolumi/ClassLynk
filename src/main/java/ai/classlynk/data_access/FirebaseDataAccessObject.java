@@ -14,6 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class FirebaseDataAccessObject implements
@@ -101,22 +102,12 @@ public class FirebaseDataAccessObject implements
 
     /**
      *
-     * @param username username of user to fetch from database
-     * @return user that was fetched
-     */
-    @Override
-    public User getUser(String username) {
-        return userRepository.findById(username).block();
-    }
-
-    /**
-     *
-     * @param user user that is trying to log in
+     * @param username user input from password field
      * @param password user input from password field
-     * @return returns whether passwords match
+     * @return returns whether passwords match the username
      */
     @Override
-    public boolean verifyPassword(User username, String password) {
-        return this.getUser(username).getPassword().equals(password);
+    public boolean verifyPassword(String username, String password) {
+        return Objects.requireNonNull(userRepository.findById(username).block()).getPassword().equals(password);
     }
 }
