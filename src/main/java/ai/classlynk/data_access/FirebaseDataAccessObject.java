@@ -109,6 +109,12 @@ public class FirebaseDataAccessObject implements
         return userRepository.findById(username).block();
     }
 
+    /**
+     *
+     * @param user user that is trying to log in
+     * @param password user input from password field
+     * @return returns whether passwords match
+     */
     @Override
     public boolean verifyPassword(User user, String password) {
         return user.getPassword().equals(password);
