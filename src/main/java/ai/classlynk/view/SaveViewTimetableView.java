@@ -18,7 +18,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
 
-public class SaveViewTimetableView extends JPanel implements ActionListener, PropertyChangeListener {
+public class SaveViewTimetableView extends JPanel implements PropertyChangeListener {
     public final String viewName = "Your Timetables";
 
     private MenuSwitchingController menuSwitchingController;
@@ -130,10 +130,5 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         SaveViewTimetableState state = (SaveViewTimetableState) evt.getNewValue();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 }

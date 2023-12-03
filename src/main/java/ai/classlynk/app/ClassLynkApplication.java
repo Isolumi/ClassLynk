@@ -134,7 +134,7 @@ public class ClassLynkApplication {
         LoginView loginView = new LoginView(loginController, loginViewModel, registerViewModel, viewManagerModel);
         RegisterView registerView = new RegisterView(registerController, registerViewModel, loginViewModel, viewManagerModel);
         ViewCourseView viewCourseView = new ViewCourseView(viewCourseController, viewCourseViewModel, addToCartController, generateTimetableController);
-        viewCourseView.setBackButtonController(new MenuSwitchingController(viewCoursePresenter, new SaveViewTimetableViewModel()));
+        viewCourseView.setBackButtonController(new MenuSwitchingController(viewCoursePresenter, saveViewTimetableViewModel));
         MapsView mapsView = new MapsView(mapsViewModel);
         mapsView.setBackButtonController(new MenuSwitchingController(mapsPresenter, saveViewTimetableViewModel));
 
