@@ -124,7 +124,6 @@ public class ClassLynkApplication {
         // define controllers
         SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController(
                 saveViewTimetableInteractor);
-        saveViewTimetableController.execute(true, "user1", new Timetable());
         SaveViewTimetableView saveViewTimetableView = new SaveViewTimetableView(
                 saveViewTimetableViewModel,
                 saveViewTimetableController, mapsController
