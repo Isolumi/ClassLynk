@@ -17,7 +17,6 @@ public class User {
     private String password;
     private Timetable timetables;
     private List<Course> courseKart;
-    private List<SClass> classKart;
 
 
     public String getPassword() {
@@ -51,22 +50,10 @@ public class User {
         this.courseKart = courseKart;
     }
 
-    public List<SClass> getClassKart() {
-        return classKart;
-    }
-
-    public void setClassKart(List<SClass> classKart) {
-        this.classKart = classKart;
-    }
-
-
-
     private User(String id, String password) {
             this.username = id;
             this.password = password;
             this.courseKart = new ArrayList<>();
-            this.classKart = new ArrayList<>();
-
     }
 
     public static User getInstance(String id, String password)
@@ -81,5 +68,17 @@ public class User {
     /**
      * DO NOT USE, THIS IS ONLY FOR DATA PERSISTENCE
      */
+
+    public String formatCart()
+    {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < instance.getCourseKart().size(); i++) {
+            builder.append(instance.getCourseKart().get(i).getCourseId() + ", " + instance.getCourseKart().get(i).getCourseName());
+            if (i < instance.getCourseKart().size() - 1) {
+                builder.append("\n");
+            }
+        }
+        return builder.toString();
+    }
     public User(){}
 }

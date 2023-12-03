@@ -1,6 +1,7 @@
 package ai.classlynk.view;
 
 import ai.classlynk.entity.Course;
+import ai.classlynk.entity.User;
 import ai.classlynk.interface_adapter.MenuSwitchingController;
 import ai.classlynk.interface_adapter.ViewCourse.ViewCourseController;
 import ai.classlynk.interface_adapter.ViewCourse.ViewCourseViewModel;
@@ -9,6 +10,7 @@ import ai.classlynk.interface_adapter.addToCart.AddToCartController;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewCourseView extends JPanel implements PropertyChangeListener {
@@ -18,7 +20,9 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
     public String viewName = "View Courses";
     private JList<Course> courseList;
     private JButton addToCartButton;
-    private JButton clearSelectionButton;
+    private JButton viewCartButton;
+
+    private JButton clearCartButton;
     MenuSwitchingController menuSwitchingController;
 
     JButton backButton;
@@ -47,8 +51,9 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         courseList = new JList<>();
         courseList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         addToCartButton = new JButton("Add to Cart");
-        clearSelectionButton = new JButton("Clear Selection");
         backButton = new JButton("Go back");
+        viewCartButton = new JButton("View Cart");
+        clearCartButton = new JButton("Clear Cart");
 
         updateCourses();
     }
@@ -57,9 +62,14 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(new JLabel("Select Courses:"));
         this.add(new JScrollPane(courseList));
-        this.add(addToCartButton);
-        this.add(clearSelectionButton);
-        this.add(backButton);
+        JPanel bottom = new JPanel();
+        bottom.setLayout(new BoxLayout(bottom, BoxLayout.X_AXIS));
+        bottom.add(backButton);
+        bottom.add(addToCartButton);
+        bottom.add(viewCartButton);
+        bottom.add(clearCartButton);
+        //TODO add view cart and generate timetable buttons
+        this.add(bottom);
     }
 
     private void setupInteractions() {
@@ -70,7 +80,17 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
             }
         });
 
-        clearSelectionButton.addActionListener(e -> clearSelections());
+        clearCartButton.addActionListener(e -> clearCart());
+
+        viewCartButton.addActionListener(
+                e ->
+                {
+                    if(e.getSource().equals(viewCartButton))
+                    {
+                        JOptionPane.showMessageDialog(this, User.getInstance("", "").formatCart());
+                    }
+                }
+        );
         backButton.addActionListener(
                 e -> {
                     if(e.getSource().equals(backButton))
@@ -81,8 +101,8 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         );
     }
 
-    private void clearSelections() {
-        courseList.clearSelection();
+    private void clearCart() {
+        User.getInstance("", "").setCourseKart(new ArrayList<>());
     }
 
     private void updateCourses() {

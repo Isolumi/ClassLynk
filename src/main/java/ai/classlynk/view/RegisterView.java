@@ -177,4 +177,7 @@ public class RegisterView extends JPanel implements PropertyChangeListener {
         if (state.getUsernameError() != null) {
             JOptionPane.showMessageDialog(this, state.getUsernameError());
         }
+        usernameInputField.setText("");
+        passwordInputField.setText("");
+        repeatPasswordInputField.setText("");
     } }
