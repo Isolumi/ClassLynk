@@ -12,7 +12,7 @@ public class RegisterViewModel extends ViewModel {
     public static final String REPEAT_PASSWORD_LABEL = "Enter password again";
 
     public static final String Register_BUTTON_LABEL = "Register";
-    public static final String GoLogIn_BUTTON_LABEL = "GoLogIn";
+    public static final String GoLogIn_BUTTON_LABEL = "Go to log in";
 
     private RegisterState state = new RegisterState();
 

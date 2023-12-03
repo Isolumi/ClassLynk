@@ -9,21 +9,11 @@ public class AddToCartOutputData {
     private boolean success;
     private String message;
     private List<Course> updatedCourseCart;
-    private List<SClass> updatedClassCart;
 
-    public AddToCartOutputData(boolean success, String message, List<Course> updatedCourseCart, List<SClass> updatedClassCart) {
+    public AddToCartOutputData(boolean success, String message, List<Course> updatedCourseCart) {
         this.success = success;
         this.message = message;
         this.updatedCourseCart = updatedCourseCart;
-        this.updatedClassCart = updatedClassCart;
-    }
-
-    public List<SClass> getUpdatedClassCart() {
-        return updatedClassCart;
-    }
-
-    public void setUpdatedClassCart(List<SClass> updatedClassCart) {
-        this.updatedClassCart = updatedClassCart;
     }
 
     public boolean isSuccess() {

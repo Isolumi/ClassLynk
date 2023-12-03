@@ -1,6 +1,5 @@
 package ai.classlynk.interface_adapter.addToCart;
 
-
 import ai.classlynk.interface_adapter.Presenter;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.use_case.AddToCart.AddToCartOutputBoundary;
@@ -18,7 +17,7 @@ public class AddToCartPresenter implements AddToCartOutputBoundary, Presenter {
 
     @Override
     public void presentResponse(AddToCartOutputData outputData) {
-        addToCartViewModel.setAddToCartState(new AddToCartState(outputData.isSuccess(), outputData.getMessage(), outputData.getUpdatedCourseCart(), outputData.getUpdatedClassCart()));
+        addToCartViewModel.setAddToCartState(new AddToCartState(outputData.isSuccess(), outputData.getMessage(), outputData.getUpdatedCourseCart()));
     }
 
     @Override
@@ -26,4 +25,3 @@ public class AddToCartPresenter implements AddToCartOutputBoundary, Presenter {
         return this.viewManagerModel;
     }
 }
-

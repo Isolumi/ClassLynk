@@ -1,5 +1,6 @@
 package ai.classlynk.use_case.user_auth.register;
 
+import ai.classlynk.entity.User;
 import com.google.firebase.auth.FirebaseAuthException;
 
 public class RegisterInteractor implements RegisterInputBoundary{
@@ -18,7 +19,8 @@ public class RegisterInteractor implements RegisterInputBoundary{
         } else if (!inputData.getPw1().equals(inputData.getPw2())) {
          RegisterOutputBoundary.prepareFailView("Two Passwords are different!");
      }else{
-     RegisterDAO.userCreate(inputData.getName(), inputData.getPw2());
-     RegisterOutputBoundary.success();
+         User.getInstance(inputData.getName(), inputData.getPw2());
+         RegisterDAO.userCreate(inputData.getName(), inputData.getPw2());
+         RegisterOutputBoundary.success();
     }
 }}

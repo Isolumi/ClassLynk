@@ -1,5 +1,10 @@
 package ai.classlynk.use_case.ViewCourse;
 
+import ai.classlynk.entity.Course;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewCourseInteractor implements ViewCourseInputBoundary{
     final ViewCourseDataAccessInterface viewCourseDataAccessObject;
     final ViewCourseOutputBoundary presenter;
@@ -11,7 +16,7 @@ public class ViewCourseInteractor implements ViewCourseInputBoundary{
 
     @Override
     public void execute() {
-        ViewCourseOutputData outputData = new ViewCourseOutputData(viewCourseDataAccessObject.getAllCourses());
+        ViewCourseOutputData outputData = new ViewCourseOutputData(new ArrayList<>(viewCourseDataAccessObject.getAllCourses().values()));
         presenter.presentResponse(outputData);
 
     }

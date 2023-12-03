@@ -1,8 +1,8 @@
 package ai.classlynk.view;
 
-import ai.classlynk.entity.ClassBundle;
 import ai.classlynk.entity.Course;
-import ai.classlynk.entity.SClass;
+import ai.classlynk.entity.User;
+import ai.classlynk.interface_adapter.MenuSwitchingController;
 import ai.classlynk.interface_adapter.ViewCourse.ViewCourseController;
 import ai.classlynk.interface_adapter.ViewCourse.ViewCourseViewModel;
 import ai.classlynk.interface_adapter.addToCart.AddToCartController;
@@ -10,43 +10,26 @@ import ai.classlynk.interface_adapter.addToCart.AddToCartController;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewCourseView extends JPanel implements PropertyChangeListener {
     private final ViewCourseViewModel courseViewModel;
     private final ViewCourseController courseController;
     private final AddToCartController addToCartController;
-
-    public JComboBox<Course> getCourseComboBox() {
-        return courseComboBox;
-    }
-
-    private JComboBox<Course> courseComboBox;
-
-    public JComboBox<ClassBundle> getClassBundleComboBox() {
-        return classBundleComboBox;
-    }
-
-    private JComboBox<ClassBundle> classBundleComboBox;
-
-    public JComboBox<SClass> getTutorialComboBox() {
-        return tutorialComboBox;
-    }
-
-    private JComboBox<SClass> tutorialComboBox;
-
-    public JButton getAddToCartButton() {
-        return addToCartButton;
-    }
-
+    public String viewName = "View Courses";
+    private JList<Course> courseList;
     private JButton addToCartButton;
+    private JButton viewCartButton;
 
-    public JButton getClearSelectionButton() {
-        return clearSelectionButton;
+    private JButton clearCartButton;
+    MenuSwitchingController menuSwitchingController;
+
+    JButton backButton;
+
+    public void setBackButtonController(MenuSwitchingController menuSwitchingController) {
+        this.menuSwitchingController = menuSwitchingController;
     }
-
-    private JButton clearSelectionButton;
-    private Course currentlySelectedCourse;
 
     public ViewCourseView(ViewCourseController courseController, ViewCourseViewModel courseViewModel, AddToCartController addToCartController) {
         this.courseController = courseController;
@@ -65,76 +48,70 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
     }
 
     private void initializeComponents() {
-        courseComboBox = new JComboBox<>();
-        classBundleComboBox = new JComboBox<>();
-        tutorialComboBox = new JComboBox<>();
+        courseList = new JList<>();
+        courseList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         addToCartButton = new JButton("Add to Cart");
-        clearSelectionButton = new JButton("Clear Selection");
+        backButton = new JButton("Go back");
+        viewCartButton = new JButton("View Cart");
+        clearCartButton = new JButton("Clear Cart");
 
         updateCourses();
     }
 
     private void layoutComponents() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(new JLabel("Select Course:"));
-        this.add(courseComboBox);
-        this.add(new JLabel("Select Class Bundle:"));
-        this.add(classBundleComboBox);
-        this.add(new JLabel("Select Tutorial:"));
-        this.add(tutorialComboBox);
-        this.add(addToCartButton);
-        this.add(clearSelectionButton);
+        this.add(new JLabel("Select Courses:"));
+        this.add(new JScrollPane(courseList));
+        JPanel bottom = new JPanel();
+        bottom.setLayout(new BoxLayout(bottom, BoxLayout.X_AXIS));
+        bottom.add(backButton);
+        bottom.add(addToCartButton);
+        bottom.add(viewCartButton);
+        bottom.add(clearCartButton);
+        //TODO add view cart and generate timetable buttons
+        this.add(bottom);
     }
 
     private void setupInteractions() {
-        courseComboBox.addActionListener(e -> {
-            Course selectedCourse = (Course) courseComboBox.getSelectedItem();
-            if (currentlySelectedCourse != null && currentlySelectedCourse.equals(selectedCourse)) {
-                clearSelections();
-                currentlySelectedCourse = null;
-            } else {
-                updateClassBundlesAndTutorials(selectedCourse);
-                currentlySelectedCourse = selectedCourse;
+        addToCartButton.addActionListener(e -> {
+            List<Course> selectedCourses = courseList.getSelectedValuesList();
+            for (Course course : selectedCourses) {
+                addToCartController.addToCart(course);
             }
         });
 
-        addToCartButton.addActionListener(e -> {
-            Course selectedCourse = (Course) courseComboBox.getSelectedItem();
-            ClassBundle selectedBundle = (ClassBundle) classBundleComboBox.getSelectedItem();
-            SClass selectedTutorial = (SClass) tutorialComboBox.getSelectedItem();
-            addToCartController.addToCart(selectedCourse, selectedBundle, selectedTutorial);
-        });
+        clearCartButton.addActionListener(e -> clearCart());
 
-        clearSelectionButton.addActionListener(e -> clearSelections());
+        viewCartButton.addActionListener(
+                e ->
+                {
+                    if(e.getSource().equals(viewCartButton))
+                    {
+                        JOptionPane.showMessageDialog(this, User.getInstance("", "").formatCart());
+                    }
+                }
+        );
+        backButton.addActionListener(
+                e -> {
+                    if(e.getSource().equals(backButton))
+                    {
+                        menuSwitchingController.execute();
+                    }
+                }
+        );
     }
 
-    private void clearSelections() {
-        courseComboBox.setSelectedIndex(-1);
-        classBundleComboBox.removeAllItems();
-        tutorialComboBox.removeAllItems();
-        currentlySelectedCourse = null;
+    private void clearCart() {
+        User.getInstance("", "").setCourseKart(new ArrayList<>());
     }
 
     private void updateCourses() {
-        courseComboBox.removeAllItems();
+        DefaultListModel<Course> model = new DefaultListModel<>();
         List<Course> courses = courseViewModel.getState().getCourses();
         for (Course course : courses) {
-            courseComboBox.addItem(course);
+            model.addElement(course);
         }
-    }
-
-    private void updateClassBundlesAndTutorials(Course selectedCourse) {
-        classBundleComboBox.removeAllItems();
-        tutorialComboBox.removeAllItems();
-
-        if (selectedCourse != null) {
-            for (ClassBundle bundle : selectedCourse.getClassBundles()) {
-                classBundleComboBox.addItem(bundle);
-            }
-            for (SClass tutorial : selectedCourse.getTutorials()) {
-                tutorialComboBox.addItem(tutorial);
-            }
-        }
+        courseList.setModel(model);
     }
 
     @Override
@@ -144,4 +121,3 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         }
     }
 }
-

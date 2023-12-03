@@ -4,7 +4,6 @@ import ai.classlynk.IntegrationTest;
 import ai.classlynk.data_access.FirebaseDataAccessObject;
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
-import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetablePresenter;
 import ai.classlynk.use_case.save_view_timetables.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class SaveViewTimetableInteractorTest extends IntegrationTest {
 
         SaveViewTimetableInputBoundary interactor = new SaveViewTimetableInteractor(presenter,
                 firebaseDataAccessObject);
-        interactor.execute(new SaveViewTimetableInputData(true, "test-user"));
+        interactor.executeDatabaseFetch(new SaveViewTimetableInputData(true, "test-user"));
         firebaseDataAccessObject.deleteTimetable(testTimetable);
     }
 }

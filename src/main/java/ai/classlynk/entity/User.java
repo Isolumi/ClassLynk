@@ -8,13 +8,15 @@ import java.util.List;
 
 @Document(collectionName = "users")
 public class User {
+
+    private static User instance;
+
     @DocumentId
     private String username;
 
     private String password;
-    private List<Timetable> timetables;
+    private Timetable timetables;
     private List<Course> courseKart;
-    private List<SClass> classKart;
 
 
     public String getPassword() {
@@ -32,11 +34,11 @@ public class User {
         this.username = username;
     }
 
-    public List<Timetable> getTimetables() {
+    public Timetable getTimetables() {
         return timetables;
     }
 
-    public void setTimetables(List<Timetable> timetables) {
+    public void setTimetables(Timetable timetables) {
         this.timetables = timetables;
     }
 
@@ -48,21 +50,35 @@ public class User {
         this.courseKart = courseKart;
     }
 
-    public List<SClass> getClassKart() {
-        return classKart;
+    private User(String id, String password) {
+            this.username = id;
+            this.password = password;
+            this.courseKart = new ArrayList<>();
     }
 
-    public void setClassKart(List<SClass> classKart) {
-        this.classKart = classKart;
+    public static User getInstance(String id, String password)
+    {
+        if(instance == null)
+        {
+            instance = new User(id, password);
+        }
+        return instance;
     }
 
+    /**
+     * DO NOT USE, THIS IS ONLY FOR DATA PERSISTENCE
+     */
 
-
-    public User(String id, String password) {
-        this.username = id;
-        this.password = password;
-        this.courseKart = new ArrayList<>();
-        this.classKart = new ArrayList<>();
+    public String formatCart()
+    {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < instance.getCourseKart().size(); i++) {
+            builder.append(instance.getCourseKart().get(i).getCourseId() + ", " + instance.getCourseKart().get(i).getCourseName());
+            if (i < instance.getCourseKart().size() - 1) {
+                builder.append("\n");
+            }
+        }
+        return builder.toString();
     }
     public User(){}
 }

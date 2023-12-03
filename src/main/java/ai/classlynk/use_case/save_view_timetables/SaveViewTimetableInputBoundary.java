@@ -1,5 +1,7 @@
 package ai.classlynk.use_case.save_view_timetables;
 
 public interface SaveViewTimetableInputBoundary {
-    void execute(SaveViewTimetableInputData inputData);
+    void executeDatabaseFetch(SaveViewTimetableInputData inputData);
+    void executeNewTimetable(SaveViewTimetableInputData inputData);
+    void executeSaveTimetable(SaveViewTimetableInputData inputData);
 }

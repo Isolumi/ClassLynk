@@ -28,21 +28,11 @@ public class AddToCartState {
 
     private List<Course> updatedCourseCart;
 
-    public List<SClass> getUpdatedClassCart() {
-        return updatedClassCart;
-    }
 
-    public void setUpdatedClassCart(List<SClass> updatedClassCart) {
-        this.updatedClassCart = updatedClassCart;
-    }
-
-    private List<SClass> updatedClassCart;
-
-    public AddToCartState(boolean success, String message, List<Course> updatedCourseCart, List<SClass> updatedClassCart) {
+    public AddToCartState(boolean success, String message, List<Course> updatedCourseCart) {
         this.success = success;
         this.message = message;
         this.updatedCourseCart = updatedCourseCart;
-        this.updatedClassCart = updatedClassCart;
     }
 
     public boolean isSuccess() {

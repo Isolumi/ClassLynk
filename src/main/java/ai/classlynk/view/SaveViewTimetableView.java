@@ -2,9 +2,12 @@ package ai.classlynk.view;
 
 import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
-import ai.classlynk.interface_adapter.BackButtonController;
+import ai.classlynk.entity.User;
+import ai.classlynk.interface_adapter.MenuSwitchingController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
+import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableState;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
+import ai.classlynk.interface_adapter.static_maps.MapsController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,26 +20,31 @@ import java.util.List;
 public class SaveViewTimetableView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "Your Timetables";
 
-    BackButtonController backButtonController;
+    MenuSwitchingController menuSwitchingController;
 
-    JButton backButton;
+    SaveViewTimetableController saveViewTimetableController;
+
+    JButton viewCoursesButton;
 
     JButton generateMapsButton;
 
-    public void setBackButtonController(BackButtonController backButtonController) {
-        this.backButtonController = backButtonController;
+    JButton saveTimetableButton;
+
+    public void setMenuSwitchingController(MenuSwitchingController menuSwitchingController) {
+        this.menuSwitchingController = menuSwitchingController;
     }
-    public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController) {
+
+    public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController, MapsController mapsController) {
         saveViewTimetableViewModel.addPropertyChangeListener(this);
+        this.saveViewTimetableController = saveViewTimetableController;
         String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        backButton = new JButton("Go Back");
+        viewCoursesButton = new JButton("View Courses");
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel title = new JPanel();
         title.setLayout(new BoxLayout(title, BoxLayout.X_AXIS));
 
-        title.add(backButton);
         title.add(Box.createHorizontalGlue());
 
         JLabel titleLabel = new JLabel(SaveViewTimetableViewModel.TITLE_LABEL);
@@ -45,6 +53,7 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
         title.add(Box.createHorizontalGlue());
 
         JPanel timetablePanel = new JPanel(new GridBagLayout());
+        timetablePanel.add(viewCoursesButton);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
@@ -64,42 +73,53 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
             timetablePanel.add(weekday, gbc);
         }
 
-        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables();  // TODO: this only returns first timetable right now
-        for (int i = 0; i < 5; i ++) {
-            List<SClass> classes = timetable.getClasses().get(daysOfWeek[i].toLowerCase());
-            for (SClass aClass : classes) {
-                JLabel clas = new JLabel(aClass.getCourseId());
-                clas.setBackground(Color.red);
-                clas.setOpaque(true);
-                gbc.fill = GridBagConstraints.BOTH;
-                gbc.gridx = i + 1;
-                gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
-                gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
-                        - Integer.parseInt(aClass.getStartTime().substring(0, 2));
-                timetablePanel.add(clas, gbc);
+        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables();
+        if (timetable != null) {
+            for (int i = 0; i < 5; i++) {
+                List<SClass> classes = timetable.getClasses().get(daysOfWeek[i].toLowerCase());
+                for (SClass aClass : classes) {
+                    JLabel clas = new JLabel(aClass.getCourseId());
+                    clas.setBackground(Color.red);
+                    clas.setOpaque(true);
+                    gbc.fill = GridBagConstraints.BOTH;
+                    gbc.gridx = i + 1;
+                    gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                    gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
+                            - Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                    timetablePanel.add(clas, gbc);
+                }
             }
         }
         generateMapsButton = new JButton("View Maps");
         timetablePanel.add(generateMapsButton);
+        saveTimetableButton = new JButton("save");
+        timetablePanel.add(saveTimetableButton);
 
-        backButton.addActionListener(
+        viewCoursesButton.addActionListener(
                 e -> {
-                    if(e.getSource().equals(backButton))
-                    {
-                        backButtonController.execute();
+                    if (e.getSource().equals(viewCoursesButton)) {
+                        menuSwitchingController.execute();
                     }
                 }
         );
 
-//        TODO: this and the creation of the button will need to be in a for loop if multiple timetables are displayed at once
-//        generateMapsButton.addActionListener(
-//                e -> {
-//                        if(e.getSource().equals(generateMapsButton))
-//                        {
-//                            mapsController.execute(timetable);
-//                        }
-//                }
-//        );
+        generateMapsButton.addActionListener(
+                e -> {
+                    if (e.getSource().equals(generateMapsButton)) {
+                        mapsController.execute(timetable);
+                    }
+                }
+        );
+
+        saveTimetableButton.addActionListener(
+                e -> {
+                    if (e.getSource().equals(saveTimetableButton)) {
+                        String username = User.getInstance("", "").getUsername();
+                        Timetable t = saveViewTimetableViewModel.getState().getTimetables();
+                        saveViewTimetableController.execute(true, username, t);
+                    }
+                }
+        );
 
         this.add(title);
         this.add(timetablePanel);
@@ -107,6 +127,8 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        SaveViewTimetableState state = (SaveViewTimetableState) evt.getNewValue();
+        //TODO UPDATE VIEW FOR NEW TIMETABLE
     }
 
     @Override

@@ -1,6 +1,6 @@
 package ai.classlynk.view;
 
-import ai.classlynk.interface_adapter.BackButtonController;
+import ai.classlynk.interface_adapter.MenuSwitchingController;
 import ai.classlynk.interface_adapter.static_maps.MapsState;
 import ai.classlynk.interface_adapter.static_maps.MapsViewModel;
 
@@ -21,10 +21,10 @@ public class MapsView extends JPanel implements PropertyChangeListener {
 
     JButton backButton;
 
-    BackButtonController backButtonController;
+    MenuSwitchingController menuSwitchingController;
 
-    public void setBackButtonController(BackButtonController backButtonController) {
-        this.backButtonController = backButtonController;
+    public void setBackButtonController(MenuSwitchingController menuSwitchingController) {
+        this.menuSwitchingController = menuSwitchingController;
     }
     public MapsView(MapsViewModel mapsViewModel) {
         mapsViewModel.addPropertyChangeListener(this);
@@ -34,59 +34,58 @@ public class MapsView extends JPanel implements PropertyChangeListener {
 
         MapsState state = mapsViewModel.getState();
 
-        //Creates the menus containing the image of the route and the classes on the day in a text format for each day
-        Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        for (String day : days) {
-            JPanel dayPanel = new JPanel();
-            dayPanel.add(new JLabel(new ImageIcon(state.getImageLocations().get(day))));
-            JTextArea timetableText = new JTextArea(formattedTimetable.get(day));
-            timetableText.setWrapStyleWord(true);
-            timetableText.setLineWrap(true);
-            timetableText.setEditable(false);
-            timetableText.setFont(new Font("Arial", Font.PLAIN, 30));
-            timetableText.setPreferredSize(new Dimension(1000, 1000));
-            dayPanel.add(timetableText);
-            menus.add(dayPanel, day);
-        }
+            //Creates the menus containing the image of the route and the classes on the day in a text format for each day
+            Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
+            String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+            for (String day : days) {
+                JPanel dayPanel = new JPanel();
+                dayPanel.add(new JLabel(new ImageIcon(state.getImageLocations().get(day))));
+                JTextArea timetableText = new JTextArea(formattedTimetable.get(day));
+                timetableText.setWrapStyleWord(true);
+                timetableText.setLineWrap(true);
+                timetableText.setEditable(false);
+                timetableText.setFont(new Font("Arial", Font.PLAIN, 30));
+                timetableText.setPreferredSize(new Dimension(1000, 1000));
+                dayPanel.add(timetableText);
+                menus.add(dayPanel, day);
+            }
 
-        JPanel topPanel = new JPanel(new BorderLayout());
-        //Creates switcher buttons for each day of the week
-        JPanel daySwitcherButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        for (String day : days) {
-            JButton button = new JButton(day);
-            button.addActionListener(e -> {
-                CardLayout layout = (CardLayout) (menus.getLayout());
-                layout.show(menus, day);
-            });
-            daySwitcherButtons.add(button);
-        }
-        backButton = new JButton("Go Back");
+            JPanel topPanel = new JPanel(new BorderLayout());
+            //Creates switcher buttons for each day of the week
+            JPanel daySwitcherButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            for (String day : days) {
+                JButton button = new JButton(day);
+                button.addActionListener(e -> {
+                    CardLayout layout = (CardLayout) (menus.getLayout());
+                    layout.show(menus, day);
+                });
+                daySwitcherButtons.add(button);
+            }
+            backButton = new JButton("Go Back");
 
-        backButton.addActionListener(
-                e -> {
-                    if(e.getSource().equals(backButton))
-                    {
-                        backButtonController.execute();
-                        //Flushes image from cache and deletes image to ensure image is updated properly
-                        for (String path : mapsViewModel.getState().getImageLocations().values()) {
-                            File file = new File(path);
-                            if (file.exists()) {
-                                Image image = Toolkit.getDefaultToolkit().getImage(path);
-                                image.flush();
-                                file.delete();
+            backButton.addActionListener(
+                    e -> {
+                        if(e.getSource().equals(backButton))
+                        {
+                            menuSwitchingController.execute();
+                            //Flushes image from cache and deletes image to ensure image is updated properly
+                            for (String path : mapsViewModel.getState().getImageLocations().values()) {
+                                File file = new File(path);
+                                if (file.exists()) {
+                                    Image image = Toolkit.getDefaultToolkit().getImage(path);
+                                    image.flush();
+                                    file.delete();
+                                }
                             }
                         }
                     }
-                }
-        );
+            );
 
-        topPanel.add(backButton, BorderLayout.WEST);
-        topPanel.add(daySwitcherButtons, BorderLayout.CENTER);
+            topPanel.add(backButton, BorderLayout.WEST);
+            topPanel.add(daySwitcherButtons, BorderLayout.CENTER);
 
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(menus, BorderLayout.CENTER);
-
+            this.add(topPanel, BorderLayout.NORTH);
+            this.add(menus, BorderLayout.CENTER);
     }
 
     @Override
