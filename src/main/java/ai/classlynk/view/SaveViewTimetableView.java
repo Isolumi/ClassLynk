@@ -15,20 +15,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.List;
 
 public class SaveViewTimetableView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "Your Timetables";
 
-    MenuSwitchingController menuSwitchingController;
+    private MenuSwitchingController menuSwitchingController;
 
-    SaveViewTimetableController saveViewTimetableController;
+    private final JButton viewCoursesButton;
 
-    JButton viewCoursesButton;
+    private final JButton generateMapsButton;
 
-    JButton generateMapsButton;
-
-    JButton saveTimetableButton;
+    private final JButton saveTimetableButton;
 
     public void setMenuSwitchingController(MenuSwitchingController menuSwitchingController) {
         this.menuSwitchingController = menuSwitchingController;
@@ -36,7 +35,6 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
 
     public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController, MapsController mapsController) {
         saveViewTimetableViewModel.addPropertyChangeListener(this);
-        this.saveViewTimetableController = saveViewTimetableController;
         String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         viewCoursesButton = new JButton("View Courses");
 
@@ -116,7 +114,11 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
                     if (e.getSource().equals(saveTimetableButton)) {
                         String username = User.getInstance("", "").getUsername();
                         Timetable t = saveViewTimetableViewModel.getState().getTimetables();
-                        saveViewTimetableController.execute(true, username, t);
+                        try {
+                            saveViewTimetableController.execute(true, username, t);
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(this, "You haven't generated your timetable. Please make a timetable and try again.");
+                        }
                     }
                 }
         );
@@ -128,7 +130,7 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         SaveViewTimetableState state = (SaveViewTimetableState) evt.getNewValue();
-        //TODO UPDATE VIEW FOR NEW TIMETABLE
+
     }
 
     @Override

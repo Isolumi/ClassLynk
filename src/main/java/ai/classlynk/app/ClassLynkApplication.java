@@ -18,12 +18,14 @@ import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.interface_adapter.addToCart.AddToCartController;
 import ai.classlynk.interface_adapter.addToCart.AddToCartPresenter;
 import ai.classlynk.interface_adapter.addToCart.AddToCartViewModel;
+import ai.classlynk.interface_adapter.generate_timetable.GenerateTimetableController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableController;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetablePresenter;
 import ai.classlynk.interface_adapter.save_view_timetables.SaveViewTimetableViewModel;
 import ai.classlynk.interface_adapter.static_maps.*;
 import ai.classlynk.use_case.AddToCart.AddToCartInteractor;
 import ai.classlynk.use_case.ViewCourse.ViewCourseInteractor;
+import ai.classlynk.use_case.generate_timetable.GenerateTimetableInteractor;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInteractor;
 import ai.classlynk.use_case.user_auth.login.LoginInteractor;
 import ai.classlynk.use_case.user_auth.register.RegisterInteractor;
@@ -208,7 +210,12 @@ public class ClassLynkApplication {
         AddToCartInteractor addToCartInteractor = new AddToCartInteractor(addToCartPresenter, firebaseDataAccessObject);
         AddToCartController addToCartController = new AddToCartController(addToCartInteractor);
 
-        ViewCourseView viewCourseView = new ViewCourseView(viewCourseController, viewCourseViewModel, addToCartController);
+        SaveViewTimetableViewModel outputViewModel = new SaveViewTimetableViewModel();
+        SaveViewTimetablePresenter outputPresenter = new SaveViewTimetablePresenter(outputViewModel, viewManagerModel);
+        GenerateTimetableInteractor generateTimetableInteractor = new GenerateTimetableInteractor(outputPresenter, apiDataAccessObject);
+        GenerateTimetableController generateTimetableController = new GenerateTimetableController(generateTimetableInteractor);
+
+        ViewCourseView viewCourseView = new ViewCourseView(viewCourseController, viewCourseViewModel, addToCartController, generateTimetableController);
         viewCourseView.setBackButtonController(new MenuSwitchingController(viewCoursePresenter, new SaveViewTimetableViewModel()));
         return viewCourseView;
     }
