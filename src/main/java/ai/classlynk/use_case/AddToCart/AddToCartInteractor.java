@@ -6,9 +6,11 @@ import java.util.List;
 
 public class AddToCartInteractor implements AddToCartInputBoundary {
     final AddToCartOutputBoundary presenter;
+    final AddToCartDataAccessInterface dataAccessObject;
 
-    public AddToCartInteractor(AddToCartOutputBoundary presenter) {
+    public AddToCartInteractor(AddToCartOutputBoundary presenter, AddToCartDataAccessInterface dataAccessObject) {
         this.presenter = presenter;
+        this.dataAccessObject = dataAccessObject;
     }
 
     @Override
