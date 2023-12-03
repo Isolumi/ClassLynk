@@ -130,7 +130,6 @@ public class SaveViewTimetableView extends JPanel implements ActionListener, Pro
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         SaveViewTimetableState state = (SaveViewTimetableState) evt.getNewValue();
-
     }
 
     @Override
