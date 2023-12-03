@@ -1,14 +1,9 @@
 package ai.classlynk.entity;
 
 import ai.classlynk.data_access.APIDataAccessObject;
-import org.checkerframework.checker.units.qual.A;
-
-import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static ai.classlynk.entity.DistanceOptimization.averageDistance;
 
 public class OptimalTimetableCalculator extends DistanceOptimization {
 
@@ -89,20 +84,25 @@ public class OptimalTimetableCalculator extends DistanceOptimization {
             returnValidTimeTables(validTimeTables, cur, pairs);
         }
 
+
+        OptimizationParameter param = new DistanceOptimization(validTimeTables, dao);
+
         Timetable bestTimetable = validTimeTables.get(0);
-        float bestTimetableDistance = averageDistance(bestTimetable, dao);
+        float bestTimetableScore = param.getScore(param.calculateNonNormalizedScore(bestTimetable));
         if(validTimeTables.size() == 1)
         {
             return bestTimetable;
         }
         else {
             for (Timetable timetable: validTimeTables.subList(1, validTimeTables.size() - 1)){
-                float currTimetableDistance = averageDistance(timetable, dao);
-                if(currTimetableDistance < bestTimetableDistance){
+                float currTimetableScore = param.getScore(param.calculateNonNormalizedScore(timetable));
+                if(currTimetableScore < bestTimetableScore)
+                {
                     bestTimetable = timetable;
-                    bestTimetableDistance = currTimetableDistance;
+                    bestTimetableScore = currTimetableScore;
                 }
             }
+
             return bestTimetable;
         }
     }
