@@ -43,6 +43,10 @@ public class APIDataAccessObject implements TimetableGeneratorDataAccessInterfac
         DirectionsResult res;
         EncodedPolyline polyline;
         ArrayList<StaticMapsRequest.Markers> mapMarkers = new ArrayList<>();
+        if(timetable == null)
+        {
+            throw new IOException();
+        }
         for(String day : timetable.getClasses().keySet())
         {
             ArrayList<String> classAddresses = new ArrayList<>();

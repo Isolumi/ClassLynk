@@ -65,9 +65,6 @@ public class User {
         return instance;
     }
 
-    /**
-     * DO NOT USE, THIS IS ONLY FOR DATA PERSISTENCE
-     */
 
     public String formatCart()
     {
@@ -80,5 +77,10 @@ public class User {
         }
         return builder.toString();
     }
+
+
+    /**
+     * DO NOT USE, THIS IS ONLY FOR DATA PERSISTENCE
+     */
     public User(){}
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -63,7 +64,11 @@ public class FirebaseDataAccessObject implements
      * @param timetable the timetable to be stored in firestore
      */
     @Override
-    public void saveTimetable(Timetable timetable) {
+    public void saveTimetable(Timetable timetable) throws IOException {
+        if(timetable == null)
+        {
+            throw new IOException();
+        }
         timetableRepository.save(timetable).block();
     }
 

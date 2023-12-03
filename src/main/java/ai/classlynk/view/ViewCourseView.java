@@ -6,6 +6,7 @@ import ai.classlynk.interface_adapter.MenuSwitchingController;
 import ai.classlynk.interface_adapter.ViewCourse.ViewCourseController;
 import ai.classlynk.interface_adapter.ViewCourse.ViewCourseViewModel;
 import ai.classlynk.interface_adapter.addToCart.AddToCartController;
+import ai.classlynk.interface_adapter.generate_timetable.GenerateTimetableController;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
@@ -17,24 +18,31 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
     private final ViewCourseViewModel courseViewModel;
     private final ViewCourseController courseController;
     private final AddToCartController addToCartController;
+
+    private final GenerateTimetableController generateTimetableController;
     public String viewName = "View Courses";
     private JList<Course> courseList;
     private JButton addToCartButton;
     private JButton viewCartButton;
 
     private JButton clearCartButton;
-    MenuSwitchingController menuSwitchingController;
+    private MenuSwitchingController menuSwitchingController;
 
-    JButton backButton;
+    private JButton backButton;
+
+    private JButton generateButton;
+
+
 
     public void setBackButtonController(MenuSwitchingController menuSwitchingController) {
         this.menuSwitchingController = menuSwitchingController;
     }
 
-    public ViewCourseView(ViewCourseController courseController, ViewCourseViewModel courseViewModel, AddToCartController addToCartController) {
+    public ViewCourseView(ViewCourseController courseController, ViewCourseViewModel courseViewModel, AddToCartController addToCartController, GenerateTimetableController generateTimetableController) {
         this.courseController = courseController;
         this.courseViewModel = courseViewModel;
         this.addToCartController = addToCartController;
+        this.generateTimetableController = generateTimetableController;
 
         loadCourses();
         courseViewModel.addPropertyChangeListener(this);
@@ -54,7 +62,7 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         backButton = new JButton("Go back");
         viewCartButton = new JButton("View Cart");
         clearCartButton = new JButton("Clear Cart");
-
+        generateButton = new JButton("Generate Timetables");
         updateCourses();
     }
 
@@ -68,7 +76,7 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         bottom.add(addToCartButton);
         bottom.add(viewCartButton);
         bottom.add(clearCartButton);
-        //TODO add view cart and generate timetable buttons
+        bottom.add(generateButton);
         this.add(bottom);
     }
 
@@ -99,6 +107,20 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
                     }
                 }
         );
+
+        generateButton.addActionListener(e ->
+        {
+            if(e.getSource().equals(generateButton))
+            {
+                if(User.getInstance("", "").getCourseKart().size() > 0)
+                {
+                    generateTimetableController.execute(User.getInstance("", "").getCourseKart());
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "You have no courses in your cart. Please add some courses and try again.");
+                }
+            }
+        });
     }
 
     private void clearCart() {

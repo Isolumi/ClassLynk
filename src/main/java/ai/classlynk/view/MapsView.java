@@ -17,11 +17,11 @@ public class MapsView extends JPanel implements PropertyChangeListener {
 
     public final String viewName = "view maps";
 
-    JPanel menus;
+    private final JPanel menus;
 
-    JButton backButton;
+    private final JButton backButton;
 
-    MenuSwitchingController menuSwitchingController;
+    private MenuSwitchingController menuSwitchingController;
 
     public void setBackButtonController(MenuSwitchingController menuSwitchingController) {
         this.menuSwitchingController = menuSwitchingController;
