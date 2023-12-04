@@ -111,7 +111,7 @@ public class ClassLynkApplication {
         SaveViewTimetableInteractor saveViewTimetableInteractor = new SaveViewTimetableInteractor(
                 saveViewTimetablePresenter, firebaseDataAccessObject
         );
-        LoginInteractor loginInteractor = new LoginInteractor(firebaseDataAccessObject, loginPresenter);
+        LoginInteractor loginInteractor = new LoginInteractor(firebaseDataAccessObject, firebaseDataAccessObject, loginPresenter);
         RegisterInteractor registerInteractor = new RegisterInteractor(firebaseDataAccessObject, registerPresenter);
         AddToCartInteractor addToCartInteractor = new AddToCartInteractor(addToCartPresenter, firebaseDataAccessObject);
         ViewCourseInteractor viewCourseInteractor = new ViewCourseInteractor(firebaseDataAccessObject, viewCoursePresenter);
