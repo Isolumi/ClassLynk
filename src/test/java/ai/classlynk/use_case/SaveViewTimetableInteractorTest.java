@@ -33,6 +33,11 @@ public class SaveViewTimetableInteractorTest extends IntegrationTest {
             public void prepareNotLoggedInView() {
 
             }
+
+            @Override
+            public void prepareLoggedInViewError(String s) {
+
+            }
         };
 
         SaveViewTimetableInputBoundary interactor = new SaveViewTimetableInteractor(presenter,
