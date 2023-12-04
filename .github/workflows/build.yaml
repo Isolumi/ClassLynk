@@ -35,5 +35,6 @@ jobs:
 
       - name: Maven Build
         run: |
-          echo "${{ secrets.GCP_SERVICE_KEY }}" > src/main/resources/config/serviceAccountKey.json
+          mkdir -p src/main/resources/config
+          echo "${{ secrets.GCP_SECRET_KEY }}" > src/main/resources/config/serviceAccountKey.json
           mvn clean package
