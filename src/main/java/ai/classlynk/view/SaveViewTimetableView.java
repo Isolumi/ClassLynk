@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.List;
 
 public class SaveViewTimetableView extends JPanel implements PropertyChangeListener {
@@ -23,11 +24,29 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
 
     private MenuSwitchingController menuSwitchingController;
 
-    private final JButton viewCoursesButton;
+    private final JPanel timetablePanel = new JPanel(new GridBagLayout());
+
+    private final JButton viewCoursesButton = new JButton("View Courses");
+
+    private GridBagConstraints gbc = new GridBagConstraints();
 
     private final JButton generateMapsButton;
 
     private final JButton saveTimetableButton;
+
+    JLabel titleLabel = new JLabel(SaveViewTimetableViewModel.TITLE_LABEL);
+
+    JPanel title = new JPanel();
+
+    private Timetable timetable;
+
+    String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+
+    MapsController mapsController;
+
+    SaveViewTimetableController saveViewTimetableController;
+
+    SaveViewTimetableViewModel saveViewTimetableViewModel;
 
     public void setMenuSwitchingController(MenuSwitchingController menuSwitchingController) {
         this.menuSwitchingController = menuSwitchingController;
@@ -35,24 +54,37 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
 
     public SaveViewTimetableView(SaveViewTimetableViewModel saveViewTimetableViewModel, SaveViewTimetableController saveViewTimetableController, MapsController mapsController) {
         saveViewTimetableViewModel.addPropertyChangeListener(this);
-        String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        viewCoursesButton = new JButton("View Courses");
-
+        this.mapsController = mapsController;
+        this.saveViewTimetableController = saveViewTimetableController;
+        this.saveViewTimetableViewModel = saveViewTimetableViewModel;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        JPanel title = new JPanel();
+
         title.setLayout(new BoxLayout(title, BoxLayout.X_AXIS));
 
         title.add(Box.createHorizontalGlue());
 
-        JLabel titleLabel = new JLabel(SaveViewTimetableViewModel.TITLE_LABEL);
+
         title.add(titleLabel);
 
         title.add(Box.createHorizontalGlue());
 
-        JPanel timetablePanel = new JPanel(new GridBagLayout());
+        generateMapsButton = new JButton("View Maps");
+        saveTimetableButton = new JButton("save");
+
+
+
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        SaveViewTimetableState state = (SaveViewTimetableState) evt.getNewValue();
+        timetable = state.getTimetables();
+        timetablePanel.removeAll();
+
         timetablePanel.add(viewCoursesButton);
-        GridBagConstraints gbc = new GridBagConstraints();
+
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
@@ -71,26 +103,9 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
             timetablePanel.add(weekday, gbc);
         }
 
-        Timetable timetable = saveViewTimetableViewModel.getState().getTimetables();
-        if (timetable != null) {
-            for (int i = 0; i < 5; i++) {
-                List<SClass> classes = timetable.getClasses().get(daysOfWeek[i].toLowerCase());
-                for (SClass aClass : classes) {
-                    JLabel clas = new JLabel(aClass.getCourseId());
-                    clas.setBackground(Color.red);
-                    clas.setOpaque(true);
-                    gbc.fill = GridBagConstraints.BOTH;
-                    gbc.gridx = i + 1;
-                    gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
-                    gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
-                            - Integer.parseInt(aClass.getStartTime().substring(0, 2));
-                    timetablePanel.add(clas, gbc);
-                }
-            }
-        }
-        generateMapsButton = new JButton("View Maps");
+
         timetablePanel.add(generateMapsButton);
-        saveTimetableButton = new JButton("save");
+
         timetablePanel.add(saveTimetableButton);
 
         viewCoursesButton.addActionListener(
@@ -108,7 +123,6 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
                     }
                 }
         );
-
         saveTimetableButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(saveTimetableButton)) {
@@ -125,10 +139,25 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
 
         this.add(title);
         this.add(timetablePanel);
-    }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        SaveViewTimetableState state = (SaveViewTimetableState) evt.getNewValue();
+        GridBagConstraints gbc = new GridBagConstraints();
+        for (int i = 0; i < 5; i++) {
+            List<SClass> classes = timetable.getClasses().get(daysOfWeek[i]);
+            if (classes != null) {
+                for (SClass aClass : classes) {
+                    JLabel clas = new JLabel(aClass.getCourseId());
+                    clas.setBackground(Color.blue);
+                    clas.setOpaque(true);
+                    gbc.fill = GridBagConstraints.BOTH;
+                    gbc.gridx = i + 1;
+                    gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                    gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
+                            - Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                    timetablePanel.add(clas, gbc);
+                }
+            }
+        }
+        timetablePanel.revalidate();
+        timetablePanel.repaint();
     }
 }
