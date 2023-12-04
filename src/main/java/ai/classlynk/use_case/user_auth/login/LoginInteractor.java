@@ -15,6 +15,10 @@ public class LoginInteractor implements LoginInputBoundary {
         this.loginPresenter = loginOutputBoundary;
     }
 
+    /**
+     * Validates the user's credentials, and then logs them in, switching to the save/view timetable view if successfully validated.
+     * @param loginInputData The credentials inputted by the user.
+     */
     @Override
     public void execute(LoginInputData loginInputData) {
         String username = loginInputData.getUsername();

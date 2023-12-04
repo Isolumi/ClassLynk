@@ -14,6 +14,9 @@ public class ViewCourseInteractor implements ViewCourseInputBoundary{
         this.presenter = presenter;
     }
 
+    /**
+     * Fetches all courses in the database and switches to the view courses view.
+     */
     @Override
     public void execute() {
         ViewCourseOutputData outputData = new ViewCourseOutputData(new ArrayList<>(viewCourseDataAccessObject.getAllCourses().values()));
