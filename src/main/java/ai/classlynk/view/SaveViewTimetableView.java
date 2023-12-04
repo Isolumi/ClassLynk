@@ -106,7 +106,7 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
 
         timetablePanel.add(saveTimetableButton);
 
-        removeActionListeners(viewCoursesButton);
+
         viewCoursesButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(viewCoursesButton)) {
@@ -134,7 +134,7 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
                 }
         );
 
-        removeActionListeners(saveTimetableButton);
+
         saveTimetableButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(saveTimetableButton)) {
