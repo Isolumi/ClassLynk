@@ -20,7 +20,7 @@ import java.sql.SQLOutput;
 import java.util.List;
 
 public class SaveViewTimetableView extends JPanel implements PropertyChangeListener {
-    public final String viewName = "Your Timetables";
+    public final String viewName = "Your Timetable";
 
     private MenuSwitchingController menuSwitchingController;
 
@@ -70,11 +70,7 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
         title.add(Box.createHorizontalGlue());
 
         generateMapsButton = new JButton("View Maps");
-        saveTimetableButton = new JButton("save");
-
-
-
-
+        saveTimetableButton = new JButton("Save");
     }
 
     @Override
@@ -110,6 +106,7 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
 
         timetablePanel.add(saveTimetableButton);
 
+        removeActionListeners(viewCoursesButton);
         viewCoursesButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(viewCoursesButton)) {
@@ -128,6 +125,7 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
             }
         }
 
+        removeActionListeners(generateMapsButton);
         generateMapsButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(generateMapsButton)) {
@@ -135,6 +133,8 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
                     }
                 }
         );
+
+        removeActionListeners(saveTimetableButton);
         saveTimetableButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(saveTimetableButton)) {
@@ -160,7 +160,14 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
                 if (classes != null) {
                     for (SClass aClass : classes) {
                         JLabel clas = new JLabel(aClass.getCourseId());
-                        clas.setBackground(Color.LIGHT_GRAY);
+                        if(aClass.isTutorial())
+                        {
+                            clas.setBackground(Color.LIGHT_GRAY);
+                        }
+                        else
+                        {
+                            clas.setBackground(Color.GRAY);
+                        }
                         clas.setOpaque(true);
                         gbc.fill = GridBagConstraints.BOTH;
                         gbc.gridx = i + 1;
@@ -175,5 +182,13 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
 
         timetablePanel.revalidate();
         timetablePanel.repaint();
+    }
+
+    private void removeActionListeners(JButton button)
+    {
+        ActionListener[] listeners = generateMapsButton.getActionListeners();
+        for (ActionListener listener : listeners) {
+            generateMapsButton.removeActionListener(listener);
+        }
     }
 }
