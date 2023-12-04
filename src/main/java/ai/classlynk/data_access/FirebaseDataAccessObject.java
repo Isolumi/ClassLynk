@@ -103,8 +103,8 @@ public class FirebaseDataAccessObject implements
      * @param password password of new user
      */
     @Override
-    public void userCreate(String username, String password) {
-        userRepository.save(User.getInstance(username, password)).block();
+    public User userCreate(String username, String password) {
+        return userRepository.save(new User(username, password)).block();
     }
 
     /**
@@ -124,7 +124,13 @@ public class FirebaseDataAccessObject implements
      */
     @Override
     public boolean verifyPassword(String username, String password) {
-        return Objects.requireNonNull(userRepository.findById(username).block()).getPassword().equals(password);
+        return Objects.requireNonNull(
+                userRepository
+                        .findById(username)
+                        .block()
+                )
+                .getPassword()
+                .equals(password);
     }
 
     /**

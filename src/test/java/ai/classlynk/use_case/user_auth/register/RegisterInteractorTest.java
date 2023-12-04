@@ -11,7 +11,7 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RegisterInteractorTest {
-    class FakeUser{
+    class FakeUser extends User{
         private final String Name;
         private final String Password;
 
@@ -50,9 +50,10 @@ class RegisterInteractorTest {
         }
 
         @Override
-        public void userCreate(String Name, String password) {
+        public User userCreate(String Name, String password) {
             FakeUser user = new FakeUser(Name, password);
             FakeUsers.add(user);
+            return user;
         }
     }
 
