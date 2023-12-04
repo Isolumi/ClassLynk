@@ -28,19 +28,19 @@ class GenerateTimetableInteractorTest extends IntegrationTest {
         classList = classList.subList(0, 2);
 
         ClassBundle bundleOne = classList.get(0).getClassBundles().get(0);
-        ClassBundle bundleTwo = classList.get(1).getClassBundles().get(1);
-        SClass tutOne = classList.get(0).getTutorials().get(0);
-        SClass tutTwo = classList.get(1).getTutorials().get(0);
+        ClassBundle bundleTwo = classList.get(1).getClassBundles().get(4);
+        SClass tutOne = classList.get(0).getTutorials().get(4);
+        SClass tutTwo = classList.get(1).getTutorials().get(2);
 
         Map<String, List<SClass>> expectedClasses = new HashMap<>();
         List<SClass> mon = new ArrayList<>();
         mon.add(bundleOne.getClasses().get(0));
-        mon.add(tutOne);
         List<SClass> tues = new ArrayList<>();
-        tues.add(bundleTwo.getClasses().get(0));
-        tues.add(tutTwo);
         List<SClass> wed = new ArrayList<>();
         wed.add(bundleOne.getClasses().get(1));
+        wed.add(tutTwo);
+        wed.add(bundleTwo.getClasses().get(0));
+        wed.add(tutOne);
         List<SClass> thurs = new ArrayList<>();
         List<SClass> fri = new ArrayList<>();
 
