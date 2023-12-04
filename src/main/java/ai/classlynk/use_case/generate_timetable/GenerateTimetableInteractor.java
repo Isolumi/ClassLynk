@@ -24,6 +24,10 @@ public class GenerateTimetableInteractor implements GenerateTimetableInputBounda
         this.dao = dao;
     }
 
+    /**
+     * Generates an optimal timetable, if one is possible with the given classes, and displays it in the save/view timetable view
+     * @param generateTimetableInputData The list of courses to make an optimal timetable for
+     */
     public void execute(GenerateTimetableInputData generateTimetableInputData) {
         try
         {
