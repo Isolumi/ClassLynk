@@ -5,9 +5,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class BruteForceAlgorithm implements OptimizationAlgorithm{
 
-    public Timetable generateTimetable(List<Course> courses, APIDataAccessObject dao) {
+
+public class BruteForceAlgorithm implements OptimizationAlgorithm{
+    public Timetable generateTimetable(List<Course> courses, APIDataAccessObject dao) throws NoSuchElementException {
         HashMap<String, List<Node>> validLectureTutorialCombos = new HashMap<>(); //Maps Course Name to valid lecture tutorial pairs of that course
         for (Course course : courses) {
             for (ClassBundle lec : course.getClassBundles()) {
@@ -84,7 +85,10 @@ public class BruteForceAlgorithm implements OptimizationAlgorithm{
             returnValidTimeTables(validTimeTables, cur, pairs);
         }
 
-
+        if(validTimeTables.isEmpty())
+        {
+            throw new NoSuchElementException();
+        }
         OptimizationParameter param = new DistanceOptimization(validTimeTables, dao);
 
         Timetable bestTimetable = validTimeTables.get(0);
@@ -102,7 +106,10 @@ public class BruteForceAlgorithm implements OptimizationAlgorithm{
                     bestTimetableScore = currTimetableScore;
                 }
             }
-
+            for(String day : bestTimetable.getClasses().keySet())
+            {
+                bestTimetable.getClasses().get(day).sort(new TimeComparator());
+            }
             return bestTimetable;
         }
     }

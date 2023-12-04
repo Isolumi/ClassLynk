@@ -7,6 +7,10 @@ import java.util.List;
 public class SaveViewTimetableState {
     private Timetable timetables;
 
+
+
+    private String error;
+
     public SaveViewTimetableState(SaveViewTimetableState copy) {
         this.timetables = copy.timetables;
     }
@@ -19,5 +23,12 @@ public class SaveViewTimetableState {
 
     public void setTimetables(Timetable timetables) {
         this.timetables = timetables;
+    }
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

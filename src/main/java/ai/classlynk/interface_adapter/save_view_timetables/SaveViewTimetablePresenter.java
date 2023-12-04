@@ -22,6 +22,17 @@ public class SaveViewTimetablePresenter implements SaveViewTimetableOutputBounda
     public void prepareLoggedInView(SaveViewTimetableOutputData outputData) {
         SaveViewTimetableState saveViewTimetableState = saveViewTimetableViewModel.getState();
         saveViewTimetableState.setTimetables(outputData.timetable());
+        saveViewTimetableState.setError(null);
+        this.saveViewTimetableViewModel.setState(saveViewTimetableState);
+        this.saveViewTimetableViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setActiveView(saveViewTimetableViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
+    }
+
+    public void prepareLoggedInViewError(String error) {
+        SaveViewTimetableState saveViewTimetableState = saveViewTimetableViewModel.getState();
+            saveViewTimetableState.setError(error);
         this.saveViewTimetableViewModel.setState(saveViewTimetableState);
         this.saveViewTimetableViewModel.firePropertyChanged();
 
