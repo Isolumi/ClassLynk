@@ -8,7 +8,9 @@ import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableOutputBoundar
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableOutputData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class GenerateTimetableInteractor implements GenerateTimetableInputBoundary{
 
@@ -22,9 +24,16 @@ public class GenerateTimetableInteractor implements GenerateTimetableInputBounda
     }
 
     public void execute(GenerateTimetableInputData generateTimetableInputData) {
-        Timetable timetable = OptimalTimetableCalculator.generateTimetable(generateTimetableInputData.getCourses(), dao);
-        SaveViewTimetableOutputData outputData = new SaveViewTimetableOutputData(timetable);
-        generateTimetableOutputBoundary.prepareLoggedInView(outputData);
+        try
+        {
+            Timetable timetable = OptimalTimetableCalculator.generateTimetable(generateTimetableInputData.getCourses(), dao);
+            SaveViewTimetableOutputData outputData = new SaveViewTimetableOutputData(timetable);
+            generateTimetableOutputBoundary.prepareLoggedInView(outputData);
+        }
+        catch (NoSuchElementException e)
+        {
+            generateTimetableOutputBoundary.prepareLoggedInViewError("Couldn't generate timetable. Please try a different set of courses.");
+        }
     }
 
 }
