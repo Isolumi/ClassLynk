@@ -1,6 +1,7 @@
 package ai.classlynk.entity;
 
 import ai.classlynk.app.ClassLynkApplication;
+import ai.classlynk.data_access.APIDataAccessObject;
 import ai.classlynk.data_access.FirebaseDataAccessObject;
 import com.google.cloud.spring.data.firestore.repository.config.EnableReactiveFirestoreRepositories;
 import jakarta.annotation.Resource;
@@ -25,33 +26,34 @@ public class timetableGenerationTest {
         builder.run(args);
     }
 
-//    @Bean
-//    public CommandLineRunner testRunner() {
-//        return args -> {
-//            random5CourseTest();
-//        };
-//    }
-//    @Test
-//    public void random5CourseTest(){
-//        Map<String, Course> allCourses = firebaseDataAccessObject.getAllCourses();
-//        List<Course> first5 = new ArrayList<>();
-//        int i = 0;
-//        for(Course course: allCourses.values()){
-//            first5.add(course);
-//            if(i == 4){
-//                break;
-//            }
-//            i++;
-//        }
-//        Timetable optimal = OptimalTimetableCalculator.generateTimetable(first5);
-//        for(String key: optimal.getClasses().keySet()){
-//            System.out.println(key);
-//            for(SClass sclass: optimal.getClasses().get(key)){
-//                System.out.print(sclass.getCourseId() + ": " + sclass.getClassId() + " ");
-//            }
-//            System.out.println();
-//        }
-//    }
+    @Bean
+    public CommandLineRunner testRunner() {
+        return args -> {
+            random5CourseTest();
+        };
+    }
+    @Test
+    public void random5CourseTest(){
+        Map<String, Course> allCourses = firebaseDataAccessObject.getAllCourses();
+        List<Course> first5 = new ArrayList<>();
+        int i = 0;
+        for(Course course: allCourses.values()){
+            first5.add(course);
+            if(i == 4){
+                break;
+            }
+            i++;
+        }
+        OptimizationAlgorithm algorithm = new BruteForceAlgorithm();
+        Timetable optimal = algorithm.generateTimetable(first5, new APIDataAccessObject());
+        for(String key: optimal.getClasses().keySet()){
+            System.out.println(key);
+            for(SClass sclass: optimal.getClasses().get(key)){
+                System.out.print(sclass.getCourseId() + ": " + sclass.getClassId() + " ");
+            }
+            System.out.println();
+        }
+    }
 
     public void nonConflictTest(){
 

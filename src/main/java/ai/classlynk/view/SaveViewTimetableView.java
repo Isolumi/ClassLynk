@@ -80,6 +80,8 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         SaveViewTimetableState state = (SaveViewTimetableState) evt.getNewValue();
+
+
         timetable = state.getTimetables();
         timetablePanel.removeAll();
 
@@ -115,6 +117,16 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
                     }
                 }
         );
+        if(state.getError() != null)
+        {
+            if(state.getError().equals("Couldn't generate timetable. Please try a different set of courses."))
+            {
+                JOptionPane.showMessageDialog(this, state.getError());
+                viewCoursesButton.doClick();
+                //halt execution
+                return;
+            }
+        }
 
         generateMapsButton.addActionListener(
                 e -> {
@@ -141,22 +153,26 @@ public class SaveViewTimetableView extends JPanel implements PropertyChangeListe
         this.add(timetablePanel);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        for (int i = 0; i < 5; i++) {
-            List<SClass> classes = timetable.getClasses().get(daysOfWeek[i]);
-            if (classes != null) {
-                for (SClass aClass : classes) {
-                    JLabel clas = new JLabel(aClass.getCourseId());
-                    clas.setBackground(Color.blue);
-                    clas.setOpaque(true);
-                    gbc.fill = GridBagConstraints.BOTH;
-                    gbc.gridx = i + 1;
-                    gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
-                    gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
-                            - Integer.parseInt(aClass.getStartTime().substring(0, 2));
-                    timetablePanel.add(clas, gbc);
+        if(timetable != null)
+        {
+            for (int i = 0; i < 5; i++) {
+                List<SClass> classes = timetable.getClasses().get(daysOfWeek[i]);
+                if (classes != null) {
+                    for (SClass aClass : classes) {
+                        JLabel clas = new JLabel(aClass.getCourseId());
+                        clas.setBackground(Color.LIGHT_GRAY);
+                        clas.setOpaque(true);
+                        gbc.fill = GridBagConstraints.BOTH;
+                        gbc.gridx = i + 1;
+                        gbc.gridy = Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                        gbc.gridheight = Integer.parseInt(aClass.getEndTime().substring(0, 2))
+                                - Integer.parseInt(aClass.getStartTime().substring(0, 2));
+                        timetablePanel.add(clas, gbc);
+                    }
                 }
             }
         }
+
         timetablePanel.revalidate();
         timetablePanel.repaint();
     }

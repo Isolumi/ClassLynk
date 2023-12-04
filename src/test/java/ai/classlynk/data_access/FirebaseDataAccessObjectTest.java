@@ -64,7 +64,6 @@ public class FirebaseDataAccessObjectTest extends IntegrationTest {
         firebaseDataAccessObject.userDelete(testUsername);
         var user = firebaseDataAccessObject.userCreate(testUsername, testPassword);
         assertNotNull(user);
-        Thread.sleep(1000);
         boolean exists = firebaseDataAccessObject.existsByName(testUsername);
         assertTrue(exists);
     }
