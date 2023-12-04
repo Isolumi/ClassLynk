@@ -6,14 +6,14 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class SaveViewTimetableViewModel extends ViewModel {
-    public static final String TITLE_LABEL = "Your Timetables";
+    public static final String TITLE_LABEL = "Your Timetable";
 
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private SaveViewTimetableState state = new SaveViewTimetableState();
 
     public SaveViewTimetableViewModel() {
-        super("Your Timetables");
+        super("Your Timetable");
     }
     public void setState(SaveViewTimetableState state) {
         this.state = state;

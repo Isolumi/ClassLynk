@@ -59,7 +59,7 @@ public class ViewCourseView extends JPanel implements PropertyChangeListener {
         courseList = new JList<>();
         courseList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         addToCartButton = new JButton("Add to Cart");
-        backButton = new JButton("Go back");
+        backButton = new JButton("Go Back");
         viewCartButton = new JButton("View Cart");
         clearCartButton = new JButton("Clear Cart");
         generateButton = new JButton("Generate Timetables");
