@@ -14,6 +14,10 @@ public class DistanceOptimization implements OptimizationParameter
 
     private final APIDataAccessObject dao;
 
+    /**
+     * Initializes a new distance optimization parameter, calculating the average, standard deviation, and maximum standard deviation.
+     * @param timetables The list of timetables to create the distance optimization parameter for.
+     */
     public DistanceOptimization(List<Timetable> timetables, APIDataAccessObject dao)
     {
         ArrayList<Float> averageDistances = new ArrayList<>();
@@ -26,10 +30,24 @@ public class DistanceOptimization implements OptimizationParameter
             averageDistances.add(averageDistance);
         }
         averageDistance = averageDistanceSum / timetables.size();
-        standardDeviation = calculateSD(averageDistances);
-        maxStandardDeviation = (Collections.max(averageDistances) - averageDistance) / standardDeviation;
+        standardDeviation = calculateStandardDeviation(averageDistances);
+        float maxStandardDeviationPos = (Collections.max(averageDistances) - averageDistance) / standardDeviation;
+        float maxStandardDeviationNeg = (Collections.min(averageDistances) - averageDistance) / standardDeviation;
+        if(Math.abs(maxStandardDeviationNeg) > maxStandardDeviationPos)
+        {
+            maxStandardDeviation = Math.abs(maxStandardDeviationNeg);
+        }
+        else {
+            maxStandardDeviation = maxStandardDeviationPos;
+        }
 
     }
+
+    /**
+     * Calculates a non-normalized score for the timetable.
+     * @param timetable The timetable to calculate the non-normalized score for.
+     * @return The non-normalized score.
+     */
     @Override
     public float calculateNonNormalizedScore(Timetable timetable) {
         float totalDistance = 0;
@@ -38,13 +56,19 @@ public class DistanceOptimization implements OptimizationParameter
             List<SClass> classesForDay = timetable.getClasses().get(day);
             totalCourseLoad += classesForDay.size();
             for (int i = 0; i < timetable.getClasses().get(day).size() - 2; i++) {
-                totalDistance += getDistance(distances, classesForDay.get(i).getLocation(), classesForDay.get(i + 1).getLocation());
+                totalDistance += getDistance(classesForDay.get(i).getLocation(), classesForDay.get(i + 1).getLocation());
             }
         }
         return totalDistance / totalCourseLoad;
     }
 
-    private float getDistance(Map<Set<String>, Float> distances, String loc1, String loc2) {
+    /**
+     * Gets the route length between the two locations.
+     * @param loc1 The starting location.
+     * @param loc2 THe ending location.
+     * @return The distance in meters.
+     */
+    private float getDistance(String loc1, String loc2) {
         Set<String> loc = new HashSet<>();
         loc.add(loc1);
         loc.add(loc2);
@@ -57,7 +81,8 @@ public class DistanceOptimization implements OptimizationParameter
         }
     }
 
-    public static float calculateSD(ArrayList<Float> list) {
+
+    public static float calculateStandardDeviation(ArrayList<Float> list) {
         double sum = 0.0;
         double standardDeviation = 0.0;
         int length = list.size();
@@ -74,6 +99,12 @@ public class DistanceOptimization implements OptimizationParameter
 
         return (float) Math.sqrt(standardDeviation / length);
     }
+
+    /**
+     * Calculates a normalized score for the timetable from 0-100.
+     * @param value Non-normalizedscore to normalize.
+     * @return The normalized score.
+     */
     @Override
     public float getScore(float value) {
         float numberStandardDeviations = (value - averageDistance) / standardDeviation;
