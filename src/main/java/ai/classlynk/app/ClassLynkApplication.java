@@ -27,6 +27,9 @@ import ai.classlynk.use_case.AddToCart.AddToCartInteractor;
 import ai.classlynk.use_case.ViewCourse.ViewCourseInteractor;
 import ai.classlynk.use_case.generate_timetable.GenerateTimetableInteractor;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInteractor;
+import ai.classlynk.use_case.static_maps.MapsInputBoundary;
+import ai.classlynk.use_case.static_maps.MapsInteractor;
+import ai.classlynk.use_case.static_maps.MapsOutputBoundary;
 import ai.classlynk.use_case.user_auth.login.LoginInteractor;
 import ai.classlynk.use_case.user_auth.register.RegisterInteractor;
 import ai.classlynk.view.*;
@@ -113,9 +116,9 @@ public class ClassLynkApplication {
         AddToCartInteractor addToCartInteractor = new AddToCartInteractor(addToCartPresenter, firebaseDataAccessObject);
         ViewCourseInteractor viewCourseInteractor = new ViewCourseInteractor(firebaseDataAccessObject, viewCoursePresenter);
         GenerateTimetableInteractor generateTimetableInteractor = new GenerateTimetableInteractor(saveViewTimetablePresenter, apiDataAccessObject);
+        MapsInteractor mapsInteractor = new MapsInteractor(apiDataAccessObject, mapsPresenter);
 
-
-        MapsController mapsController = MapsUseCaseFactory.createMapsUseCase(viewManagerModel, apiDataAccessObject, mapsViewModel);
+        MapsController mapsController = new MapsController(mapsInteractor);
         SaveViewTimetableController saveViewTimetableController = new SaveViewTimetableController(
                 saveViewTimetableInteractor);
         RegisterController registerController = new RegisterController(registerInteractor);

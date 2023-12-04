@@ -1,6 +1,7 @@
 package ai.classlynk.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ClassBundle {
     // id for the specific lecture section (ex. lec0101)
@@ -27,5 +28,13 @@ public class ClassBundle {
 
     public void setClasses(List<SClass> classes) {
         this.classes = classes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClassBundle bundle = (ClassBundle) o;
+        return Objects.equals(lectureId, bundle.lectureId) && Objects.equals(classes, bundle.classes);
     }
 }
