@@ -25,33 +25,33 @@ public class timetableGenerationTest {
         builder.run(args);
     }
 
-    @Bean
-    public CommandLineRunner testRunner() {
-        return args -> {
-            random5CourseTest();
-        };
-    }
-    @Test
-    public void random5CourseTest(){
-        Map<String, Course> allCourses = firebaseDataAccessObject.loadCourses();
-        List<Course> first5 = new ArrayList<>();
-        int i = 0;
-        for(Course course: allCourses.values()){
-            first5.add(course);
-            if(i == 4){
-                break;
-            }
-            i++;
-        }
-        Timetable optimal = OptimalTimetableCalculator.generateTimetable(first5);
-        for(String key: optimal.getClasses().keySet()){
-            System.out.println(key);
-            for(SClass sclass: optimal.getClasses().get(key)){
-                System.out.print(sclass.getCourseId() + ": " + sclass.getClassId() + " ");
-            }
-            System.out.println();
-        }
-    }
+//    @Bean
+//    public CommandLineRunner testRunner() {
+//        return args -> {
+//            random5CourseTest();
+//        };
+//    }
+//    @Test
+//    public void random5CourseTest(){
+//        Map<String, Course> allCourses = firebaseDataAccessObject.getAllCourses();
+//        List<Course> first5 = new ArrayList<>();
+//        int i = 0;
+//        for(Course course: allCourses.values()){
+//            first5.add(course);
+//            if(i == 4){
+//                break;
+//            }
+//            i++;
+//        }
+//        Timetable optimal = OptimalTimetableCalculator.generateTimetable(first5);
+//        for(String key: optimal.getClasses().keySet()){
+//            System.out.println(key);
+//            for(SClass sclass: optimal.getClasses().get(key)){
+//                System.out.print(sclass.getCourseId() + ": " + sclass.getClassId() + " ");
+//            }
+//            System.out.println();
+//        }
+//    }
 
     public void nonConflictTest(){
 

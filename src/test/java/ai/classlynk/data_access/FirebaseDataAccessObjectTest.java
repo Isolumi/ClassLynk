@@ -6,6 +6,7 @@ import ai.classlynk.entity.Timetable;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,15 @@ public class FirebaseDataAccessObjectTest extends IntegrationTest {
     void contextLoads() {
         assertThat(firebaseDataAccessObject).isNotNull();
     }
+
     @Test
-    void testDeleteTimetable() {
-        String testUsername = "test-user";
+    void testSaveNullTimetable() {
+        assertThrows(IOException.class, () -> firebaseDataAccessObject.saveTimetable(null));
+    }
+
+    @Test
+    void testDeleteTimetable() throws IOException {
+        String testUsername = "test-delete-timetable";
         Map<String, List<SClass>> classes = new HashMap<>();
         Timetable testTimetable = new Timetable(testUsername, classes);
         firebaseDataAccessObject.saveTimetable(testTimetable);
@@ -32,7 +39,7 @@ public class FirebaseDataAccessObjectTest extends IntegrationTest {
         assertNull(returnTimetable);
     }
     @Test
-    void testSaveGetTimetable() {
+    void testSaveGetTimetable() throws IOException {
         Map<String, List<SClass>> classes = new HashMap<>();
         Timetable testTimetable = new Timetable("test-user", classes);
         firebaseDataAccessObject.deleteTimetable(testTimetable);
@@ -44,28 +51,30 @@ public class FirebaseDataAccessObjectTest extends IntegrationTest {
 
     @Test
     void testDeleteUser() {
-        String testUsername = "test-user";
+        String testUsername = "test-delete";
         firebaseDataAccessObject.userDelete(testUsername);
         boolean exists = firebaseDataAccessObject.existsByName(testUsername);
         assertFalse(exists);
     }
 
     @Test
-    void testUserCreateExistsByUsername() {
-        String testUsername = "test-user";
+    void testUserCreateExistsByUsername() throws InterruptedException {
+        String testUsername = "test-create";
         String testPassword = "no";
         firebaseDataAccessObject.userDelete(testUsername);
-        firebaseDataAccessObject.userCreate(testUsername, testPassword);
+        var user = firebaseDataAccessObject.userCreate(testUsername, testPassword);
+        assertNotNull(user);
+        Thread.sleep(1000);
         boolean exists = firebaseDataAccessObject.existsByName(testUsername);
         assertTrue(exists);
     }
 
     @Test
     void testVerifyPassword() {
-        String testUsername = "test-user";
+        String testUsername = "test-verify";
         String testPassword = "no";
         firebaseDataAccessObject.userDelete(testUsername);
-        firebaseDataAccessObject.userCreate(testUsername, testPassword);
+        assertNotNull(firebaseDataAccessObject.userCreate(testUsername, testPassword));
         boolean passwordStatus = firebaseDataAccessObject.verifyPassword(testUsername, testPassword);
         assertTrue(passwordStatus);
         passwordStatus = firebaseDataAccessObject.verifyPassword(testUsername, testPassword+"1");

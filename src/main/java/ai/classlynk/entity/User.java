@@ -50,7 +50,7 @@ public class User {
         this.courseKart = courseKart;
     }
 
-    private User(String id, String password) {
+    public User(String id, String password) {
             this.username = id;
             this.password = password;
             this.courseKart = new ArrayList<>();

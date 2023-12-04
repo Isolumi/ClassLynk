@@ -8,6 +8,7 @@ import ai.classlynk.use_case.save_view_timetables.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class SaveViewTimetableInteractorTest extends IntegrationTest {
     @Autowired
     FirebaseDataAccessObject firebaseDataAccessObject;
     @Test
-    void testExecute() {
+    void testExecute() throws IOException {
         Map<String, List<SClass>> classes = new HashMap<>();
         Timetable testTimetable = new Timetable("test-user", classes);
         firebaseDataAccessObject.saveTimetable(testTimetable);
@@ -36,7 +37,7 @@ public class SaveViewTimetableInteractorTest extends IntegrationTest {
 
         SaveViewTimetableInputBoundary interactor = new SaveViewTimetableInteractor(presenter,
                 firebaseDataAccessObject);
-        interactor.executeDatabaseFetch(new SaveViewTimetableInputData(true, "test-user"));
+        interactor.executeDatabaseFetch(new SaveViewTimetableInputData(true, "test-user", testTimetable));
         firebaseDataAccessObject.deleteTimetable(testTimetable);
     }
 }
