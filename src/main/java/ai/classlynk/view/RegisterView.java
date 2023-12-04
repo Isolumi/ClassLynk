@@ -75,6 +75,10 @@ public class RegisterView extends JPanel implements PropertyChangeListener {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(GoLogIn)) {
                         LoginState loginState = RegisterView.this.loginViewModel.getState();
+                            if(loginState.getUsernameError() != null)
+                            {
+                                loginState.setUsernameError(null);
+                            }
                         RegisterView.this.loginViewModel.setState(loginState);
                         RegisterView.this.loginViewModel.firePropertyChanged();
                         RegisterView.this.viewManagerModel.setActiveView(RegisterView.this.loginViewModel.getViewName());
@@ -82,24 +86,28 @@ public class RegisterView extends JPanel implements PropertyChangeListener {
                         }
                     }}
         );
-        Register.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(Register)) {
-                            RegisterState currentState = RegisterView.this.registerViewModel.getState();
-
-                            try {
-                                registerController.execute(
-                                        currentState.getUsername(),
-                                        currentState.getPassword(),
-                                        currentState.getRepeatPassword()
-                                );
-                            } catch (FirebaseAuthException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
+        Register.addActionListener(e ->
+        {
+            if (e.getSource().equals(Register)) {
+                RegisterState currentState = registerViewModel.getState();
+                if(currentState.getUsername().isEmpty() || currentState.getPassword().isEmpty() || currentState.getRepeatPassword().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(this,"One or more of your fields are empty!");
+                }
+                else
+                {
+                    try {
+                        registerController.execute(
+                                currentState.getUsername(),
+                                currentState.getPassword(),
+                                currentState.getRepeatPassword()
+                        );
+                    } catch (FirebaseAuthException ex) {
+                        throw new RuntimeException(ex);
                     }
                 }
+            }
+        }
         );
         usernameInputField.addKeyListener(
                 new KeyListener() {

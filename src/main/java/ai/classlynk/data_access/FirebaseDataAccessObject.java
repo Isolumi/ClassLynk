@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -63,7 +64,11 @@ public class FirebaseDataAccessObject implements
      * @param timetable the timetable to be stored in firestore
      */
     @Override
-    public void saveTimetable(Timetable timetable) {
+    public void saveTimetable(Timetable timetable) throws IOException {
+        if(timetable == null)
+        {
+            throw new IOException();
+        }
         timetableRepository.save(timetable).block();
     }
 
@@ -98,8 +103,8 @@ public class FirebaseDataAccessObject implements
      * @param password password of new user
      */
     @Override
-    public void userCreate(String username, String password) {
-        userRepository.save(User.getInstance(username, password)).block();
+    public User userCreate(String username, String password) {
+        return userRepository.save(new User(username, password)).block();
     }
 
     /**
@@ -119,7 +124,13 @@ public class FirebaseDataAccessObject implements
      */
     @Override
     public boolean verifyPassword(String username, String password) {
-        return Objects.requireNonNull(userRepository.findById(username).block()).getPassword().equals(password);
+        return Objects.requireNonNull(
+                userRepository
+                        .findById(username)
+                        .block()
+                )
+                .getPassword()
+                .equals(password);
     }
 
     /**

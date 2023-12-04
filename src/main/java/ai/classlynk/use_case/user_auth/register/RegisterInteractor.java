@@ -12,12 +12,15 @@ public class RegisterInteractor implements RegisterInputBoundary{
         RegisterOutputBoundary = registerOutputBoundary;
     }
 
-
+    /**
+     * Takes given credentials and registers user, then brings them to the login screen if the credentials are valid.
+     * @param inputData The credentials inputted by the user.
+     */
     public void execute(RegisterInputData inputData){
      if (RegisterDAO.existsByName(inputData.getName())){
-         RegisterOutputBoundary.prepareFailView("This name has been used!");
+         RegisterOutputBoundary.prepareFailView("Name has been taken");
         } else if (!inputData.getPw1().equals(inputData.getPw2())) {
-         RegisterOutputBoundary.prepareFailView("Two Passwords are different!");
+         RegisterOutputBoundary.prepareFailView("Passwords do not match");
      }else{
          User.getInstance(inputData.getName(), inputData.getPw2());
          RegisterDAO.userCreate(inputData.getName(), inputData.getPw2());

@@ -1,11 +1,10 @@
 package ai.classlynk.use_case.user_auth.login;
 
-import ai.classlynk.data_access.FirebaseDataAccessObject;
-import ai.classlynk.entity.User;
-import ai.classlynk.use_case.user_auth.login.*;
-import org.junit.Before;
+import ai.classlynk.entity.Timetable;
+import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -27,21 +26,21 @@ class LoginInteractorTest {
             return this.Password;
         }
     }
-    class FakeFirebaseDataAccessObject implements LoginDataAccessInterface{
-        private ArrayList<FakeUser> FakeUsers;
+    class FakeFirebaseDataAccessObject implements LoginDataAccessInterface, SaveViewTimetablesDataAccessInterface{
+        private ArrayList<FakeUser> fakeUsers;
 
         FakeFirebaseDataAccessObject(ArrayList<FakeUser> users) {
-            FakeUsers = users;
+            fakeUsers = users;
         }
 
 
         FakeFirebaseDataAccessObject(){
-            FakeUsers = new ArrayList<FakeUser>();
+            fakeUsers = new ArrayList<>();
         }
 
         @Override
         public boolean existsByName(String Name) {
-            for(FakeUser i: FakeUsers){
+            for(FakeUser i: fakeUsers){
                 if (Objects.equals(i.GetName(), Name)){
                     return true;
                 };
@@ -52,12 +51,27 @@ class LoginInteractorTest {
 
         @Override
         public boolean verifyPassword(String Name, String Password) {
-            for(FakeUser i: FakeUsers){
+            for(FakeUser i: fakeUsers){
                 if (Objects.equals(i.GetName(), Name)){
                     return Password.equals(i.GetPassword());
                 };
             }
             return false;
+        }
+
+        @Override
+        public void saveTimetable(Timetable timetable) throws IOException {
+
+        }
+
+        @Override
+        public void deleteTimetable(Timetable timetable) {
+
+        }
+
+        @Override
+        public Timetable getTimetable(String userId) {
+            return null;
         }
     }
 
@@ -68,6 +82,7 @@ class LoginInteractorTest {
         FakeUser user = new FakeUser("Paul", "password");
         users.add(user);
         LoginDataAccessInterface userRepository = new FakeFirebaseDataAccessObject(users);
+        SaveViewTimetablesDataAccessInterface timetableRepository = new FakeFirebaseDataAccessObject(users);
         // This creates a successPresenter that tests whether the test case is as we expect.
         LoginOutputBoundary successPresenter = new LoginOutputBoundary() {
             @Override
@@ -82,7 +97,7 @@ class LoginInteractorTest {
             }
         };
 
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter);
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, timetableRepository, successPresenter);
         interactor.execute(inputData);
     }
 
@@ -93,6 +108,7 @@ class LoginInteractorTest {
         FakeUser user = new FakeUser("Paul", "password");
         users.add(user);
         LoginDataAccessInterface userRepository = new FakeFirebaseDataAccessObject(users);
+        SaveViewTimetablesDataAccessInterface timetablesDataAccessInterface = new FakeFirebaseDataAccessObject(users);
         LoginOutputBoundary failurePresenter = new LoginOutputBoundary() {        // This creates a presenter that tests whether the test case is as we expect.
             @Override
             public void prepareSuccessView(LoginOutputData loginOutputData) {
@@ -105,13 +121,14 @@ class LoginInteractorTest {
             }
         };
 
-        LoginInteractor interactor = new LoginInteractor(userRepository, failurePresenter);
+        LoginInteractor interactor = new LoginInteractor(userRepository, timetablesDataAccessInterface, failurePresenter);
         interactor.execute(inputData);
     }
     @Test
     void failureUserNotExistTest() {
         LoginInputData inputData = new LoginInputData("Paul1", "password1");
         LoginDataAccessInterface userRepository = new FakeFirebaseDataAccessObject();
+        SaveViewTimetablesDataAccessInterface saveViewTimetablesDataAccessInterface = new FakeFirebaseDataAccessObject();
         LoginOutputBoundary failurePresenter = new LoginOutputBoundary() {        // This creates a presenter that tests whether the test case is as we expect.
             @Override
             public void prepareSuccessView(LoginOutputData loginOutputData) {
@@ -124,7 +141,7 @@ class LoginInteractorTest {
             }
         };
 
-        LoginInteractor interactor = new LoginInteractor(userRepository, failurePresenter);
+        LoginInteractor interactor = new LoginInteractor(userRepository, saveViewTimetablesDataAccessInterface, failurePresenter);
         interactor.execute(inputData);
     }
 }

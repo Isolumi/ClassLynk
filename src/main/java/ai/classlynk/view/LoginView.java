@@ -76,6 +76,10 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(GoRegister)) {
                             RegisterState registerState = registerViewModel.getState();
+                            if(registerState.getUsernameError() != null)
+                            {
+                                registerState.setUsernameError(null);
+                            }
                             registerViewModel.setState(registerState);
                             registerViewModel.firePropertyChanged();
                             viewManagerModel.setActiveView(registerViewModel.getViewName());
@@ -83,13 +87,17 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                         }
                     }
                 });
-        Login.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(Login)) {
-                            LoginState currentState = loginViewModel.getState();
+        Login.addActionListener(e ->
+                {
+                    if (e.getSource().equals(Login)) {
 
+                        LoginState currentState = loginViewModel.getState();
+                        if(currentState.getUsername().isEmpty() || currentState.getPassword().isEmpty())
+                        {
+                            JOptionPane.showMessageDialog(this,"One or more of your fields are empty!");
+                        }
+                        else
+                        {
                             loginController.execute(
                                     currentState.getUsername(),
                                     currentState.getPassword());

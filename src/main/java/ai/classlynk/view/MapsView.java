@@ -17,11 +17,11 @@ public class MapsView extends JPanel implements PropertyChangeListener {
 
     public final String viewName = "view maps";
 
-    JPanel menus;
+    private final JPanel menus;
 
-    JButton backButton;
+    private final JButton backButton;
 
-    MenuSwitchingController menuSwitchingController;
+    private MenuSwitchingController menuSwitchingController;
 
     public void setBackButtonController(MenuSwitchingController menuSwitchingController) {
         this.menuSwitchingController = menuSwitchingController;
@@ -35,7 +35,7 @@ public class MapsView extends JPanel implements PropertyChangeListener {
         MapsState state = mapsViewModel.getState();
 
             //Creates the menus containing the image of the route and the classes on the day in a text format for each day
-            Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
+            Map<String, String> formattedTimetable = state.getTimetable().createFormattedTimetable();
             String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
             for (String day : days) {
                 JPanel dayPanel = new JPanel();
@@ -113,7 +113,7 @@ public class MapsView extends JPanel implements PropertyChangeListener {
      * @param state The new state to be used
      */
     private void updateFields(MapsState state) {
-        Map<String, String> formattedTimetable = state.getTimetable().getFormattedTimetable();
+        Map<String, String> formattedTimetable = state.getTimetable().createFormattedTimetable();
         Map<String, String> imageLocations = state.getImageLocations();
 
         for (int i = 0; i < 5; i++) {

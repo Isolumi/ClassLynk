@@ -1,8 +1,6 @@
 package ai.classlynk.use_case.user_auth.register;
 
-import ai.classlynk.data_access.FirebaseDataAccessObject;
 import ai.classlynk.entity.User;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,7 +9,7 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RegisterInteractorTest {
-    class FakeUser{
+    class FakeUser extends User{
         private final String Name;
         private final String Password;
 
@@ -27,20 +25,20 @@ class RegisterInteractorTest {
         }
     }
     class FakeFirebaseDataAccessObject implements  RegisterDataAccessInterface{
-        private ArrayList<FakeUser> FakeUsers;
+        private ArrayList<FakeUser> fakeUsers;
 
         FakeFirebaseDataAccessObject(ArrayList<FakeUser> users) {
-            FakeUsers = users;
+            fakeUsers = users;
         }
 
 
         FakeFirebaseDataAccessObject(){
-            FakeUsers = new ArrayList<FakeUser>();
+            fakeUsers = new ArrayList<FakeUser>();
         }
 
         @Override
         public boolean existsByName(String Name) {
-            for(FakeUser i: FakeUsers){
+            for(FakeUser i: fakeUsers){
                 if (Objects.equals(i.GetName(), Name)){
                     return true;
                 };
@@ -50,9 +48,10 @@ class RegisterInteractorTest {
         }
 
         @Override
-        public void userCreate(String Name, String password) {
+        public User userCreate(String Name, String password) {
             FakeUser user = new FakeUser(Name, password);
-            FakeUsers.add(user);
+            fakeUsers.add(user);
+            return user;
         }
     }
 
@@ -91,7 +90,7 @@ class RegisterInteractorTest {
 
             @Override
             public void prepareFailView(String error) {
-                assertEquals("Two Passwords are different!", error);
+                assertEquals("Passwords do not match", error);
             }
         };
 
@@ -101,8 +100,10 @@ class RegisterInteractorTest {
 
     @Test
     void failureUserExistsTest() {
-        RegisterInputData inputData = new RegisterInputData("Paul", "password", "wrong");
         RegisterDataAccessInterface userRepository = new FakeFirebaseDataAccessObject();
+        userRepository.userCreate("Paul", "password");
+        RegisterInputData inputData = new RegisterInputData("Paul", "password", "wrong");
+
 
         // This creates a presenter that tests whether the test case is as we expect.
         RegisterOutputBoundary failurePresenter = new RegisterOutputBoundary() {
@@ -114,7 +115,7 @@ class RegisterInteractorTest {
 
             @Override
             public void prepareFailView(String error) {
-                assertEquals("This name has been used!", error);
+                assertEquals("Name has been taken", error);
             }
         };
 

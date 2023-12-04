@@ -1,15 +1,14 @@
 package ai.classlynk.entity;
 
 import ai.classlynk.data_access.APIDataAccessObject;
-import org.checkerframework.checker.units.qual.A;
-
-import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class OptimalTimetableCalculator {
-    public static Timetable generateTimetable(List<Course> courses) {
+
+
+public class BruteForceAlgorithm implements OptimizationAlgorithm{
+    public Timetable generateTimetable(List<Course> courses, APIDataAccessObject dao) throws NoSuchElementException {
         HashMap<String, List<Node>> validLectureTutorialCombos = new HashMap<>(); //Maps Course Name to valid lecture tutorial pairs of that course
         for (Course course : courses) {
             for (ClassBundle lec : course.getClassBundles()) {
@@ -21,8 +20,6 @@ public class OptimalTimetableCalculator {
                         test.put("Wednesday", new ArrayList<SClass>());
                         test.put("Thursday", new ArrayList<SClass>());
                         test.put("Friday", new ArrayList<SClass>());
-                        test.put("Saturday", new ArrayList<SClass>());
-                        test.put("Sunday", new ArrayList<SClass>());
 
                         for (SClass sclass : lec.getClasses()) {
                             test.get(sclass.getWeekday()).add(sclass);
@@ -88,13 +85,33 @@ public class OptimalTimetableCalculator {
             returnValidTimeTables(validTimeTables, cur, pairs);
         }
 
-        Timetable bestTimetable = validTimeTables.get(0);
-        for (Timetable timetable: validTimeTables){
-            if(averageDistance(timetable) < averageDistance(bestTimetable)){
-                bestTimetable = timetable;
-            }
+        if(validTimeTables.isEmpty())
+        {
+            throw new NoSuchElementException();
         }
-        return bestTimetable;
+        OptimizationParameter param = new DistanceOptimization(validTimeTables, dao);
+
+        Timetable bestTimetable = validTimeTables.get(0);
+        float bestTimetableScore = param.getScore(param.calculateNonNormalizedScore(bestTimetable));
+        if(validTimeTables.size() == 1)
+        {
+            return bestTimetable;
+        }
+        else {
+            for (Timetable timetable: validTimeTables.subList(1, validTimeTables.size() - 1)){
+                float currTimetableScore = param.getScore(param.calculateNonNormalizedScore(timetable));
+                if(currTimetableScore < bestTimetableScore)
+                {
+                    bestTimetable = timetable;
+                    bestTimetableScore = currTimetableScore;
+                }
+            }
+            for(String day : bestTimetable.getClasses().keySet())
+            {
+                bestTimetable.getClasses().get(day).sort(new TimeComparator());
+            }
+            return bestTimetable;
+        }
     }
 
 
@@ -121,8 +138,6 @@ public class OptimalTimetableCalculator {
         timeTable.put("Wednesday", new ArrayList<SClass>());
         timeTable.put("Thursday", new ArrayList<SClass>());
         timeTable.put("Friday", new ArrayList<SClass>());
-        timeTable.put("Saturday", new ArrayList<SClass>());
-        timeTable.put("Sunday", new ArrayList<SClass>());
 
         for(List<ClassBundle> lecTutPair : inputList){
             for(ClassBundle classes : lecTutPair){
@@ -132,7 +147,7 @@ public class OptimalTimetableCalculator {
             }
         }
 
-        return new Timetable("application", timeTable);
+        return new Timetable(User.getInstance("", "").getUsername(), timeTable);
     }
 
     private static boolean hasTimeConflict(Timetable timetable) {
@@ -158,33 +173,5 @@ public class OptimalTimetableCalculator {
             }
         }
         return false;
-    }
-
-    private static float averageDistance(Timetable timetable) {
-        APIDataAccessObject distanceCalc = new APIDataAccessObject();
-        Map<Set<String>, Float> distances = new HashMap<>();
-        float totalDistance = 0;
-        int totalCourseLoad = 0;
-        for (String day : timetable.getClasses().keySet()) {
-            List<SClass> classesForDay = timetable.getClasses().get(day);
-            totalCourseLoad += classesForDay.size();
-            for (int i = 0; i < timetable.getClasses().get(day).size() - 2; i++) {
-                totalDistance += getDistance(distanceCalc, distances, classesForDay.get(i).getLocation(), classesForDay.get(i + 1).getLocation());
-            }
-        }
-        return totalDistance / totalCourseLoad;
-    }
-
-    private static float getDistance(APIDataAccessObject dao, Map<Set<String>, Float> distances, String loc1, String loc2) {
-        Set<String> loc = new HashSet<>();
-        loc.add(loc1);
-        loc.add(loc2);
-        if (distances.containsKey(loc)) {
-            return distances.get(loc);
-        } else {
-            float distance = dao.getRouteLength(loc1, loc2);
-            distances.put(loc, distance);
-            return distance;
-        }
     }
 }

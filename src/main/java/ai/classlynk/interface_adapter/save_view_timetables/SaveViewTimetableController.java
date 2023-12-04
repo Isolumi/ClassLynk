@@ -4,14 +4,16 @@ import ai.classlynk.entity.Timetable;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInputBoundary;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableInputData;
 
+import java.io.IOException;
+
 public class SaveViewTimetableController {
     final SaveViewTimetableInputBoundary saveViewTimetableInputBoundary;
     public SaveViewTimetableController(SaveViewTimetableInputBoundary saveViewTimetableInputBoundary) {
         this.saveViewTimetableInputBoundary = saveViewTimetableInputBoundary;
     }
 
-    public void execute(boolean logInStatus, String username, Timetable timetable) {
+    public void execute(boolean logInStatus, String username, Timetable timetable) throws IOException {
         SaveViewTimetableInputData saveViewTimetableInputData = new SaveViewTimetableInputData(logInStatus, username, timetable);
-        saveViewTimetableInputBoundary.executeDatabaseFetch(saveViewTimetableInputData);
+        saveViewTimetableInputBoundary.executeSaveTimetable(saveViewTimetableInputData);
     }
 }
