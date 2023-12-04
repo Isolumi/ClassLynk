@@ -5,9 +5,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class OptimalTimetableCalculator extends DistanceOptimization {
+public class BruteForceAlgorithm implements OptimizationAlgorithm{
 
-    public static Timetable generateTimetable(List<Course> courses, APIDataAccessObject dao) {
+    public Timetable generateTimetable(List<Course> courses, APIDataAccessObject dao) {
         HashMap<String, List<Node>> validLectureTutorialCombos = new HashMap<>(); //Maps Course Name to valid lecture tutorial pairs of that course
         for (Course course : courses) {
             for (ClassBundle lec : course.getClassBundles()) {
