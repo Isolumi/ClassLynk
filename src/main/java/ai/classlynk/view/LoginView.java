@@ -1,11 +1,10 @@
 package ai.classlynk.view;
 
-import ai.classlynk.entity.User;
-import ai.classlynk.interface_adapter.Login.LoginController;
-import ai.classlynk.interface_adapter.Login.LoginState;
-import ai.classlynk.interface_adapter.Login.LoginViewModel;
-import ai.classlynk.interface_adapter.Register.RegisterState;
-import ai.classlynk.interface_adapter.Register.RegisterViewModel;
+import ai.classlynk.interface_adapter.login.LoginController;
+import ai.classlynk.interface_adapter.login.LoginState;
+import ai.classlynk.interface_adapter.login.LoginViewModel;
+import ai.classlynk.interface_adapter.register.RegisterState;
+import ai.classlynk.interface_adapter.register.RegisterViewModel;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 
 import javax.swing.*;

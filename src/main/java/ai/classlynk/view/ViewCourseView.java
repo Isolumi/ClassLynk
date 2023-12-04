@@ -3,9 +3,9 @@ package ai.classlynk.view;
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.User;
 import ai.classlynk.interface_adapter.MenuSwitchingController;
-import ai.classlynk.interface_adapter.ViewCourse.ViewCourseController;
-import ai.classlynk.interface_adapter.ViewCourse.ViewCourseViewModel;
-import ai.classlynk.interface_adapter.addToCart.AddToCartController;
+import ai.classlynk.interface_adapter.view_course.ViewCourseController;
+import ai.classlynk.interface_adapter.view_course.ViewCourseViewModel;
+import ai.classlynk.interface_adapter.add_to_cart.AddToCartController;
 import ai.classlynk.interface_adapter.generate_timetable.GenerateTimetableController;
 
 import javax.swing.*;
