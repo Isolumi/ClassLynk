@@ -1,10 +1,10 @@
-package ai.classlynk.interface_adapter.ViewCourse;
+package ai.classlynk.interface_adapter.view_course;
 
 
 import ai.classlynk.interface_adapter.Presenter;
 import ai.classlynk.interface_adapter.ViewManagerModel;
-import ai.classlynk.use_case.ViewCourse.ViewCourseOutputBoundary;
-import ai.classlynk.use_case.ViewCourse.ViewCourseOutputData;
+import ai.classlynk.use_case.view_course.ViewCourseOutputBoundary;
+import ai.classlynk.use_case.view_course.ViewCourseOutputData;
 
 public class ViewCoursePresenter implements ViewCourseOutputBoundary, Presenter {
     private final ViewCourseViewModel viewCourseViewModel;

@@ -1,9 +1,6 @@
-package ai.classlynk.use_case.ViewCourse;
-
-import ai.classlynk.entity.Course;
+package ai.classlynk.use_case.view_course;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ViewCourseInteractor implements ViewCourseInputBoundary{
     final ViewCourseDataAccessInterface viewCourseDataAccessObject;

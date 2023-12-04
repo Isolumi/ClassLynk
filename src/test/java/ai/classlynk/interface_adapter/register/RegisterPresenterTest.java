@@ -1,8 +1,6 @@
-package ai.classlynk.interface_adapter.Register;
+package ai.classlynk.interface_adapter.register;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RegisterPresenterTest {
 

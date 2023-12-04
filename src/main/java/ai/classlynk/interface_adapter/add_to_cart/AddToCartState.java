@@ -1,7 +1,6 @@
-package ai.classlynk.interface_adapter.addToCart;
+package ai.classlynk.interface_adapter.add_to_cart;
 
 import ai.classlynk.entity.Course;
-import ai.classlynk.entity.SClass;
 
 import java.util.List;
 

@@ -2,8 +2,7 @@ package ai.classlynk.use_case;
 
 import ai.classlynk.entity.Course;
 import ai.classlynk.entity.User;
-import ai.classlynk.use_case.AddToCart.*;
-import org.checkerframework.checker.units.qual.A;
+import ai.classlynk.use_case.add_to_cart.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

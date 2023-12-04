@@ -1,8 +1,7 @@
-package ai.classlynk.use_case.ViewCourse;
+package ai.classlynk.use_case.view_course;
 
 import ai.classlynk.entity.Course;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ViewCourseDataAccessInterface {

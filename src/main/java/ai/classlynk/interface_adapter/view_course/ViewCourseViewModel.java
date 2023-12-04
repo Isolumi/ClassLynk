@@ -1,4 +1,4 @@
-package ai.classlynk.interface_adapter.ViewCourse;
+package ai.classlynk.interface_adapter.view_course;
 
 import ai.classlynk.interface_adapter.ViewModel;
 

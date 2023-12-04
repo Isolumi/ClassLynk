@@ -1,4 +1,4 @@
-package ai.classlynk.interface_adapter.Register;
+package ai.classlynk.interface_adapter.register;
 
 public class RegisterState {
     private String username = "";

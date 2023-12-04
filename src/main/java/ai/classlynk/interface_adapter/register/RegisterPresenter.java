@@ -1,7 +1,7 @@
-package ai.classlynk.interface_adapter.Register;
+package ai.classlynk.interface_adapter.register;
 
-import ai.classlynk.interface_adapter.Login.LoginState;
-import ai.classlynk.interface_adapter.Login.LoginViewModel;
+import ai.classlynk.interface_adapter.login.LoginState;
+import ai.classlynk.interface_adapter.login.LoginViewModel;
 import ai.classlynk.interface_adapter.Presenter;
 import ai.classlynk.interface_adapter.ViewManagerModel;
 import ai.classlynk.use_case.user_auth.register.RegisterOutputBoundary;

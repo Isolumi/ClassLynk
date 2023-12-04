@@ -1,4 +1,4 @@
-package ai.classlynk.interface_adapter.addToCart;
+package ai.classlynk.interface_adapter.add_to_cart;
 
 
 import java.beans.PropertyChangeListener;

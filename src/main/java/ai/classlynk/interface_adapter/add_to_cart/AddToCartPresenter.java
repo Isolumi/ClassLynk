@@ -1,10 +1,9 @@
-package ai.classlynk.interface_adapter.addToCart;
+package ai.classlynk.interface_adapter.add_to_cart;
 
 import ai.classlynk.interface_adapter.Presenter;
 import ai.classlynk.interface_adapter.ViewManagerModel;
-import ai.classlynk.use_case.AddToCart.AddToCartOutputBoundary;
-import ai.classlynk.use_case.AddToCart.AddToCartOutputData;
-import kotlin.jvm.internal.PackageReference;
+import ai.classlynk.use_case.add_to_cart.AddToCartOutputBoundary;
+import ai.classlynk.use_case.add_to_cart.AddToCartOutputData;
 
 public class AddToCartPresenter implements AddToCartOutputBoundary, Presenter {
     private final AddToCartViewModel addToCartViewModel;

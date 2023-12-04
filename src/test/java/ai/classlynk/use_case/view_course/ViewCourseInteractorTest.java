@@ -1,10 +1,8 @@
-package ai.classlynk.use_case.ViewCourse;
+package ai.classlynk.use_case.view_course;
 
 import ai.classlynk.IntegrationTest;
 import ai.classlynk.data_access.FirebaseDataAccessObject;
 import ai.classlynk.entity.Course;
-import ai.classlynk.entity.SClass;
-import ai.classlynk.interface_adapter.ViewCourse.ViewCoursePresenter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

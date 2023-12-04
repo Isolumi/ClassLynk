@@ -1,4 +1,4 @@
-package ai.classlynk.interface_adapter.Login;
+package ai.classlynk.interface_adapter.login;
 
 public class LoginState {
     private String username = "";

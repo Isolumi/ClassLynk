@@ -1,10 +1,8 @@
-package ai.classlynk.interface_adapter.addToCart;
+package ai.classlynk.interface_adapter.add_to_cart;
 
-import ai.classlynk.entity.ClassBundle;
 import ai.classlynk.entity.Course;
-import ai.classlynk.entity.SClass;
-import ai.classlynk.use_case.AddToCart.AddToCartInputBoundary;
-import ai.classlynk.use_case.AddToCart.AddToCartInputData;
+import ai.classlynk.use_case.add_to_cart.AddToCartInputBoundary;
+import ai.classlynk.use_case.add_to_cart.AddToCartInputData;
 
 public class AddToCartController {
     private final AddToCartInputBoundary addToCartInteractor;

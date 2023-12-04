@@ -1,4 +1,4 @@
-package ai.classlynk.interface_adapter.Register;
+package ai.classlynk.interface_adapter.register;
 
 import ai.classlynk.use_case.user_auth.register.RegisterInputBoundary;
 import ai.classlynk.use_case.user_auth.register.RegisterInputData;

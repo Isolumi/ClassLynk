@@ -1,6 +1,6 @@
-package ai.classlynk.interface_adapter.ViewCourse;
+package ai.classlynk.interface_adapter.view_course;
 
-import ai.classlynk.use_case.ViewCourse.ViewCourseInputBoundary;
+import ai.classlynk.use_case.view_course.ViewCourseInputBoundary;
 
 public class ViewCourseController {
     final ViewCourseInputBoundary interactor;

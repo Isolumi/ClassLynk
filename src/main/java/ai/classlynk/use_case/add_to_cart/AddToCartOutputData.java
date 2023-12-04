@@ -1,7 +1,6 @@
-package ai.classlynk.use_case.AddToCart;
+package ai.classlynk.use_case.add_to_cart;
 
 import ai.classlynk.entity.Course;
-import ai.classlynk.entity.SClass;
 
 import java.util.List;
 
