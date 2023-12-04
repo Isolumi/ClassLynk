@@ -15,12 +15,9 @@ optimized timetable generator
 </div>
 
 # ClassLynk
+ClassLynk offers an innovative way of creating the most optimal timetables for university students. Given a set of courses, ClassLynk will generate an optimized timetable based on distance, as well as show routing to get to every class. ClassLynk also offers a user authentication system which allows users to store their timetables and come back to view them whenever they like.
 
-An app that automatically creates timetables for you given a list of courses.
-
-The app will also have a login system, so that users can save timtables and create route images based on a timetable.
-
-We will mainly be using the google api through it's java library to get route data, geocode locations, and generate map images(link: https://github.com/googlemaps/google-maps-services-java#readme). For data storage, we will be using Firestore.
+ClassLynk uses the ```Google Maps API``` to retrieve route data, geocode locations, and generate map links (link:  https://github.com/googlemaps/google-maps-services-java#readme). We will also be using Firebase as our primary database to store user information, and course informations.
 
 
 # Installation
