@@ -4,6 +4,7 @@ import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.spring.data.firestore.Document;
 
 import java.util.List;
+import java.util.Objects;
 
 @Document(collectionName = "courses")
 public class Course {
@@ -66,5 +67,13 @@ public class Course {
     @Override
     public String toString() {
         return courseId + ", " + courseName + ": " + courseDescription;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(courseId, course.courseId) && Objects.equals(courseName, course.courseName) && Objects.equals(courseDescription, course.courseDescription) && Objects.equals(classBundles, course.classBundles) && Objects.equals(tutorials, course.tutorials);
     }
 }

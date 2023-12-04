@@ -1,5 +1,7 @@
 package ai.classlynk.entity;
 
+import java.util.Objects;
+
 public class SClass {
     private String courseId;
     private String classId;
@@ -96,5 +98,13 @@ public class SClass {
                 "-" + endTime +
                 ", Building:" + building +
                 ", Address:" + location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SClass sClass = (SClass) o;
+        return isTutorial == sClass.isTutorial && Objects.equals(courseId, sClass.courseId) && Objects.equals(classId, sClass.classId) && Objects.equals(startTime, sClass.startTime) && Objects.equals(endTime, sClass.endTime) && Objects.equals(weekday, sClass.weekday) && Objects.equals(building, sClass.building) && Objects.equals(location, sClass.location);
     }
 }
