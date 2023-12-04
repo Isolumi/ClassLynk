@@ -64,11 +64,11 @@ class MapsInteractorTest {
         MapsOutputBoundary successPresenter = new MapsOutputBoundary() {
             @Override
             public void prepareSuccessView(MapsOutputData imageLocations) {
-                assert(imageLocations.getImageLocations().get("Monday").matches("^.*\\\\ClassLynk\\\\src\\\\main\\\\resources\\\\images\\\\MondayRoute\\.jpg$"));
+                assert(imageLocations.getImageLocations().get("Monday").matches("^.*\\\\src\\\\main\\\\resources\\\\images\\\\MondayRoute\\.jpg$"));
                 assert(imageLocations.getImageLocations().get("Tuesday").equals("no image"));
                 assert(imageLocations.getImageLocations().get("Wednesday").equals("no image"));
-                assert(imageLocations.getImageLocations().get("Thursday").matches("^.*\\\\ClassLynk\\\\src\\\\main\\\\resources\\\\images\\\\ThursdayRoute\\.jpg$"));
-                assert(imageLocations.getImageLocations().get("Friday").matches("^.*\\\\ClassLynk\\\\src\\\\main\\\\resources\\\\images\\\\FridayRoute\\.jpg$"));
+                assert(imageLocations.getImageLocations().get("Thursday").matches("^.*\\\\src\\\\main\\\\resources\\\\images\\\\ThursdayRoute\\.jpg$"));
+                assert(imageLocations.getImageLocations().get("Friday").matches("^.*\\\\src\\\\main\\\\resources\\\\images\\\\FridayRoute\\.jpg$"));
             }
 
             @Override
