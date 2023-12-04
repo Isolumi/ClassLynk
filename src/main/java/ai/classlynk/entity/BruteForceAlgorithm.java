@@ -100,7 +100,7 @@ public class BruteForceAlgorithm implements OptimizationAlgorithm{
         else {
             for (Timetable timetable: validTimeTables.subList(1, validTimeTables.size() - 1)){
                 float currTimetableScore = param.getScore(param.calculateNonNormalizedScore(timetable));
-                if(currTimetableScore < bestTimetableScore)
+                if(currTimetableScore > bestTimetableScore)
                 {
                     bestTimetable = timetable;
                     bestTimetableScore = currTimetableScore;
