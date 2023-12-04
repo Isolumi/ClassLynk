@@ -11,9 +11,6 @@ on:
     types: [ opened, edited, reopened, synchronize ]
   workflow_dispatch:
 
-env:
-
-
 jobs:
   build:
     name: build
