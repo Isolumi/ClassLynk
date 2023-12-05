@@ -27,7 +27,7 @@ Then setup the application default by running the following command
 ```shell
 gcloud auth application-default login
 ```
-You should have access to a serviceAccountKey.json which should be placed under
+You should have access to a ```serviceAccountKey.json``` which should be placed under
 ```shell
 cd ./src/main/resources/config/serviceAccountKey.json
 ```
