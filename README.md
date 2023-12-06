@@ -21,13 +21,13 @@ ClassLynk uses the ```Google Maps API``` to retrieve route data, geocode locatio
 
 
 # Installation
-Begin by installing the gcloud cli which can be found at: https://cloud.google.com/sdk/docs/install#installation_instructions
+Begin by installing the gcloud CLI which can be found at: https://cloud.google.com/sdk/docs/install#installation_instructions
 
 Then setup the application default by running the following command
 ```shell
 gcloud auth application-default login
 ```
-You should have access to a serviceAccountKey.json which should be placed under
+You should have access to a ```serviceAccountKey.json``` which should be placed under
 ```shell
 cd ./src/main/resources/config/serviceAccountKey.json
 ```
