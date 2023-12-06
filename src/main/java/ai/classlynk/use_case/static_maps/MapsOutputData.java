@@ -9,8 +9,6 @@ public class MapsOutputData {
 
     private Timetable timetable;
 
-    private boolean useCaseFailed;
-
     public Map<String, String> getImageLocations() {
         return imageLocations;
     }
@@ -22,7 +20,6 @@ public class MapsOutputData {
     public MapsOutputData(Map<String, String> imageLocations, boolean useCaseFailed, Timetable timetable)
     {
         this.imageLocations = imageLocations;
-        this.useCaseFailed = useCaseFailed;
         this.timetable = timetable;
     }
 }

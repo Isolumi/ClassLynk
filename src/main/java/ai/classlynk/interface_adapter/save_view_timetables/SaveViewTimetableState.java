@@ -2,7 +2,6 @@ package ai.classlynk.interface_adapter.save_view_timetables;
 
 import ai.classlynk.entity.Timetable;
 
-import java.util.List;
 
 public class SaveViewTimetableState {
     private Timetable timetables;

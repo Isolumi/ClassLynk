@@ -5,7 +5,6 @@ import ai.classlynk.entity.Timetable;
 import ai.classlynk.entity.User;
 
 import java.io.IOException;
-import java.sql.Time;
 
 public class SaveViewTimetableInteractor implements SaveViewTimetableInputBoundary {
     final SaveViewTimetableOutputBoundary saveViewPresenter;

@@ -1,7 +1,6 @@
 package ai.classlynk.entity;
 
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 
 public class Node {

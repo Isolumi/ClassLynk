@@ -9,13 +9,11 @@ import ai.classlynk.entity.SClass;
 import ai.classlynk.entity.Timetable;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableOutputBoundary;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetableOutputData;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class GenerateTimetableInteractorTest extends IntegrationTest {
     @Autowired

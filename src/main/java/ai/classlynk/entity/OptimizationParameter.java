@@ -1,6 +1,5 @@
 package ai.classlynk.entity;
 
-import ai.classlynk.data_access.APIDataAccessObject;
 
 public interface OptimizationParameter {
 

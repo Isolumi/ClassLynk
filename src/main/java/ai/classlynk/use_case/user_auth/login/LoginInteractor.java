@@ -1,9 +1,7 @@
 package ai.classlynk.use_case.user_auth.login;
 
-import ai.classlynk.data_access.FirebaseDataAccessObject;
 import ai.classlynk.entity.User;
 import ai.classlynk.use_case.save_view_timetables.SaveViewTimetablesDataAccessInterface;
-import ai.classlynk.use_case.user_auth.register.RegisterDataAccessInterface;
 
 public class LoginInteractor implements LoginInputBoundary {
 

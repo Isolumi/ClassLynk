@@ -1,7 +1,6 @@
 package ai.classlynk.use_case.user_auth.register;
 
 import ai.classlynk.entity.User;
-import com.google.firebase.auth.FirebaseAuthException;
 
 public class RegisterInteractor implements RegisterInputBoundary{
     final RegisterDataAccessInterface RegisterDAO;

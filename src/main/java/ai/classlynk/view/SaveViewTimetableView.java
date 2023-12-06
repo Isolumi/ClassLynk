@@ -11,12 +11,10 @@ import ai.classlynk.interface_adapter.static_maps.MapsController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.List;
 
 public class SaveViewTimetableView extends JPanel implements PropertyChangeListener {
